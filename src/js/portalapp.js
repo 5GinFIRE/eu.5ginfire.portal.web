@@ -1,7 +1,10 @@
-var app = angular.module('bakerapp', [   'ngCookies', 'ngResource', 'ngRoute', 
-                                         'trNgGrid', 'bakerapp.controllers', 
-                                         'bakerapp.services', 'ngDialog',
+var app = angular.module('portalapp', [   'ngCookies', 'ngResource', 'ngRoute', 
+                                         'trNgGrid', 'portalapp.controllers', 
+                                         'portalapp.services', 'ngDialog',
                                          'angular-loading-bar', 'ngAnimate' ]);
+
+
+var portalversion = '20170608_trunk';
 
 app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cfpLoadingBarProvider) {
 	
@@ -84,9 +87,9 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 	}).when('/deployments_admin', {
 		templateUrl : 'DeploymentsAdmin.html',
 		controller : 'DeploymentsAdminListController'
-	}).when('/baker_client', {
-		templateUrl : 'BakerClient.html',
-		controller : 'BakerClientViewController'
+	}).when('/portal_client', {
+		templateUrl : 'PortalClient.html',
+		controller : 'PortalClientViewController'
 	}).otherwise({
 		redirectTo : '/'
 	});
@@ -98,8 +101,8 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 });
 
 
-app.controller('mpMainCtrl', function($scope, BakerUser, $log, $location) {
-	$scope.mpvesrion = '20150114_trunk';
+app.controller('mpMainCtrl', function($scope, PortalUser, $log, $location) {
+	$scope.mpversion = portalversion;
 	$scope.location = $location;
 });
 
@@ -119,7 +122,7 @@ app.factory('api', function ($http, $cookies) {
 
 app.controller('NavCtrl', [ '$scope', '$location', '$rootScope', function($scope, $location, $rootScope) {
 	
-	//$scope.user = $rootScope.bakeruser;
+	//$scope.user = $rootScope.portaluser;
 	
 	$scope.navClass = function(page) {
 		var currentRoute = $location.path().substring(1) || 'home';
@@ -143,9 +146,9 @@ app.controller('LogoutCtrl', [ '$scope', '$location', 'authenticationSvc', '$log
     
 } ]);
 
-app.controller('bakerCtrl', function($scope, BakerUser, $log) {
-	$log.debug('inside bakerCtrl controller');
-	//$scope.bakerusers = BakerUser.query();
+app.controller('portalCtrl', function($scope, PortalUser, $log) {
+	$log.debug('inside portalCtrl controller');
+	//$scope.portalusers = PortalUser.query();
 });
 
 
@@ -174,10 +177,10 @@ app.controller("LoginCtrl", ["$scope", "$location", "$window", "authenticationSv
             .then(function (result) {
     			$rootScope.loggedIn = true;
                 $scope.userInfo = result;
-                $rootScope.loggedinbakeruser = $scope.userInfo.bakerUser;
+                $rootScope.loggedinportaluser = $scope.userInfo.portalUser;
 
-        		$log.debug('========== > inside LoginCtrl controller $rootScope.bakeruser ='+ $rootScope.loggedinbakeruser);
-        		$log.debug('========== > inside LoginCtrl controller $rootScope.bakeruser ='+ $rootScope.loggedinbakeruser.username);
+        		$log.debug('========== > inside LoginCtrl controller $rootScope.portaluser ='+ $rootScope.loggedinportaluser);
+        		$log.debug('========== > inside LoginCtrl controller $rootScope.portaluser ='+ $rootScope.loggedinportaluser.username);
                 
                 $location.path("/app_marketplace");
             }, function (error) {
@@ -206,7 +209,7 @@ app.controller("LoginCtrl", ["$scope", "$location", "$window", "authenticationSv
 	        , interval = 1000;
 
 
-		 var receiveMessage =(function (event) //this one is a callback from the popup.Baker REST returns an HTML page that we can communicate via POST message
+		 var receiveMessage =(function (event) //this one is a callback from the popup.Portal REST returns an HTML page that we can communicate via POST message
 		 {
 			   // event.source is popup
 			   // event.data is the jspn object
@@ -222,18 +225,18 @@ app.controller("LoginCtrl", ["$scope", "$location", "$window", "authenticationSv
 		          var userInfo = {
 		                    accesstoken: "NOTIMPLEMENTED",
 		                    username: sessionObj.username,
-		                    bakerUser: sessionObj.bakerUser,
+		                    portalUser: sessionObj.portalUser,
 		                    fiwareuser: sessionObj.fiwareuser,
 		          };
 		          $window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
 		          $rootScope.loggedIn = true;
 	              $scope.userInfo = userInfo;
-	              $rootScope.loggedinbakeruser = $scope.userInfo.bakerUser;
+	              $rootScope.loggedinportaluser = $scope.userInfo.portalUser;
 	              $rootScope.loggedinfiwareuser = $scope.userInfo.fiwareuser;
 	              $rootScope.xAuthTokenKey = userInfo.xAuthTokenKey;
 	              $rootScope.cloudAccessTokenKey = userInfo.cloudAccessTokenKey;
 	              
-	      			$log.debug('========== > inside LoginCtrl controllerinterval $rootScope.bakeruser ='+ $rootScope.loggedinbakeruser.username);
+	      			$log.debug('========== > inside LoginCtrl controllerinterval $rootScope.portaluser ='+ $rootScope.loggedinportaluser.username);
 	      			$log.debug('========== > inside LoginCtrl controllerinterval $rootScope.xAuthTokenKey ='+ $rootScope.xAuthTokenKey);
 	      			$log.debug('========== > inside LoginCtrl controllerinterval $rootScope.cloudAccessTokenKey ='+ $rootScope.cloudAccessTokenKey);
 	      			$log.debug('========== > inside LoginCtrl controllerinterval $rootScope.loggedinfiwareuser.nickNamer ='+ $rootScope.loggedinfiwareuser.nickName);
@@ -306,15 +309,15 @@ app.config(function($httpProvider) {
 		            userInfo = JSON.parse($window.sessionStorage["userInfo"]);
 		            if (userInfo){
 		            	$rootScope.loggedIn = true;		            	
-		            	$rootScope.loggedinbakeruser = userInfo.bakerUser;
+		            	$rootScope.loggedinportaluser = userInfo.portalUser;
 		            	$rootScope.loggedinfiwareuser =userInfo.fiwareuser;
 			            $rootScope.xAuthTokenKey = userInfo.xAuthTokenKey;
 			            $rootScope.cloudAccessTokenKey = userInfo.cloudAccessTokenKey;
 			              
 		            	$log.debug('========== > $rootScope.loggedIn set to TRUE because userInfooo = '+userInfo);
-		            	if (userInfo.bakerUser){
-		            		$log.debug('========== > $rootScope.loggedIn set to TRUE because userInfo.bakerUser.username = '+userInfo.bakerUser.username);
-		            		$log.debug('========== > $rootScope.loggedIn set to TRUE because user $rootScope.bakeruser='+$rootScope.loggedinbakeruser.username);
+		            	if (userInfo.portalUser){
+		            		$log.debug('========== > $rootScope.loggedIn set to TRUE because userInfo.portalUser.username = '+userInfo.portalUser.username);
+		            		$log.debug('========== > $rootScope.loggedIn set to TRUE because user $rootScope.portaluser='+$rootScope.loggedinportaluser.username);
 		            	}
 		            	
 		            }
@@ -365,7 +368,7 @@ app.factory("authenticationSvc", ["$http","$q","$window","$rootScope", "$log", "
                 userInfo = {
                     accesstoken: "NOTIMPLEMENTED",//result.data.access_token,
                     username: result.data.username,
-                    bakerUser: result.data.bakerUser,
+                    portalUser: result.data.portalUser,
                 };
                 $window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
                 deferred.resolve(userInfo);
@@ -409,12 +412,12 @@ app.factory("authenticationSvc", ["$http","$q","$window","$rootScope", "$log", "
             userInfo = JSON.parse($window.sessionStorage["userInfo"]);
             if (userInfo){
             	$rootScope.loggedIn = true;
-            	$rootScope.loggedinbakeruser = userInfo.bakerUser;
+            	$rootScope.loggedinportaluser = userInfo.portalUser;
             	$log.debug('========== > $rootScope.loggedIn set to TRUE because userInfo ='+userInfo);
-            	$log.debug('========== > $rootScope.loggedIn set to TRUE because userInfo.bakerUser ='+userInfo.bakerUser);
-            	if (userInfo.bakerUser){
-            		$log.debug('========== > $rootScope.loggedIn set to TRUE because user $rootScope.bakeruser.name ='+$rootScope.loggedinbakeruser.name);
-            		$log.debug('========== > $rootScope.loggedIn set to TRUE because user $rootScope.bakeruser.id ='+$rootScope.loggedinbakeruser.id);
+            	$log.debug('========== > $rootScope.loggedIn set to TRUE because userInfo.portalUser ='+userInfo.portalUser);
+            	if (userInfo.portalUser){
+            		$log.debug('========== > $rootScope.loggedIn set to TRUE because user $rootScope.portaluser.name ='+$rootScope.loggedinportaluser.name);
+            		$log.debug('========== > $rootScope.loggedIn set to TRUE because user $rootScope.portaluser.id ='+$rootScope.loggedinportaluser.id);
             	}
             }
         }

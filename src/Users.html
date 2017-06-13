@@ -8,7 +8,7 @@
 				<a class="btn btn-success btn-lg" data-toggle="modal" ng-href="#/users_add"> <i class="fa fa-user fa-2x pull-left"></i>&nbsp;&nbsp;Create New<br>User</a>
 				<br>
 				<br>
-				<table id="grid1" tr-ng-grid="" class="usersGrid" items="bakerusers"
+				<table id="grid1" tr-ng-grid="" class="usersGrid" items="portalusers"
 					fields="['id', 'username','name', 'organization', 'email', 'role' ]">
 					<thead>
 						<tr>
@@ -26,7 +26,7 @@
 					<tbody>
 						<tr>
 							<td nowrap="nowrap">
-								<a class="btn btn-danger" ng-click="deleteBakerUser(gridItem, gridItem.id, gridItem.username, gridItem.name)"><i class="fa fa-trash-o "></i></a>
+								<a class="btn btn-danger" ng-click="deletePortalUser(gridItem, gridItem.id, gridItem.username, gridItem.name)"><i class="fa fa-trash-o "></i></a>
 								<a class="btn btn-primary" ng-href="#/edit_user/{{gridDisplayItem.id}}"><i class="fa fa-pencil-square-o "></i></a>							
 								<a class="btn btn-info" ng-click="clickToOpen(gridDisplayItem.id)"><i class="fa fa-info-circle "></i></a>
 							</td>

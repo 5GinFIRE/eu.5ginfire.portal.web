@@ -1,0 +1,42 @@
+<div class="page-header">
+
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<h1>Portal Client</h1>
+			</div>
+
+			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+			<a class="btn btn-success btn-lg" data-toggle="modal" href="../downloads/portalclient.tar.gz"> <i class="fa fa-download fa-2x pull-left"></i><b>&nbsp;&nbsp;&nbsp;&nbsp;Download&nbsp;&nbsp;&nbsp;&nbsp;</b><br><small>Version: 1.0.0<br>(Linux OS)</small></a>
+			</div>	
+			<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+				Portal Client is a small utility used in client target machines to register them to the marketplace. 
+				Portal Client can manage the requested applications by the marketplace to the target machine. 
+			
+			</div>
+		</div>		
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<h2>Starting Portal Client</h2>
+			<p>Use the following command to start the client manually:</p> 
+			<pre>java -jar '-Dmarketplace_api_endpoint=http://83.212.106.218:8080/portal/services/api/repo' '-Dportal_client_owner_id=34' '-Dportal_client_owner_username=dev' '-Dportal_client_host_fqdn=example.com' target/gr.upatras.ece.nam.portal.client-0.0.1-SNAPSHOT.war
+					</pre>
+			
+			
+			<p>Replace portal_client_owner_id with your Marketplace user ID</p>
+			<p>Replace portal_client_owner_username with your Marketplace username</p>
+			<p>Replace portal_client_host_fqdn with your server FQDN</p>
+
+			<p>After a few minutes of operation, Portal Client will successfully register itself to the marketplace, under your account. 
+			You can see it if is registered successfully by  visiting your <a href="#/subscribed_resources">Registered Resources</a></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<h2>Using Portal Client</h2>
+			<p>By default portal client listens on port 13001 for local requests. To manage it, open a browser and go to http://localhost:13001</p> 
+			
+			</div>
+		</div>
+	</div>
+</div>

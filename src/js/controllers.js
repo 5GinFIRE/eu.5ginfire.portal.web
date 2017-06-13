@@ -1,4 +1,4 @@
-var appControllers = angular.module('bakerapp.controllers',[ 'ngAnimate']) 
+var appControllers = angular.module('portalapp.controllers',[ 'ngAnimate']) 
 
 
 appControllers.controller('FeaturedApps', ['$scope','$window','$log', 'ApplicationMetadata', 'Category', '$filter',
@@ -11,30 +11,30 @@ appControllers.controller('FeaturedApps', ['$scope','$window','$log', 'Applicati
 }]);
          	
          	
-appControllers.controller('UserListController', ['$scope','$window','$log', 'BakerUser', 'popupService', 'ngDialog',
-                            	function($scope, $window, $log, BakerUser, popupService, ngDialog) {
+appControllers.controller('UserListController', ['$scope','$window','$log', 'PortalUser', 'popupService', 'ngDialog',
+                            	function($scope, $window, $log, PortalUser, popupService, ngDialog) {
 	
 	
 
-	$scope.bakerusers = BakerUser.query(function() {
-		    //console.log($scope.bakerusers);
-		  }); //query() returns all the bakerUsers
+	$scope.portalusers = PortalUser.query(function() {
+		    //console.log($scope.portalusers);
+		  }); //query() returns all the portalUsers
 		 
 	
 	
-	 $scope.deleteBakerUser = function(gridItem, useridx, username, name){
+	 $scope.deletePortalUser = function(gridItem, useridx, username, name){
 
 		 	$log.debug("Selected to DELETE User with userID = "+ useridx);
 		 	
 
-		 	var bakeruser=BakerUser.get({id:useridx}, function() {
-			    $log.debug("WILL DELETE User with ID "+ bakeruser.id);
+		 	var portaluser=PortalUser.get({id:useridx}, function() {
+			    $log.debug("WILL DELETE User with ID "+ portaluser.id);
 			    
 		        if(popupService.showPopup('Really delete user '+name+' with username "'+username+'" ?')){
-		        	$log.debug("WILL DELETE User with $scope.bakeruser.id = "+ bakeruser.id);
+		        	$log.debug("WILL DELETE User with $scope.portaluser.id = "+ portaluser.id);
 				 	
-		        	bakeruser.$delete(function(){
-		    			$scope.bakerusers.splice($scope.bakerusers.indexOf(gridItem),1)
+		        	portaluser.$delete(function(){
+		    			$scope.portalusers.splice($scope.portalusers.indexOf(gridItem),1)
 		            });
 		        
 		        }
@@ -44,8 +44,8 @@ appControllers.controller('UserListController', ['$scope','$window','$log', 'Bak
 	 $scope.clickToOpen = function (gridItem) {
 	        ngDialog.open({ 
 	        	template: 'UserView.html',
-	        	controller : ['$scope', 'BakerUser', function( $scope,  BakerUser){
-	        	    $scope.bakeruser=BakerUser.get({id:gridItem});
+	        	controller : ['$scope', 'PortalUser', function( $scope,  PortalUser){
+	        	    $scope.portaluser=PortalUser.get({id:gridItem});
 	        	    $log.debug("WILL GET User with ID "+gridItem);   
 	    			}],
 	    		className: 'ngdialog-theme-default'
@@ -55,9 +55,9 @@ appControllers.controller('UserListController', ['$scope','$window','$log', 'Bak
 	    
 }]);
 
-appControllers.controller('UserViewController', ['$scope', '$route', '$routeParams', '$location', 'BakerUser', '$anchorScroll',
-                                                 function( $scope, $route, $routeParams, $location, BakerUser, $anchorScroll){
-    $scope.bakeruser=BakerUser.get({id:$routeParams.id});
+appControllers.controller('UserViewController', ['$scope', '$route', '$routeParams', '$location', 'PortalUser', '$anchorScroll',
+                                                 function( $scope, $route, $routeParams, $location, PortalUser, $anchorScroll){
+    $scope.portaluser=PortalUser.get({id:$routeParams.id});
     
 	$scope.name = "UserViewController";
 	$scope.params = $routeParams;
@@ -66,20 +66,20 @@ appControllers.controller('UserViewController', ['$scope', '$route', '$routePara
 
 }]);
 
-appControllers.controller('UserAddController',function($scope, $location, BakerUser){
+appControllers.controller('UserAddController',function($scope, $location, PortalUser){
 
-    $scope.bakeruser=new BakerUser();
+    $scope.portaluser=new PortalUser();
 
-    $scope.addBakerUser=function(){
-        $scope.bakeruser.$save(function(){
+    $scope.addPortalUser=function(){
+        $scope.portaluser.$save(function(){
 			$location.path("/users");
         });
     }
 
 });
 
-appControllers.controller('UserEditController', ['$scope', '$route', '$routeParams', '$location', 'BakerUser', '$anchorScroll',
-        function( $scope, $route, $routeParams, $location, BakerUser, $anchorScroll){
+appControllers.controller('UserEditController', ['$scope', '$route', '$routeParams', '$location', 'PortalUser', '$anchorScroll',
+        function( $scope, $route, $routeParams, $location, PortalUser, $anchorScroll){
 
 
     //console.log("WILL EDIT User with ID "+$routeParams.id);
@@ -89,19 +89,19 @@ appControllers.controller('UserEditController', ['$scope', '$route', '$routePara
         //console.log("$scope.password = "+$scope.password);
         //console.log("$scope.retypepassword = "+$scope.retypepassword);
     	if ( ($scope.password) && ($scope.password === $scope.retypepassword))
-    		$scope.bakeruser.password= $scope.password;
+    		$scope.portaluser.password= $scope.password;
     	else {
             //console.log("Will send to server empty password to keep old one ");
-    		$scope.bakeruser.password= ''; //send empty to server, so not to change!
+    		$scope.portaluser.password= ''; //send empty to server, so not to change!
     	}
     	
-        $scope.bakeruser.$update(function(){
+        $scope.portaluser.$update(function(){
 			$location.path("/users");
         });
     };
 
     $scope.loadUser=function(){
-        $scope.bakeruser=BakerUser.get({id:$routeParams.id});
+        $scope.portaluser=PortalUser.get({id:$routeParams.id});
     };
 
     $scope.loadUser();
@@ -208,7 +208,7 @@ appControllers.controller('SubscribedResourceViewController', ['$scope', '$route
 appControllers.controller('SubscribedResourceAddController',function($scope, $rootScope,$location, SubscribedResource){
 
     $scope.subscribedresource=new SubscribedResource();
-	$scope.subscribedresource.owner = $rootScope.loggedinbakeruser;
+	$scope.subscribedresource.owner = $rootScope.loggedinportaluser;
 
     $scope.addSubscribedResource=function(){
         $scope.subscribedresource.$save(function(){
@@ -274,11 +274,11 @@ appControllers.controller('AppListController', ['$scope','$window','$log', 'Admi
 }]);
 
 appControllers.controller('AppAddController', function($scope, $location,
-		AdminApplicationMetadata, BakerUser, $rootScope, $http,formDataObject, Category,$filter,APIEndPointService, Container, DeployArtifact, BunMetadata) {
+		AdminApplicationMetadata, PortalUser, $rootScope, $http,formDataObject, Category,$filter,APIEndPointService, Container, DeployArtifact, BunMetadata) {
 
 	
 	$scope.app = new AdminApplicationMetadata();
-	$scope.app.owner = $rootScope.loggedinbakeruser;//BakerUser.get({id:$rootScope.loggedinbakeruser.id});
+	$scope.app.owner = $rootScope.loggedinportaluser;//PortalUser.get({id:$rootScope.loggedinportaluser.id});
 
 	$scope.app.containers=[];//clear everything
 	
@@ -953,10 +953,10 @@ appControllers.controller('BunListController', ['$scope','$window','$log', 'Admi
 
 
 appControllers.controller('BunAddController', function($scope, $location,
-		AdminBunMetadata, BakerUser, $rootScope, $http,formDataObject, Category, $filter, APIEndPointService) {
+		AdminBunMetadata, PortalUser, $rootScope, $http,formDataObject, Category, $filter, APIEndPointService) {
 	
 	$scope.bun = new AdminBunMetadata();
-	$scope.bun.owner = $rootScope.loggedinbakeruser;//BakerUser.get({id:$rootScope.loggedinbakeruser.id});
+	$scope.bun.owner = $rootScope.loggedinportaluser;//PortalUser.get({id:$rootScope.loggedinportaluser.id});
 	$scope.bun.extensions=[];
 	
 	
@@ -1316,7 +1316,7 @@ appControllers.controller('CreateAppDeploymentController', ['$scope', '$route', 
 		 
 	
 	$scope.newdeployment = new DeploymentDescriptor(); 	
-	$scope.newdeployment.owner = $rootScope.loggedinbakeruser;//BakerUser.get({id:$rootScope.loggedinbakeruser.id});
+	$scope.newdeployment.owner = $rootScope.loggedinportaluser;//PortalUser.get({id:$rootScope.loggedinportaluser.id});
 	$scope.newdeployment.deployContainers=[];//clear everything 	
 	
  	var myapp = ApplicationMetadata.get({id:$routeParams.id}, function() {	 		

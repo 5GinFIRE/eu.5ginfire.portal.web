@@ -1,18 +1,18 @@
-var appServices = angular.module('bakerapp.services',[]);
+var appServices = angular.module('portalapp.services',[]);
 
 
 appServices.factory('APIEndPointService', function() {
 	  return {	      
 	      
-		  //APIURL: "/baker/"
-		  APIURL: "http://localhost:13000/baker/" //good to test CROSS ORIGIN scenarios. use with http://127.0.0.1/mp
-		  //APIURL: "http://83.212.106.218:8080/baker/"
+		  //APIURL: "/portal/"
+		  APIURL: "http://localhost:13000/5ginfireportal/" //good to test CROSS ORIGIN scenarios. use with http://127.0.0.1/mp
+		  //APIURL: "http://83.212.106.218:8080/5ginfireportal/"
 	  };
 });
 
 
-//BakerUser Resource
-appServices.factory('BakerUser', function($resource, APIEndPointService) {
+//PortalUser Resource
+appServices.factory('PortalUser', function($resource, APIEndPointService) {
 	return $resource(APIEndPointService.APIURL+"services/api/repo/admin/users/:id", 
 			{ id: '@id' }, {
 	    update: {
@@ -222,7 +222,7 @@ appServices.factory('formDataObject', function() {
 });
 
 
-//BakerUser Resource
+//PortalUser Resource
 appServices.factory('BunMetadata', function($resource, APIEndPointService) {
 	return $resource(APIEndPointService.APIURL+"services/api/repo/buns/:id", 
 		{id : "@id"	}, {
@@ -233,7 +233,7 @@ appServices.factory('BunMetadata', function($resource, APIEndPointService) {
 	});
 });
 
-//BakerUser Resource
+//PortalUser Resource
 appServices.factory('AdminBunMetadata', function($resource, APIEndPointService) {
 	return $resource(APIEndPointService.APIURL+"services/api/repo/admin/buns/:id", 
 		{id : "@id"	}, {

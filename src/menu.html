@@ -8,15 +8,15 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a ng-show="loggedIn" class="navbar-brand" href="#/app_marketplace">FI-STAR Marketplace</a>
-				<a ng-show="!loggedIn" class="navbar-brand" href="#/">FI-STAR Marketplace</a>
+				<a ng-show="loggedIn" class="navbar-brand" href="#/app_marketplace">5GinFIRE portal</a>
+				<a ng-show="!loggedIn" class="navbar-brand" href="#/">5GinFIRE portal</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav" >
-						<li ng-class="navClass('app_marketplace')" ><a href="#/app_marketplace">Applications</a></li>
+						<li ng-class="navClass('app_marketplace')" ><a href="#/app_marketplace">Experiments</a></li>
 						
-						<li ng-show="loggedIn && ( (loggedinbakeruser.role === 'ROLE_DEVELOPER')|| (loggedinbakeruser.role === 'ROLE_BOSS') )" ng-class="navClass('bun_marketplace')" ><a href="#/bun_marketplace">Buns</a></li>
+						<li ng-show="loggedIn && ( (loggedinportaluser.role === 'ROLE_DEVELOPER')|| (loggedinportaluser.role === 'ROLE_BOSS') )" ng-class="navClass('bun_marketplace')" ><a href="#/bun_marketplace">Buns</a></li>
 						
 						
 						<li ng-show="loggedIn" class="dropdown">
@@ -28,29 +28,29 @@
 								</ul>
 						</li>
 							
-						<li ng-show="loggedIn && ( (loggedinbakeruser.role === 'ROLE_DEVELOPER')|| (loggedinbakeruser.role === 'ROLE_BOSS') )" class="dropdown"><a class="dropdown-toggle"
+						<li ng-show="loggedIn && ( (loggedinportaluser.role === 'ROLE_DEVELOPER')|| (loggedinportaluser.role === 'ROLE_BOSS') )" class="dropdown"><a class="dropdown-toggle"
 							href="" data-toggle="dropdown">Admin <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li ng-show="loggedinbakeruser.role === 'ROLE_BOSS'" ><a href="#/users">System Users</a></li>
+								<li ng-show="loggedinportaluser.role === 'ROLE_BOSS'" ><a href="#/users">System Users</a></li>
 								<li><a href="#/apps">Registered Applications</a></li>
 								<li><a href="#/buns">Registered Buns</a></li>
 								<li><a href="#/subscribed_resources">Registered Resources</a></li>
-								<li ng-show="loggedinbakeruser.role === 'ROLE_BOSS'"><a href="#/deployments_admin">Deployed Applications</a></li>
-								<li ng-show="loggedinbakeruser.role === 'ROLE_BOSS'" class="divider"></li>
-								<li ng-show="loggedinbakeruser.role === 'ROLE_BOSS'"><a href="#/categories">System Categories</a></li>		
-								<li ng-show="loggedinbakeruser.role === 'ROLE_BOSS'"><a href="#">System resource groups</a></li>
-								<li ng-show="loggedinbakeruser.role === 'ROLE_BOSS'" class="divider"></li>
-								<li ng-show="loggedinbakeruser.role === 'ROLE_BOSS'"  ><a href="#/deployments">All pending requests</a></li>
-								<li ng-show="loggedinbakeruser.role === 'ROLE_BOSS'"><a href="#">System info</a></li>
+								<li ng-show="loggedinportaluser.role === 'ROLE_BOSS'"><a href="#/deployments_admin">Deployed Applications</a></li>
+								<li ng-show="loggedinportaluser.role === 'ROLE_BOSS'" class="divider"></li>
+								<li ng-show="loggedinportaluser.role === 'ROLE_BOSS'"><a href="#/categories">System Categories</a></li>		
+								<li ng-show="loggedinportaluser.role === 'ROLE_BOSS'"><a href="#">System resource groups</a></li>
+								<li ng-show="loggedinportaluser.role === 'ROLE_BOSS'" class="divider"></li>
+								<li ng-show="loggedinportaluser.role === 'ROLE_BOSS'"  ><a href="#/deployments">All pending requests</a></li>
+								<li ng-show="loggedinportaluser.role === 'ROLE_BOSS'"><a href="#">System info</a></li>
 							</ul></li>
 			
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li ng-show="!loggedIn"><a href="#/login" >Sign In</a></li>
 					<li ng-show="loggedIn" class="dropdown"><a href="" class="dropdown-toggle"
-						data-toggle="dropdown">{{loggedinbakeruser.name}} ({{loggedinbakeruser.role}}, id: {{loggedinbakeruser.id}}) <span class="caret"></span></a>
+						data-toggle="dropdown">{{loggedinportaluser.name}} ({{loggedinportaluser.role}}, id: {{loggedinportaluser.id}}) <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="#baker_client">Baker Client</a></li>
+							<li><a href="#portal_client">Portal Client</a></li>
 							<li class="divider"></li>
 							<li><a href="#/logout">Logout</a></li>
 						</ul>
