@@ -36,7 +36,7 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 	}).when('/edit_subscribed_resource/:id', {
 		templateUrl : 'SubscribedResourceEdit.html',
 		controller : 'SubscribedResourceEditController'
-	}).when('/apps', {
+	}).when('/experiments', {
 		templateUrl : 'Apps.html',
 		controller : 'AppListController'
 	}).when('/app_add', {

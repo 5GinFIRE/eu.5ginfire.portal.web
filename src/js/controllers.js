@@ -1,11 +1,11 @@
 var appControllers = angular.module('portalapp.controllers',[ 'ngAnimate']) 
 
 
-appControllers.controller('FeaturedApps', ['$scope','$window','$log', 'ApplicationMetadata', 'Category', '$filter',
-                                                     	function($scope, $window, $log, ApplicationMetadata, Category,$filter ) {
+appControllers.controller('FeaturedApps', ['$scope','$window','$log', 'ExperimentMetadata', 'Category', '$filter',
+                                                     	function($scope, $window, $log, ExperimentMetadata, Category,$filter ) {
                          	
         	var orderBy = $filter('orderBy');
-         	$scope.apps = ApplicationMetadata.query(function() {
+         	$scope.apps = ExperimentMetadata.query(function() {
         		    $scope.apps = orderBy($scope.apps, 'name', true);
          		  }); 
 }]);
@@ -238,15 +238,15 @@ appControllers.controller('SubscribedResourceEditController', ['$scope', '$route
 }]);
 
 
-//Apps controller
+//experiments controller
 
 
-appControllers.controller('AppListController', ['$scope','$window','$log', 'AdminApplicationMetadata', 'popupService','ngDialog',
-                                             	function($scope, $window, $log, AdminApplicationMetadata, popupService, ngDialog ) {
+appControllers.controller('AppListController', ['$scope','$window','$log', 'AdminExperimentMetadata', 'popupService','ngDialog',
+                                             	function($scope, $window, $log, AdminExperimentMetadata, popupService, ngDialog ) {
                  	
                  	
 
- 	$scope.apps = AdminApplicationMetadata.query(function() {
+ 	$scope.apps = AdminExperimentMetadata.query(function() {
  		    //console.log($scope.apps);
  		  }); //query() returns all the subscribedresources
  		 
@@ -254,11 +254,11 @@ appControllers.controller('AppListController', ['$scope','$window','$log', 'Admi
  	
  	 $scope.deleteApp = function(gridItem, useridx){
 
- 		$log.debug("Selected to DELETE AdminApplicationMetadata with id = "+ useridx);
+ 		$log.debug("Selected to DELETE AdminExperimentMetadata with id = "+ useridx);
  		 	
 
- 		 	var app=AdminApplicationMetadata.get({id:useridx}, function() {
- 			    $log.debug("WILL DELETE AdminApplicationMetadata with ID "+ app.id);
+ 		 	var app=AdminExperimentMetadata.get({id:useridx}, function() {
+ 			    $log.debug("WILL DELETE AdminExperimentMetadata with ID "+ app.id);
  			    
  		        if(popupService.showPopup('Really delete Application "'+app.name+'" ?')){
  				 	
@@ -274,10 +274,10 @@ appControllers.controller('AppListController', ['$scope','$window','$log', 'Admi
 }]);
 
 appControllers.controller('AppAddController', function($scope, $location,
-		AdminApplicationMetadata, PortalUser, $rootScope, $http,formDataObject, Category,$filter,APIEndPointService, Container, DeployArtifact, BunMetadata) {
+		AdminExperimentMetadata, PortalUser, $rootScope, $http,formDataObject, Category,$filter,APIEndPointService, Container, DeployArtifact, BunMetadata) {
 
 	
-	$scope.app = new AdminApplicationMetadata();
+	$scope.app = new AdminExperimentMetadata();
 	$scope.app.owner = $rootScope.loggedinportaluser;//PortalUser.get({id:$rootScope.loggedinportaluser.id});
 
 	$scope.app.containers=[];//clear everything
@@ -386,7 +386,7 @@ appControllers.controller('AppAddController', function($scope, $location,
 	
 	$scope.addApp = function() {
 		$scope.app.$save(function() {
-			$location.path("/apps");
+			$location.path("/experiments");
 		});
 	}
 	
@@ -399,7 +399,7 @@ appControllers.controller('AppAddController', function($scope, $location,
 		 
 		return $http({
 			method : 'POST',
-			url : APIEndPointService.APIURL+'services/api/repo/admin/apps/',
+			url : APIEndPointService.APIURL+'services/api/repo/admin/experiments/',
 			headers : {
 				'Content-Type' : undefined
 			},
@@ -435,7 +435,7 @@ appControllers.controller('AppAddController', function($scope, $location,
 			
             
 		}).success(function(data, status, headers, config) {
-			$location.path("/apps");
+			$location.path("/experiments");
 		}).
         error(function (data, status, headers, config) {
             alert("failed!");
@@ -453,7 +453,7 @@ appControllers.controller('AppAddController', function($scope, $location,
 		 
 		return $http({
 			method : 'POST',
-			url : APIEndPointService.APIURL+'services/api/repo/admin/apps/',
+			url : APIEndPointService.APIURL+'services/api/repo/admin/experiments/',
 			headers : {
 				'Content-Type' : 'multipart/form-data'
 			},
@@ -468,7 +468,7 @@ appControllers.controller('AppAddController', function($scope, $location,
 			},
 			transformRequest : formDataObject
 		}).success(function() {
-			$location.path("/apps");
+			$location.path("/experiments");
 		});
 	};
 
@@ -566,8 +566,8 @@ appControllers.directive('fileUpload', function () {
 });
 
 appControllers.controller('AppEditController', ['$scope', '$route', '$routeParams', '$location', 
-                                                'AdminApplicationMetadata', '$anchorScroll','$http', 'formDataObject', 'cfpLoadingBar', 'Category', '$filter', 'APIEndPointService', 'BunMetadata', 'Container', 'DeployArtifact',
-     function( $scope, $route, $routeParams, $location, AdminApplicationMetadata, $anchorScroll,
+                                                'AdminExperimentMetadata', '$anchorScroll','$http', 'formDataObject', 'cfpLoadingBar', 'Category', '$filter', 'APIEndPointService', 'BunMetadata', 'Container', 'DeployArtifact',
+     function( $scope, $route, $routeParams, $location, AdminExperimentMetadata, $anchorScroll,
     		 $http,formDataObject, cfpLoadingBar, Category, $filter, APIEndPointService, BunMetadata, Container, DeployArtifact){
 	
 	
@@ -632,7 +632,7 @@ appControllers.controller('AppEditController', ['$scope', '$route', '$routeParam
 		 	
 			return $http({
 				method : 'PUT',
-				url : APIEndPointService.APIURL+'services/api/repo/admin/apps/'+$routeParams.id,
+				url : APIEndPointService.APIURL+'services/api/repo/admin/experiments/'+$routeParams.id,
 				headers : {
 					'Content-Type' : undefined
 				},
@@ -668,7 +668,7 @@ appControllers.controller('AppEditController', ['$scope', '$route', '$routeParam
             		app: $scope.app, 
             		files: $scope.files }
 			}).success(function(data, status, headers, config) {
-				$location.path("/apps");
+				$location.path("/experiments");
 			}).
 	        error(function (data, status, headers, config) {
 	            alert("failed!");
@@ -677,7 +677,7 @@ appControllers.controller('AppEditController', ['$scope', '$route', '$routeParam
 	
 
     $scope.loadApp=function(cats){
-    	var myapp = AdminApplicationMetadata.get({id:$routeParams.id}, function() {
+    	var myapp = AdminExperimentMetadata.get({id:$routeParams.id}, function() {
     		
     		var categoriesToPush=[];
     		angular.forEach(myapp.categories, function(myappcateg, myappcategkey) {
@@ -762,10 +762,10 @@ appControllers.controller('AppEditController', ['$scope', '$route', '$routeParam
 }]);
 
 
-appControllers.controller('AppViewController', ['$scope', '$route', '$routeParams', '$location', 'ApplicationMetadata',
-                                                 function( $scope, $route, $routeParams, $location, ApplicationMetadata ){
-    $scope.app=ApplicationMetadata.get({id:$routeParams.id}, function() {
-        //console.log("WILL GET ApplicationMetadata with ID "+$routeParams.id);
+appControllers.controller('AppViewController', ['$scope', '$route', '$routeParams', '$location', 'ExperimentMetadata',
+                                                 function( $scope, $route, $routeParams, $location, ExperimentMetadata ){
+    $scope.app=ExperimentMetadata.get({id:$routeParams.id}, function() {
+        //console.log("WILL GET ExperimentMetadata with ID "+$routeParams.id);
         var shots = $scope.app.screenshots;
         $scope.screenshotimages = shots.split(",") ;    	
     	
@@ -865,18 +865,18 @@ appControllers.controller('CategoryEditController', ['$scope', '$route', '$route
 }]);
 
 
-//Apps controller
+//experiments controller
 
 
-appControllers.controller('AppsMarketplaceController', ['$scope','$window','$log', 'ApplicationMetadata', 'Category', '$filter',
-                                             	function($scope, $window, $log, ApplicationMetadata, Category,$filter ) {
+appControllers.controller('AppsMarketplaceController', ['$scope','$window','$log', 'ExperimentMetadata', 'Category', '$filter',
+                                             	function($scope, $window, $log, ExperimentMetadata, Category,$filter ) {
                  	
 	var orderBy = $filter('orderBy');
 	$scope.categories = Category.query(function() {
 		    //console.log($scope.apps);
 		    $scope.categories = orderBy($scope.categories, 'name', false);
 	});
- 	$scope.apps = ApplicationMetadata.query(function() {
+ 	$scope.apps = ExperimentMetadata.query(function() {
  		    //console.log($scope.apps);
  		    $scope.appsTotalNumber = $scope.apps.length;
 		    $scope.apps = orderBy($scope.apps, 'name', false);
@@ -894,8 +894,8 @@ appControllers.controller('AppsMarketplaceController', ['$scope','$window','$log
  				$scope.selectedcategory = null;
  			}
 
-			//$scope.apps = ApplicationMetadata.query();
-			$scope.apps = ApplicationMetadata.query({categoryid: category.id}, function() {
+			//$scope.apps = ExperimentMetadata.query();
+			$scope.apps = ExperimentMetadata.query({categoryid: category.id}, function() {
 	 		    //console.log($scope.apps);
 			    $scope.apps = orderBy($scope.apps, 'name', false);
 	 	});
@@ -1100,7 +1100,7 @@ appControllers.controller('BunEditController', ['$scope', '$route', '$routeParam
     		      
    	 	//appl.category = $scope.categories[appl.category];
         
-    	//$scope.app=ApplicationMetadata.get({id:$routeParams.id});        
+    	//$scope.app=ExperimentMetadata.get({id:$routeParams.id});        
    	 	
     };
 
@@ -1165,7 +1165,7 @@ appControllers.controller('BunsMarketplaceController', ['$scope','$window','$log
          				$scope.selectedcategory = null;
          			}
 
-        			//$scope.apps = ApplicationMetadata.query();
+        			//$scope.apps = ExperimentMetadata.query();
         			$scope.buns = BunMetadata.query({categoryid: category.id}, function() {
         	 		    //console.log($scope.apps);
         			    $scope.buns = orderBy($scope.buns, 'name', false);
@@ -1302,10 +1302,10 @@ appControllers.controller('MyDeploymentsListController', ['$scope','$window','$l
 
 
 appControllers.controller('CreateAppDeploymentController', ['$scope', '$route', '$rootScope', '$routeParams','$window','$log', 
-                                                            'DeploymentDescriptor', 'ApplicationMetadata', 'DeployContainer','DeployArtifact',
+                                                            'DeploymentDescriptor', 'ExperimentMetadata', 'DeployContainer','DeployArtifact',
                                                             'SubscribedResource', '$filter', '$http', 'APIEndPointService', '$location',
                                              	function($scope, $route, $rootScope, $routeParams, $window, $log, DeploymentDescriptor, 
-                                             			ApplicationMetadata, DeployContainer, DeployArtifact,  SubscribedResource , 
+                                             			ExperimentMetadata, DeployContainer, DeployArtifact,  SubscribedResource , 
                                              			$filter, $http, APIEndPointService, $location) {
                  	
 
@@ -1319,7 +1319,7 @@ appControllers.controller('CreateAppDeploymentController', ['$scope', '$route', 
 	$scope.newdeployment.owner = $rootScope.loggedinportaluser;//PortalUser.get({id:$rootScope.loggedinportaluser.id});
 	$scope.newdeployment.deployContainers=[];//clear everything 	
 	
- 	var myapp = ApplicationMetadata.get({id:$routeParams.id}, function() {	 		
+ 	var myapp = ExperimentMetadata.get({id:$routeParams.id}, function() {	 		
 	 		$scope.newdeployment.baseApplication=myapp;    	
 	 		$scope.newdeployment.name=myapp.name+' Deployment';
 	 		

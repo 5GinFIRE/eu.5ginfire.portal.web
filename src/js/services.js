@@ -90,10 +90,10 @@ appServices.factory('Category', function($resource, APIEndPointService) {
 	});
 });
 
-//Apps Resource
-appServices.factory('ApplicationMetadata', function($resource, APIEndPointService) {
+//experiments Resource
+appServices.factory('ExperimentMetadata', function($resource, APIEndPointService) {
 	
-	return $resource(APIEndPointService.APIURL+"services/api/repo/apps/:id", 
+	return $resource(APIEndPointService.APIURL+"services/api/repo/experiments/:id", 
 			{ id: '@id' }, {				
 		
 		    update: {
@@ -104,10 +104,10 @@ appServices.factory('ApplicationMetadata', function($resource, APIEndPointServic
 });
 
 
-//Admin Apps Resource
-appServices.factory('AdminApplicationMetadata', function($resource, APIEndPointService) {
+//Admin experiments Resource
+appServices.factory('AdminExperimentMetadata', function($resource, APIEndPointService) {
 	
-	return $resource(APIEndPointService.APIURL+"services/api/repo/admin/apps/:id", 
+	return $resource(APIEndPointService.APIURL+"services/api/repo/admin/experiments/:id", 
 			{ id: '@id' }, {				
 		
 		    update: {
