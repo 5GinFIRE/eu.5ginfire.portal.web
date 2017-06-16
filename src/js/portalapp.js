@@ -60,21 +60,21 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 	}).when('/app_marketplace', {
 		templateUrl : 'AppsMarketplace.html',
 		controller : 'AppsMarketplaceController'
-	}).when('/buns', {
-		templateUrl : 'Buns.html',
-		controller : 'BunListController'
-	}).when('/bun_add', {
-		templateUrl : 'BunAdd.html',
-		controller : 'BunAddController'
-	}).when('/bun_edit/:id', {
-		templateUrl : 'BunEdit.html',
-		controller : 'BunEditController'
-	}).when('/bun_view/:id', {
-		templateUrl : 'BunView.html',
-		controller : 'BunViewController'
-	}).when('/bun_marketplace', {
-		templateUrl : 'BunsMarketplace.html',
-		controller : 'BunsMarketplaceController'
+	}).when('/vxfs', {
+		templateUrl : 'VxFs.html',
+		controller : 'VxFListController'
+	}).when('/vxf_add', {
+		templateUrl : 'VxFAdd.html',
+		controller : 'VxFAddController'
+	}).when('/vxf_edit/:id', {
+		templateUrl : 'VxFEdit.html',
+		controller : 'VxFEditController'
+	}).when('/vxf_view/:id', {
+		templateUrl : 'VxFView.html',
+		controller : 'VxFViewController'
+	}).when('/vxf_marketplace', {
+		templateUrl : 'VxFsMarketplace.html',
+		controller : 'VxFsMarketplaceController'
 	}).when('/fiware_instances', {
 		templateUrl : 'FiwareInstances.html',
 		controller : 'FiwareInstancesController'

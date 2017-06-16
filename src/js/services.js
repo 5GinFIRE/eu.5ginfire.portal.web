@@ -223,8 +223,8 @@ appServices.factory('formDataObject', function() {
 
 
 //PortalUser Resource
-appServices.factory('BunMetadata', function($resource, APIEndPointService) {
-	return $resource(APIEndPointService.APIURL+"services/api/repo/buns/:id", 
+appServices.factory('VxFMetadata', function($resource, APIEndPointService) {
+	return $resource(APIEndPointService.APIURL+"services/api/repo/vxfs/:id", 
 		{id : "@id"	}, {
 		"update" : {
 			method : "PUT"
@@ -234,8 +234,8 @@ appServices.factory('BunMetadata', function($resource, APIEndPointService) {
 });
 
 //PortalUser Resource
-appServices.factory('AdminBunMetadata', function($resource, APIEndPointService) {
-	return $resource(APIEndPointService.APIURL+"services/api/repo/admin/buns/:id", 
+appServices.factory('AdminVxFMetadata', function($resource, APIEndPointService) {
+	return $resource(APIEndPointService.APIURL+"services/api/repo/admin/vxfs/:id", 
 		{id : "@id"	}, {
 		"update" : {
 			method : "PUT"

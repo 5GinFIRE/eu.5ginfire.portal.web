@@ -51,7 +51,7 @@
 					<div class="form-group">
 						<label for="app.containers" class="col-sm-2 control-label">Containers</label>
 						<div class="col-sm-10">							
-							<p class="help-block">Create containers with Buns</p>
+							<p class="help-block">Create containers with VxFs</p>
 							
 								<button type="button" class="btn btn-primary" ng-click="addContainer()">Add container</button>								
 								<p></p>
@@ -67,16 +67,16 @@
 								    <div ng-repeat="container in app.containers" role="tabpanel"  ng-class="{'tab-pane':true, 'active': isActive(container) }" id="{{container.name}}">
 								    <p>Select and configure artifacts  to deploy into {{container.name}}</p>
 								    
-								    <select ng-model="selectedBun" ng-options="bun.name for bun in buns" ></select>
+								    <select ng-model="selectedVxF" ng-options="vxf.name for vxf in vxfs" ></select>
 								    
-								    <button type="button" class="btn btn-primary" ng-click="addDeploymentArtifact(container, selectedBun)">Add deployment artifact</button>
+								    <button type="button" class="btn btn-primary" ng-click="addDeploymentArtifact(container, selectedVxF)">Add deployment artifact</button>
 								    <button type="button" class="btn btn-primary pull-right" ng-click="removeContainer(container)">Remove Container</button>
 								    
 								    
 								    <div class="col-sm-12 deployArtifact shadowed" ng-repeat="da in container.deployArtifacts"> 
 								    	<div class="col-sm-12"> 
 								    	<p> <b>{{da.name}}</b>  ( {{da.uuid}} )  
-								    	<button type="button" class="btn btn-primary pull-right" ng-click="removeDeploymentArtifact(container, selectedBun)">Remove</button>
+								    	<button type="button" class="btn btn-primary pull-right" ng-click="removeDeploymentArtifact(container, selectedVxF)">Remove</button>
 								    	 </p>
 								    	</div>
 									    <div class="col-sm-12 deployArtifactExtensions" ng-repeat="ext in da.extensions">

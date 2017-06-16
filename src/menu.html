@@ -16,14 +16,15 @@
 				<ul class="nav navbar-nav" >
 						<li ng-class="navClass('app_marketplace')" ><a href="#/app_marketplace">Experiments</a></li>
 						
-						<li ng-show="loggedIn && ( (loggedinportaluser.role === 'ROLE_EXPERIMENTER')|| (loggedinportaluser.role === 'ROLE_PORTALADMIN') )" ng-class="navClass('bun_marketplace')" ><a href="#/bun_marketplace">Buns</a></li>
+						<!-- li ng-show="loggedIn && ( (loggedinportaluser.role === 'ROLE_EXPERIMENTER')|| (loggedinportaluser.role === 'ROLE_PORTALADMIN') )" ng-class="navClass('vxf_marketplace')" ><a href="#/vxf_marketplace">VxFs</a></li -->
+						<li ng-class="navClass('vxf_marketplace')" ><a href="#/vxf_marketplace">VxFs</a></li>
 						
 						
 						<li ng-show="loggedIn" class="dropdown">
 							<a class="dropdown-toggle"	href="" data-toggle="dropdown">Deployments <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 							<li ng-class="navClass('fiware_instances')" ><a href="#/fiware_instances">FIWARE Instances</a></li>
-							<li ng-class="navClass('deployments')" ><a href="#/mydeployments">Deployed Applications</a></li>
+							<li ng-class="navClass('deployments')" ><a href="#/mydeployments">Deployed Experiments</a></li>
 							<li><a href="#/subscribed_resources">Registered Resources</a></li>
 								</ul>
 						</li>
@@ -33,9 +34,9 @@
 							<ul class="dropdown-menu" role="menu">
 								<li ng-show="loggedinportaluser.role === 'ROLE_PORTALADMIN'" ><a href="#/users">System Users</a></li>
 								<li><a href="#/experiments">Registered Experiments</a></li>
-								<li><a href="#/buns">Registered Buns</a></li>
+								<li><a href="#/vxfs">Registered VxFs</a></li>
 								<li><a href="#/subscribed_resources">Registered Resources</a></li>
-								<li ng-show="loggedinportaluser.role === 'ROLE_PORTALADMIN'"><a href="#/deployments_admin">Deployed Applications</a></li>
+								<li ng-show="loggedinportaluser.role === 'ROLE_PORTALADMIN'"><a href="#/deployments_admin">Deployed Experiments</a></li>
 								<li ng-show="loggedinportaluser.role === 'ROLE_PORTALADMIN'" class="divider"></li>
 								<li ng-show="loggedinportaluser.role === 'ROLE_PORTALADMIN'"><a href="#/categories">System Categories</a></li>		
 								<li ng-show="loggedinportaluser.role === 'ROLE_PORTALADMIN'"><a href="#">System resource groups</a></li>

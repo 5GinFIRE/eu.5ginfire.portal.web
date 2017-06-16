@@ -274,7 +274,7 @@ appControllers.controller('AppListController', ['$scope','$window','$log', 'Admi
 }]);
 
 appControllers.controller('AppAddController', function($scope, $location,
-		AdminExperimentMetadata, PortalUser, $rootScope, $http,formDataObject, Category,$filter,APIEndPointService, Container, DeployArtifact, BunMetadata) {
+		AdminExperimentMetadata, PortalUser, $rootScope, $http,formDataObject, Category,$filter,APIEndPointService, Container, DeployArtifact, VxFMetadata) {
 
 	
 	$scope.app = new AdminExperimentMetadata();
@@ -301,9 +301,9 @@ appControllers.controller('AppAddController', function($scope, $location,
 		$scope.activeContainer = $scope.app.containers[0];
 	}
 	
-	$scope.removeDeploymentArtifact= function(container, selectedBun) {
+	$scope.removeDeploymentArtifact= function(container, selectedVxF) {
 
-		container.deployArtifacts.splice( container.deployArtifacts.indexOf(selectedBun) ,1);
+		container.deployArtifacts.splice( container.deployArtifacts.indexOf(selectedVxF) ,1);
 		
 	}
 	
@@ -318,21 +318,21 @@ appControllers.controller('AppAddController', function($scope, $location,
     
 
 	var orderBy = $filter('orderBy');
-    $scope.buns = BunMetadata.query(function() {
-		    $scope.bunsTotalNumber = $scope.buns.length;
-		    $scope.buns = orderBy($scope.buns, 'name', false);
-		    $scope.selectedBun = $scope.buns[0]; 
+    $scope.vxfs = VxFMetadata.query(function() {
+		    $scope.vxfsTotalNumber = $scope.vxfs.length;
+		    $scope.vxfs = orderBy($scope.vxfs, 'name', false);
+		    $scope.selectedVxF = $scope.vxfs[0]; 
 	}); 
     
     
     
-    $scope.addDeploymentArtifact= function(container, selectedBun) {
+    $scope.addDeploymentArtifact= function(container, selectedVxF) {
 
-        var da =new DeployArtifact( null, selectedBun.uuid, 
-        		selectedBun.name , 
-        		'uuid/'+selectedBun.uuid, 
-        		selectedBun.packageLocation, 
-        		selectedBun.extensions);
+        var da =new DeployArtifact( null, selectedVxF.uuid, 
+        		selectedVxF.name , 
+        		'uuid/'+selectedVxF.uuid, 
+        		selectedVxF.packageLocation, 
+        		selectedVxF.extensions);
         container.deployArtifacts.push(da);
         return da;
         
@@ -566,9 +566,9 @@ appControllers.directive('fileUpload', function () {
 });
 
 appControllers.controller('AppEditController', ['$scope', '$route', '$routeParams', '$location', 
-                                                'AdminExperimentMetadata', '$anchorScroll','$http', 'formDataObject', 'cfpLoadingBar', 'Category', '$filter', 'APIEndPointService', 'BunMetadata', 'Container', 'DeployArtifact',
+                                                'AdminExperimentMetadata', '$anchorScroll','$http', 'formDataObject', 'cfpLoadingBar', 'Category', '$filter', 'APIEndPointService', 'VxFMetadata', 'Container', 'DeployArtifact',
      function( $scope, $route, $routeParams, $location, AdminExperimentMetadata, $anchorScroll,
-    		 $http,formDataObject, cfpLoadingBar, Category, $filter, APIEndPointService, BunMetadata, Container, DeployArtifact){
+    		 $http,formDataObject, cfpLoadingBar, Category, $filter, APIEndPointService, VxFMetadata, Container, DeployArtifact){
 	
 	
 
@@ -586,9 +586,9 @@ appControllers.controller('AppEditController', ['$scope', '$route', '$routeParam
 		
 	}
 	
-	$scope.removeDeploymentArtifact= function(container, selectedBun) {
+	$scope.removeDeploymentArtifact= function(container, selectedVxF) {
 
-		container.deployArtifacts.splice( container.deployArtifacts.indexOf(selectedBun) ,1);
+		container.deployArtifacts.splice( container.deployArtifacts.indexOf(selectedVxF) ,1);
 		
 	}
 	
@@ -602,21 +602,21 @@ appControllers.controller('AppEditController', ['$scope', '$route', '$routeParam
     };
     
     
-    $scope.buns = BunMetadata.query(function() {
-		    $scope.bunsTotalNumber = $scope.buns.length;
-		    $scope.buns = orderBy($scope.buns, 'name', false);
-		    $scope.selectedBun = $scope.buns[0]; 
+    $scope.vxfs = VxFMetadata.query(function() {
+		    $scope.vxfsTotalNumber = $scope.vxfs.length;
+		    $scope.vxfs = orderBy($scope.vxfs, 'name', false);
+		    $scope.selectedVxF = $scope.vxfs[0]; 
 	}); 
     
     
     
-    $scope.addDeploymentArtifact= function(container, selectedBun) {
+    $scope.addDeploymentArtifact= function(container, selectedVxF) {
 
-        var da =new DeployArtifact( null, selectedBun.uuid, 
-        		selectedBun.name , 
-        		'uuid/'+selectedBun.uuid, 
-        		selectedBun.packageLocation, 
-        		selectedBun.extensions);
+        var da =new DeployArtifact( null, selectedVxF.uuid, 
+        		selectedVxF.name , 
+        		'uuid/'+selectedVxF.uuid, 
+        		selectedVxF.packageLocation, 
+        		selectedVxF.extensions);
         container.deployArtifacts.push(da);
         return da;
         
@@ -920,28 +920,28 @@ appControllers.controller('AppsMarketplaceController', ['$scope','$window','$log
 
 
 
-appControllers.controller('BunListController', ['$scope','$window','$log', 'AdminBunMetadata', 'popupService','ngDialog',
-                                             	function($scope, $window, $log, AdminBunMetadata, popupService, ngDialog ) {
+appControllers.controller('VxFListController', ['$scope','$window','$log', 'AdminVxFMetadata', 'popupService','ngDialog',
+                                             	function($scope, $window, $log, AdminVxFMetadata, popupService, ngDialog ) {
                  	
                  	
- 	$scope.buns= AdminBunMetadata.query(function() {
+ 	$scope.vxfs= AdminVxFMetadata.query(function() {
  		    //console.log($scope.apps);
  		  }); //query() returns all the subscribedresources
  		 
  	
  	
- 	 $scope.deleteBun = function(gridItem, useridx){
+ 	 $scope.deleteVxF = function(gridItem, useridx){
 
- 		$log.debug("Selected to DELETE AdminBunMetadata with id = "+ useridx);
+ 		$log.debug("Selected to DELETE AdminVxFMetadata with id = "+ useridx);
  		 	
 
- 		 	var bun=AdminBunMetadata.get({id:useridx}, function() {
- 			    $log.debug("WILL DELETE BunMetadatawith ID "+ bun.id);
+ 		 	var vxf=AdminVxFMetadata.get({id:useridx}, function() {
+ 			    $log.debug("WILL DELETE VxFMetadatawith ID "+ vxf.id);
  			    
- 		        if(popupService.showPopup('Really delete Bun "'+bun.name+'" ?')){
+ 		        if(popupService.showPopup('Really delete VxF "'+vxf.name+'" ?')){
  				 	
- 		        	bun.$delete(function(){
- 		    			$scope.buns.splice($scope.buns.indexOf(gridItem),1)
+ 		        	vxf.$delete(function(){
+ 		    			$scope.vxfs.splice($scope.vxfs.indexOf(gridItem),1)
  		            });
  		        
  		        }
@@ -952,12 +952,12 @@ appControllers.controller('BunListController', ['$scope','$window','$log', 'Admi
 }]);
 
 
-appControllers.controller('BunAddController', function($scope, $location,
-		AdminBunMetadata, PortalUser, $rootScope, $http,formDataObject, Category, $filter, APIEndPointService) {
+appControllers.controller('VxFAddController', function($scope, $location,
+		AdminVxFMetadata, PortalUser, $rootScope, $http,formDataObject, Category, $filter, APIEndPointService) {
 	
-	$scope.bun = new AdminBunMetadata();
-	$scope.bun.owner = $rootScope.loggedinportaluser;//PortalUser.get({id:$rootScope.loggedinportaluser.id});
-	$scope.bun.extensions=[];
+	$scope.vxf = new AdminVxFMetadata();
+	$scope.vxf.owner = $rootScope.loggedinportaluser;//PortalUser.get({id:$rootScope.loggedinportaluser.id});
+	$scope.vxf.extensions=[];
 	
 	
 	var orderBy = $filter('orderBy');
@@ -966,27 +966,27 @@ appControllers.controller('BunAddController', function($scope, $location,
 		
 	}); 
 	
-	$scope.addBun = function() {
-		$scope.bun.$save(function() {
-			$location.path("/buns");
+	$scope.addVxF = function() {
+		$scope.vxf.$save(function() {
+			$location.path("/vxfs");
 		});
 	}
 	
-	$scope.addExtension= function(bun){
+	$scope.addExtension= function(vxf){
 		console.log('addExtension');
 		var e={};
 		e.name = 'param';
 		e.value = 'val';
     	
-    	$scope.bun.extensions.push(e);
+    	$scope.vxf.extensions.push(e);
 	}
 	
 	$scope.removeRow = function(ext) {
-		$scope.bun.extensions.splice( $scope.bun.extensions.indexOf(ext) ,1);
+		$scope.vxf.extensions.splice( $scope.vxf.extensions.indexOf(ext) ,1);
 	};
 	
 	
-	$scope.submitNewBun = function submit() {
+	$scope.submitNewVxF = function submit() {
 		 
 //		var $rows = $TABLE.find('tr:not(:hidden)');
 //		$rows.each(function () {
@@ -999,26 +999,26 @@ appControllers.controller('BunAddController', function($scope, $location,
 //				e.name = param;
 //				e.value = val;
 //		    	
-//		    	$scope.bun.extensions.push(e);
+//		    	$scope.vxf.extensions.push(e);
 //		    }
 //		});
 		
 		 
 		return $http({
 			method : 'POST',
-			url : APIEndPointService.APIURL+'services/api/repo/admin/buns/',
+			url : APIEndPointService.APIURL+'services/api/repo/admin/vxfs/',
 			headers : {
 				'Content-Type' : 'multipart/form-data'
 			},
 			data : {
-				bun: angular.toJson( $scope.bun, false ),
-				prodIcon: $scope.uploadedBunIcon,
-				prodFile: $scope.uploadedBunFile,
+				vxf: angular.toJson( $scope.vxf, false ),
+				prodIcon: $scope.uploadedVxFIcon,
+				prodFile: $scope.uploadedVxFFile,
 				//file : $scope.file
 			},
 			transformRequest : formDataObject
 		}).success(function() {
-			$location.path("/buns");
+			$location.path("/vxfs");
 		});
 	};
 
@@ -1026,19 +1026,19 @@ appControllers.controller('BunAddController', function($scope, $location,
 
 
 
-appControllers.controller('BunEditController', ['$scope', '$route', '$routeParams', '$location', 'AdminBunMetadata', '$anchorScroll',
+appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParams', '$location', 'AdminVxFMetadata', '$anchorScroll',
                                                 '$http', 'formDataObject', 'cfpLoadingBar', 'Category', '$filter', 'APIEndPointService',
-     function( $scope, $route, $routeParams, $location, AdminBunMetadata, $anchorScroll, $http,formDataObject, cfpLoadingBar, 
+     function( $scope, $route, $routeParams, $location, AdminVxFMetadata, $anchorScroll, $http,formDataObject, cfpLoadingBar, 
     		 Category, $filter,APIEndPointService){
 
 	
 	
 
 	
-	 $scope.submitUpdateBun = function submit() {
+	 $scope.submitUpdateVxF = function submit() {
 
 		 var catidsCommaSeparated = '';
-		 angular.forEach ( $scope.bun.categories, function(categ, categkey) {
+		 angular.forEach ( $scope.vxf.categories, function(categ, categkey) {
 			 catidsCommaSeparated = catidsCommaSeparated+categ.id+',';
 		 });
 		 
@@ -1051,50 +1051,50 @@ appControllers.controller('BunEditController', ['$scope', '$route', '$routeParam
 //			    	var e={};
 //					e.name = param;
 //					e.value = val;			    	
-//			    	$scope.bun.extensions.push(e);
+//			    	$scope.vxf.extensions.push(e);
 //			    }
 //			});
 		 
 			return $http({
 				method : 'PUT',
-				url : APIEndPointService.APIURL+'services/api/repo/admin/buns/'+$routeParams.id,
+				url : APIEndPointService.APIURL+'services/api/repo/admin/vxfs/'+$routeParams.id,
 				headers : {
 					'Content-Type' : 'multipart/form-data'
 				},
 				data : {
-					bun: angular.toJson( $scope.bun, false ),					
-					prodIcon: $scope.uploadedBunIcon,
-					prodFile: $scope.uploadedBunFile,
+					vxf: angular.toJson( $scope.vxf, false ),					
+					prodIcon: $scope.uploadedVxFIcon,
+					prodFile: $scope.uploadedVxFFile,
 					//file : $scope.file
 				},
 				transformRequest : formDataObject
 			}).success(function() {
-				$location.path("/buns");
+				$location.path("/vxfs");
 			});
 		};
 	
 
-    $scope.loadBun=function(cats){
-    	var mybun = AdminBunMetadata.get({id:$routeParams.id}, function() {
+    $scope.loadVxF=function(cats){
+    	var myvxf = AdminVxFMetadata.get({id:$routeParams.id}, function() {
 
     		var categoriesToPush=[];
-	   	 	angular.forEach(mybun.categories, function(mybuncateg, mybuncategkey) {
+	   	 	angular.forEach(myvxf.categories, function(myvxfcateg, myvxfcategkey) {
 		    		
 		    		angular.forEach(cats, function(categ, key) {
-	   	    		if (mybuncateg.id === categ.id){
+	   	    		if (myvxfcateg.id === categ.id){
 	   	    			categoriesToPush.push(categ);
 	   	    		}
 		    		});
 		 	});
 			
-	   	 	mybun.categories=[];//clear everything
+	   	 	myvxf.categories=[];//clear everything
 			//now re add the categories to synchronize with local model
 			angular.forEach(categoriesToPush, function(cat, key) {
-				mybun.categories.push(cat);
+				myvxf.categories.push(cat);
 			 	});	 
 			
 			
-			$scope.bun=mybun;   
+			$scope.vxf=myvxf;   
     		
     	});     
     		      
@@ -1107,20 +1107,20 @@ appControllers.controller('BunEditController', ['$scope', '$route', '$routeParam
     var orderBy = $filter('orderBy');
 	$scope.categories = Category.query(function() {
 		$scope.categories = orderBy($scope.categories, 'name', false);
-		$scope.loadBun($scope.categories);
+		$scope.loadVxF($scope.categories);
 	}); 
 	
-	$scope.addExtension= function(bun){
+	$scope.addExtension= function(vxf){
 		console.log('addExtension');
 		var e={};
 		e.name = 'param';
 		e.value = 'val';
     	
-    	$scope.bun.extensions.push(e);
+    	$scope.vxf.extensions.push(e);
 	}
 		
 	$scope.removeRow = function(ext) {
-		$scope.bun.extensions.splice( $scope.bun.extensions.indexOf(ext) ,1);
+		$scope.vxf.extensions.splice( $scope.vxf.extensions.indexOf(ext) ,1);
 	};
 	
 	
@@ -1132,31 +1132,31 @@ appControllers.controller('BunEditController', ['$scope', '$route', '$routeParam
 }]);
 
 
-appControllers.controller('BunViewController', ['$scope', '$route', '$routeParams', '$location', 'BunMetadata',
-                                                 function( $scope, $route, $routeParams, $location, BunMetadata ){
-    $scope.bun=BunMetadata.get({id:$routeParams.id});
+appControllers.controller('VxFViewController', ['$scope', '$route', '$routeParams', '$location', 'VxFMetadata',
+                                                 function( $scope, $route, $routeParams, $location, VxFMetadata ){
+    $scope.vxf=VxFMetadata.get({id:$routeParams.id});
 
 }]);
 
 
-appControllers.controller('BunsMarketplaceController', ['$scope','$window','$log', 'BunMetadata', 'Category', '$filter',
-                                                     	function($scope, $window, $log, BunMetadata, Category,$filter ) {
+appControllers.controller('VxFsMarketplaceController', ['$scope','$window','$log', 'VxFMetadata', 'Category', '$filter',
+                                                     	function($scope, $window, $log, VxFMetadata, Category,$filter ) {
                          	
         	var orderBy = $filter('orderBy');
         	$scope.categories = Category.query(function() {
         		    //console.log($scope.apps);
         		    $scope.categories = orderBy($scope.categories, 'name', false);
         	});
-         	$scope.buns = BunMetadata.query(function() {
+         	$scope.vxfs = VxFMetadata.query(function() {
          		    //console.log($scope.apps);
-         		    $scope.bunsTotalNumber = $scope.buns.length;
-        		    $scope.buns = orderBy($scope.buns, 'name', false);
+         		    $scope.vxfsTotalNumber = $scope.vxfs.length;
+        		    $scope.vxfs = orderBy($scope.vxfs, 'name', false);
          	}); 
          		 
          	$scope.filterCategory=function(category){
          			if (category.id){
          				//console.log("Selected catid = "+ category.id);
-         				angular.forEach($scope.buns, function(bun, key) {
+         				angular.forEach($scope.vxfs, function(vxf, key) {
          					//console.log("key= "+key+", app.id="+app.id+", app.name="+app.name);
          					//app.name = app.name+'!!';
          				});
@@ -1166,9 +1166,9 @@ appControllers.controller('BunsMarketplaceController', ['$scope','$window','$log
          			}
 
         			//$scope.apps = ExperimentMetadata.query();
-        			$scope.buns = BunMetadata.query({categoryid: category.id}, function() {
+        			$scope.vxfs = VxFMetadata.query({categoryid: category.id}, function() {
         	 		    //console.log($scope.apps);
-        			    $scope.buns = orderBy($scope.buns, 'name', false);
+        			    $scope.vxfs = orderBy($scope.vxfs, 'name', false);
         	 	});
             };
             
