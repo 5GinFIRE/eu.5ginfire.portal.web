@@ -37,16 +37,16 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 		templateUrl : 'SubscribedResourceEdit.html',
 		controller : 'SubscribedResourceEditController'
 	}).when('/experiments', {
-		templateUrl : 'Apps.html',
+		templateUrl : 'Experiments.html',
 		controller : 'AppListController'
-	}).when('/app_add', {
-		templateUrl : 'AppAdd.html',
+	}).when('/experiment_add', {
+		templateUrl : 'ExperimentAdd.html',
 		controller : 'AppAddController'
-	}).when('/app_edit/:id', {
-		templateUrl : 'AppEdit.html',
+	}).when('/experiment_edit/:id', {
+		templateUrl : 'ExperimentEdit.html',
 		controller : 'AppEditController'
-	}).when('/app_view/:id', {
-		templateUrl : 'AppView.html',
+	}).when('/experiment_view/:id', {
+		templateUrl : 'ExperimentView.html',
 		controller : 'AppViewController'
 	}).when('/categories', {
 		templateUrl : 'Categories.html',
@@ -57,9 +57,9 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 	}).when('/edit_category/:id', {
 		templateUrl : 'CategoryEdit.html',
 		controller : 'CategoryEditController'
-	}).when('/app_marketplace', {
-		templateUrl : 'AppsMarketplace.html',
-		controller : 'AppsMarketplaceController'
+	}).when('/experiments_marketplace', {
+		templateUrl : 'ExperimentsMarketplace.html',
+		controller : 'ExperimentsMarketplaceController'
 	}).when('/vxfs', {
 		templateUrl : 'VxFs.html',
 		controller : 'VxFListController'
@@ -152,12 +152,6 @@ app.controller('portalCtrl', function($scope, PortalUser, $log) {
 });
 
 
-app.controller('SignupCtrl', function($scope) {
-
-});
-
-
-
 app.controller("LoginCtrl", ["$scope", "$location", "$window", "authenticationSvc", "$log", "$rootScope", "$http", "APIEndPointService", "$interval", "$cookies", "$cookieStore",
                              function ($scope, $location, $window, authenticationSvc, $log, $rootScope, $http, APIEndPointService, $interval, $cookies, $cookieStore) {
 	$log.debug('========== > inside LoginCtrl controller');
@@ -182,7 +176,7 @@ app.controller("LoginCtrl", ["$scope", "$location", "$window", "authenticationSv
         		$log.debug('========== > inside LoginCtrl controller $rootScope.portaluser ='+ $rootScope.loggedinportaluser);
         		$log.debug('========== > inside LoginCtrl controller $rootScope.portaluser ='+ $rootScope.loggedinportaluser.username);
                 
-                $location.path("/app_marketplace");
+                $location.path("/experiments_marketplace");
             }, function (error) {
                 //$window.alert("Invalid credentials");
     			$scope.loginError = true;
@@ -246,7 +240,7 @@ app.controller("LoginCtrl", ["$scope", "$location", "$window", "authenticationSv
 	      			  
 
 	      			
-	              $location.path("/app_marketplace");
+	              $location.path("/experiments_marketplace");
 	              
 	              
 		        }
@@ -326,11 +320,12 @@ app.config(function($httpProvider) {
 				if (!$rootScope.loggedIn 
 						&& $location.path() != '/' 
 						&& $location.path() != '/login' 
-							&& $location.path() != '/app_marketplace'
-								&& $location.path() != '/widget_marketplace'
-							&& ($location.path().indexOf("app_view") <=0) 
+							&& $location.path() != '/signup' 
+							&& $location.path() != '/experiments_marketplace'
+								&& $location.path() != '/vxf_marketplace'
+							&& ($location.path().indexOf("experiment_view") <=0) 
 							&& ($location.path().indexOf("fiwarepopup") <=0) 
-							&& ($location.path().indexOf("widget_view") <=0) 
+							&& ($location.path().indexOf("vxf_view") <=0) 
 							) {
 					$log.debug('========== > $rootScope.loggedIn IS FALSE');
 					$location.path('/login');

@@ -868,7 +868,7 @@ appControllers.controller('CategoryEditController', ['$scope', '$route', '$route
 //experiments controller
 
 
-appControllers.controller('AppsMarketplaceController', ['$scope','$window','$log', 'ExperimentMetadata', 'Category', '$filter',
+appControllers.controller('ExperimentsMarketplaceController', ['$scope','$window','$log', 'ExperimentMetadata', 'Category', '$filter',
                                              	function($scope, $window, $log, ExperimentMetadata, Category,$filter ) {
                  	
 	var orderBy = $filter('orderBy');
@@ -1142,6 +1142,7 @@ appControllers.controller('VxFViewController', ['$scope', '$route', '$routeParam
 appControllers.controller('VxFsMarketplaceController', ['$scope','$window','$log', 'VxFMetadata', 'Category', '$filter',
                                                      	function($scope, $window, $log, VxFMetadata, Category,$filter ) {
                          	
+	console.log("IN VxFsMarketplaceController");
         	var orderBy = $filter('orderBy');
         	$scope.categories = Category.query(function() {
         		    //console.log($scope.apps);
@@ -1465,3 +1466,51 @@ appControllers.controller('DeploymentsAdminListController', ['$scope','$window',
 }]);
 
 
+appControllers.controller('SignupCtrl', ['$scope', '$route', '$routeParams', '$location', 'PortalUser', '$anchorScroll', 'APIEndPointService', '$http' , 'formDataObject',
+                                         function( $scope, $route, $routeParams, $location, PortalUser, $anchorScroll, APIEndPointService, $http,formDataObject){
+	$scope.portaluser=new PortalUser();
+    $scope.portaluser.active='false';
+    $scope.portaluser.role = 'ROLE_EXPERIMENTER';
+    
+    $scope.registerNewPortalUser=function(){
+        	
+        	randomid= 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        	    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+        	    return v.toString(16);
+        	});
+        	
+        	link = APIEndPointService.WEBURL+'/#/registerconfirm?rid='+randomid+'&uname='+$scope.portaluser.username;
+            msg='Dear '+$scope.portaluseruser.name+' <br>thank you for registering a 5GinFIRE account!<br><br>\r\n'+
+            'Please follow this link:<br> '+link+
+            ' <br> or copy it to your web browser\r\n'+
+            '<br><br>Thank you\r\nThe FORGEStore team';
+            
+        	
+        	return $http({
+    			method : 'POST',
+    			url : APIEndPointService.APIURL+'services/api/repo/register/',
+    			headers : {
+    				'Content-Type' : 'multipart/form-data'
+    			},
+    			data : {
+    				name: $scope.portaluser.name,
+    				username: $scope.portaluser.username,
+    				userpassword: $scope.portaluser.password,
+    				userorganization: $scope.portaluser.organization,
+    				useremail: $scope.portaluser.email,
+    				randomregid: randomid,
+    				emailmessage: msg,
+    			},
+    			transformRequest : formDataObject
+    		}).success(function() {
+    			alert("A confirmation email has been sent in order to activate your account.");
+    			$location.path("/");
+    		}).
+            error(function (data, status, headers, config) {
+                alert("failed!");
+            });
+        	
+        };
+    
+
+}]);
