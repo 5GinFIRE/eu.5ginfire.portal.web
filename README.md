@@ -1,6 +1,6 @@
 A Web front UI for eu.5ginfire.portal.web
 ==========
-eu.5ginfire.portal.web Web front UI is an AngularJS based UI to be used with  eu.5ginfire.portal.api Web Service
+eu.5ginfire.portal.web Web front UI is an AngularJS based UI to be used with  eu.5ginfire.portal.api Web Service. See more info at https://github.com/5GinFIRE/eu.5ginfire.portal.web/wiki
 
 
 Licenses
