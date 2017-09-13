@@ -953,7 +953,8 @@ appControllers.controller('VxFListController', ['$scope','$window','$log', 'Admi
 
 
 appControllers.controller('VxFAddController', function($scope, $location,
-		AdminVxFMetadata, PortalUser, $rootScope, $http,formDataObject, Category, $filter, APIEndPointService) {
+		AdminVxFMetadata, PortalUser, $rootScope, $http,formDataObject, Category, $filter,
+		APIEndPointService, AdminMANOplatform) {
 	
 	$scope.vxf = new AdminVxFMetadata();
 	$scope.vxf.owner = $rootScope.loggedinportaluser;//PortalUser.get({id:$rootScope.loggedinportaluser.id});
@@ -966,6 +967,14 @@ appControllers.controller('VxFAddController', function($scope, $location,
 		
 	}); 
 	
+	
+	 var orderBy = $filter('orderBy');
+	    $scope.MANOplatforms =  AdminMANOplatform.query(function() {
+			$scope.MANOplatforms = orderBy($scope.MANOplatforms, 'name', false);
+			
+		});
+	    
+	    
 	$scope.addVxF = function() {
 		$scope.vxf.$save(function() {
 			$location.path("/vxfs");
