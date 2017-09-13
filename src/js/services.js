@@ -280,4 +280,16 @@ appServices.factory('AdminMANOplatform', function($resource, APIEndPointService)
 });
 
 
+//MANO provider Resource
+appServices.factory('AdminMANOprovider', function($resource, APIEndPointService) {
+	return $resource(APIEndPointService.APIURL+"services/api/repo/admin/manoproviders/:id", 
+			{ id: '@id' }, {
+	    update: {
+	        method: 'PUT' // this method issues a PUT request
+      	
+	      }
+	});
+});
+
+
 

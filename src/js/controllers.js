@@ -1585,6 +1585,102 @@ appControllers.controller('MANOplatformEditController', ['$scope', '$route', '$r
 
 
 
+//MANO providers Controller
+appControllers.controller('MANOprovidersListController', ['$scope','$window','$log', 'AdminMANOprovider', 'popupService','ngDialog',
+                                             	function($scope, $window, $log, AdminMANOprovider, popupService, ngDialog ) {
+                 	
+                 	
+
+ 	$scope.manoproviders = AdminMANOprovider.query(function() {
+ 		    //console.log($scope.categories);
+ 		  }); //query() returns all the categories
+ 		 
+ 	
+ 	
+ 	 $scope.deleteMANOprovider = function(gridItem, useridx){
+
+ 		 	//console.log("Selected to DELETE Categorywith id = "+ useridx);
+ 		 	
+
+ 		 	var cat=AdminMANOprovider.get({id:useridx}, function() {
+ 			    $log.debug("WILL DELETE MANOprovider with ID "+ cat.id);
+ 			    
+ 		        if(popupService.showPopup('Really delete MANO provider "'+cat.name+'" ?')){
+ 				 	
+ 		        	cat.$delete(function(){
+ 		    			$scope.manoproviders.splice($scope.manoproviders.indexOf(gridItem),1)
+ 		            }, function(error) {
+ 		            	$window.alert("Cannot delete: "+error.data);
+ 		            });
+ 		        
+ 		        }
+ 		 	});
+ 	    }
+ 	          	
+                 	 
+}]);
+
+appControllers.controller('MANOproviderAddController',function($scope, $location,  $filter,  AdminMANOprovider, 
+		AdminMANOplatform){
+
+    $scope.manoprov=new AdminMANOprovider();
+    
+    var orderBy = $filter('orderBy');
+    $scope.supportedMANOplatforms =  AdminMANOplatform.query(function() {
+		$scope.supportedMANOplatform = orderBy($scope.supportedMANOplatform, 'name', false);
+		
+	});
+
+    $scope.addMANOprovider=function(){
+        $scope.manoprov.$save(function(){
+			$location.path("/manoproviders");
+        });
+    }
+
+});
+
+appControllers.controller('MANOproviderEditController', ['$scope', '$route', '$filter', '$routeParams', 
+                                                         '$location', 'AdminMANOprovider', '$anchorScroll', 'AdminMANOplatform',
+        function( $scope, $route,$filter,  $routeParams, $location, AdminMANOprovider, $anchorScroll, AdminMANOplatform){
+
+
+	
+
+    //console.log("WILL EDIT Category with ID "+$routeParams.id);
+	
+    $scope.updateMANOprovider=function(){
+        $scope.manoprov.$update(function(){
+			$location.path("/manoproviders");
+        });
+    };
+
+    $scope.loadMANOprovider=function(){
+        $scope.manoprov=AdminMANOprovider.get({id:$routeParams.id}); 
+
+		var orderBy = $filter('orderBy');
+	    $scope.supportedMANOplatforms =  AdminMANOplatform.query(function() {
+			$scope.supportedMANOplatform = orderBy($scope.supportedMANOplatform, 'name', false);
+			console.log("XX2latf = " +  $scope.supportedMANOplatforms[0].name);
+			
+			angular.forEach($scope.supportedMANOplatforms, function(platf, key) {
+    			console.log("XXplatf = " +  platf.name);
+	    		if ($scope.manoprov.supportedMANOplatform.id === platf.id){
+	    			$scope.manoprov.supportedMANOplatform = platf;
+	    		}
+    		});
+			
+		});
+		console.log("XXsplatf = " +  $scope.supportedMANOplatforms[0]);
+    		
+    		
+ 	    
+        
+    };
+
+    $scope.loadMANOprovider();
+}]);
+
+
 
 
 

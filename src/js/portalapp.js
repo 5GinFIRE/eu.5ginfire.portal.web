@@ -99,6 +99,15 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 	}).when('/edit_manoplatform/:id', {
 		templateUrl : 'MANOplatformEdit.html',
 		controller : 'MANOplatformEditController'
+	}).when('/manoproviders', {
+		templateUrl : 'MANOproviders.html',
+		controller : 'MANOprovidersListController'
+	}).when('/add_manoprovider', {
+		templateUrl : 'MANOproviderAdd.html',
+		controller : 'MANOproviderAddController'
+	}).when('/edit_manoprovider/:id', {
+		templateUrl : 'MANOproviderEdit.html',
+		controller : 'MANOproviderEditController'
 	}).otherwise({
 		redirectTo : '/'
 	});
