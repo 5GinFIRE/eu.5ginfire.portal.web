@@ -1514,3 +1514,83 @@ appControllers.controller('SignupCtrl', ['$scope', '$route', '$routeParams', '$l
     
 
 }]);
+
+
+//MANO platforms Controller
+appControllers.controller('MANOplatformsListController', ['$scope','$window','$log', 'AdminMANOplatform', 'popupService','ngDialog',
+                                             	function($scope, $window, $log, AdminMANOplatform, popupService, ngDialog ) {
+                 	
+                 	
+
+ 	$scope.manoplatforms = AdminMANOplatform.query(function() {
+ 		    //console.log($scope.categories);
+ 		  }); //query() returns all the categories
+ 		 
+ 	
+ 	
+ 	 $scope.deleteMANOplatform = function(gridItem, useridx){
+
+ 		 	//console.log("Selected to DELETE Categorywith id = "+ useridx);
+ 		 	
+
+ 		 	var cat=AdminMANOplatform.get({id:useridx}, function() {
+ 			    $log.debug("WILL DELETE MANOplatform with ID "+ cat.id);
+ 			    
+ 		        if(popupService.showPopup('Really delete MANOplatform "'+cat.name+'" ?')){
+ 				 	
+ 		        	cat.$delete(function(){
+ 		    			$scope.manoplatforms.splice($scope.manoplatforms.indexOf(gridItem),1)
+ 		            }, function(error) {
+ 		            	$window.alert("Cannot delete: "+error.data);
+ 		            });
+ 		        
+ 		        }
+ 		 	});
+ 	    }
+ 	          	
+                 	 
+}]);
+
+appControllers.controller('MANOplatformAddController',function($scope, $location, AdminMANOplatform){
+
+    $scope.cat=new AdminMANOplatform();
+
+    $scope.addMANOplatform=function(){
+        $scope.cat.$save(function(){
+			$location.path("/manoplatforms");
+        });
+    }
+
+});
+
+appControllers.controller('MANOplatformEditController', ['$scope', '$route', '$routeParams', '$location', 'AdminMANOplatform', '$anchorScroll',
+        function( $scope, $route, $routeParams, $location, AdminMANOplatform, $anchorScroll){
+
+
+    //console.log("WILL EDIT Category with ID "+$routeParams.id);
+	
+    $scope.updateMANOplatform=function(){
+        $scope.cat.$update(function(){
+			$location.path("/manoplatforms");
+        });
+    };
+
+    $scope.loadMANOplatform=function(){
+        $scope.cat=AdminMANOplatform.get({id:$routeParams.id});
+    };
+
+    $scope.loadMANOplatform();
+}]);
+
+
+
+
+
+
+
+
+
+
+
+
+

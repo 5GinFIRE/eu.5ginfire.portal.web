@@ -90,6 +90,15 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 	}).when('/portal_client', {
 		templateUrl : 'PortalClient.html',
 		controller : 'PortalClientViewController'
+	}).when('/manoplatforms', {
+		templateUrl : 'MANOplatforms.html',
+		controller : 'MANOplatformsListController'
+	}).when('/add_manoplatform', {
+		templateUrl : 'MANOplatformAdd.html',
+		controller : 'MANOplatformAddController'
+	}).when('/edit_manoplatform/:id', {
+		templateUrl : 'MANOplatformEdit.html',
+		controller : 'MANOplatformEditController'
 	}).otherwise({
 		redirectTo : '/'
 	});

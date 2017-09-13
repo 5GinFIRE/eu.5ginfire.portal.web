@@ -1,0 +1,41 @@
+<div class="page-header">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<h1 id="headerTitle">Add new MANO Platform</h1>
+
+				<form class="form-horizontal" role="form"
+					ng-submit="addMANOplatform()" id="addMANOplatform">
+					<div class="form-group">
+						<label for="cat.name" class="col-sm-2 control-label">Name</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" ng-model="cat.name"
+								value="" placeholder="name..." />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="cat.version" class="col-sm-2 control-label">Version</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" ng-model="cat.version"
+								value="" placeholder="version..." />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="cat.description" class="col-sm-2 control-label">Description</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" ng-model="cat.description"
+								value="" placeholder="description..." />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<input class="btn btn-default" type="submit" value="Save" />
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>

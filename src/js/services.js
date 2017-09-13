@@ -268,3 +268,16 @@ appServices.factory('FIWAREServers', function($resource, APIEndPointService) {
 
 
 
+//MANO platform Resource
+appServices.factory('AdminMANOplatform', function($resource, APIEndPointService) {
+	return $resource(APIEndPointService.APIURL+"services/api/repo/admin/manoplatforms/:id", 
+			{ id: '@id' }, {
+	    update: {
+	        method: 'PUT' // this method issues a PUT request
+      	
+	      }
+	});
+});
+
+
+
