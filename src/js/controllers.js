@@ -303,7 +303,7 @@ appControllers.controller('AppAddController', function($scope, $location,
 	
 	$scope.removeDeploymentArtifact= function(container, selectedVxF) {
 
-		container.deployArtifacts.splice( container.deployArtifacts.indexOf(selectedVxF) ,1);
+		container.ss.splice( container.deployArtifacts.indexOf(selectedVxF) ,1);
 		
 	}
 	
@@ -1037,13 +1037,49 @@ appControllers.controller('VxFAddController', function($scope, $location,
 
 appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParams', '$location', 'AdminVxFMetadata', '$anchorScroll',
                                                 '$http', 'formDataObject', 'cfpLoadingBar', 'Category', '$filter', 'APIEndPointService',
+                                                'AdminMANOprovider', 'VxFOnBoardedDescriptor',
      function( $scope, $route, $routeParams, $location, AdminVxFMetadata, $anchorScroll, $http,formDataObject, cfpLoadingBar, 
-    		 Category, $filter,APIEndPointService){
+    		 Category, $filter,APIEndPointService, AdminMANOprovider, VxFOnBoardedDescriptor){
 
 	
+	var manoProviderId=0;
 	
+	$scope.addMANOprovider = function() {
+    	console.log('addMANOProviderId');
+    	manoProviderId = manoProviderId+1;
+    	var contnr = new VxFOnBoardedDescriptor(null, manoProviderId);
+    	$scope.vxf.vxfOnBoardedDescriptors.push(contnr);
+    	$scope.activevxfOnBoardedDescriptor = contnr;
+	};
 
+	$scope.isActive=function(c) {
+        return $scope.activevxfOnBoardedDescriptor === c;
+    };
+    
+    
+	 $scope.activateVOBD =function(c) {
+	        return $scope.activevxfOnBoardedDescriptor = c;
+	    };
+	    
+	    
+	$scope.selectedMANOProviders = AdminMANOprovider.query(function() {
+		    $scope.mpTotalNumber = $scope.selectedMANOProviders.length;
+		    $scope.MANOProviders = orderBy($scope.selectedMANOProviders, 'name', false);
+		    $scope.selectedMANOProvider = $scope.selectedMANOProviders[0]; 
+	});
 	
+	
+	  $scope.onBoardVxF = function( avxfOnBoardedDescriptor, selectedMANOProvider) {
+
+	    	console.log("onBoardVxF" + avxfOnBoardedDescriptor.deployId + ", " + selectedMANOProvider.name);
+	        //var avobd = avxfOnBoardedDescriptor;
+	        //here we contact API and eventually do the onboarding
+	        avxfOnBoardedDescriptor.onBoardingStatus = 'SUCCESS';
+	        avxfOnBoardedDescriptor.lastOnboarding = 1505336789714;
+	        //sareturn avobd;
+	        
+	    };
+	    
 	 $scope.submitUpdateVxF = function submit() {
 
 		 var catidsCommaSeparated = '';
@@ -1100,10 +1136,12 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 			//now re add the categories to synchronize with local model
 			angular.forEach(categoriesToPush, function(cat, key) {
 				myvxf.categories.push(cat);
-			 	});	 
+			 	});	 			
 			
+			$scope.vxf=myvxf;
 			
-			$scope.vxf=myvxf;   
+			manoProviderId = myvxf.vxfOnBoardedDescriptors.length - 1;
+			$scope.activevxfOnBoardedDescriptor = myvxf.vxfOnBoardedDescriptors[0];
     		
     	});     
     		      

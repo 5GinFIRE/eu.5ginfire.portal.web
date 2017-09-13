@@ -291,5 +291,23 @@ appServices.factory('AdminMANOprovider', function($resource, APIEndPointService)
 	});
 });
 
+appServices.factory('VxFOnBoardedDescriptor', function() {
+	
+	var vobd = function(id, did, avxf) {
+	       
+	    this.id = id;
+	     
+	    this.deployId = did;
+	    this.vxf = avxf;
+	 
+	    this.isObject = function(object) {
+	        return object instanceof Object;
+	    };
+	 
+	};
+	
+	return vobd;
+	
+});
 
 
