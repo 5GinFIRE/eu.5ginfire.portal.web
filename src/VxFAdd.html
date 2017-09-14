@@ -64,6 +64,40 @@
 					
 					
 					<div class="form-group">
+						<label for="name" class="col-sm-2 control-label">Published</label>
+						<div class="col-sm-1">
+							<input type="checkbox" class="form-control"  ng-model="vxf.published" value=""  />
+							 
+						</div>
+					</div>
+					<div class="form-group">						
+						<label for="name" class="col-sm-2 control-label">Certified</label>
+						<div class="col-sm-1">
+							<input type="checkbox" class="form-control"  ng-model="vxf.certified" value=""  />
+							 
+						</div>
+					</div>
+					
+					<div class="form-group">						
+						<label for="name" class="col-sm-2 control-label">Certified by:</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  ng-model="vxf.certifiedby" value="" placeholder="" />
+						</div>
+					</div>
+					
+					
+					<div class="form-group">
+						<label for="app.category" class="col-sm-2 control-label">Supported MANO Platforms ( <span ng-repeat="supmanoplatf in vxf.supportedMANOPlatforms">{{supmanoplatf.name}} </span> )</label>
+						<div class="col-sm-10">
+							<select multiple class="form-control" ng-model="vxf.supportedMANOPlatforms" ng-options="sm.name for sm in MANOplatforms" >
+							</select>
+						</div>
+					</div>
+					
+					
+					
+					
+					<div class="form-group">
 						<label for="vxf.extensions" class="col-sm-2 control-label">Extension variables</label>
 						<div class="col-sm-10">
 							<div id="tableExtensions" class="table-editable">
