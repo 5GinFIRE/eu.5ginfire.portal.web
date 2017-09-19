@@ -4,18 +4,21 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<h1>All registered available VxFs</h1>
-				<h3>View and manage system vxfs</h3>
+				<h3>View and manage registered vxfs</h3>
 				<a class="btn btn-success btn-lg" data-toggle="modal" ng-href="#/vxf_add"> 
 				<i class="fa fa-cogs fa-2x pull-left"></i>&nbsp;&nbsp;Create New<br>VxF</a>
 				<br>
 				<br>
 				<table id="grid1" tr-ng-grid="" class="usersGrid" items="vxfs" page-items="10"
-					fields="['id', 'name','shortDescription','longDescription',  'owner.username']">
+					fields="['id', 'name', 'published', 'certified', 'certifiedBy', 'shortDescription','longDescription',  'owner.username']">
 					
 					<thead>
 						<tr>
 							<th field-name="id" display-name="Id" cell-width="5em"display-align="right"></th>
 							<th field-name="name" display-name="Name"></th>
+							<th field-name="published" display-name="Published"></th>
+							<th field-name="certified" display-name="Certified"></th>
+							<th field-name="certifiedBy" display-name="Certified by"></th>
 							<th field-name="shortDescription" display-name="Teaser"></th>
 							<th field-name="longDescription" display-name="Description"></th>
 							<th>
