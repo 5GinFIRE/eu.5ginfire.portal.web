@@ -968,11 +968,11 @@ appControllers.controller('VxFAddController', function($scope, $location,
 	}); 
 	
 	
-	 var orderBy = $filter('orderBy');
-	    $scope.MANOplatforms =  AdminMANOplatform.query(function() {
-			$scope.MANOplatforms = orderBy($scope.MANOplatforms, 'name', false);
-			
-		});
+	var orderBy = $filter('orderBy');
+    $scope.MANOplatforms =  AdminMANOplatform.query(function() {
+		$scope.MANOplatforms = orderBy($scope.MANOplatforms, 'name', false);
+		
+	});
 	    
 	    
 	$scope.addVxF = function() {
@@ -1037,9 +1037,9 @@ appControllers.controller('VxFAddController', function($scope, $location,
 
 appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParams', '$location', 'AdminVxFMetadata', '$anchorScroll',
                                                 '$http', 'formDataObject', 'cfpLoadingBar', 'Category', '$filter', 'APIEndPointService',
-                                                'AdminMANOprovider', 'VxFOnBoardedDescriptor',
+                                                'AdminMANOprovider', 'VxFOnBoardedDescriptor', 'AdminMANOplatform',
      function( $scope, $route, $routeParams, $location, AdminVxFMetadata, $anchorScroll, $http,formDataObject, cfpLoadingBar, 
-    		 Category, $filter,APIEndPointService, AdminMANOprovider, VxFOnBoardedDescriptor){
+    		 Category, $filter,APIEndPointService, AdminMANOprovider, VxFOnBoardedDescriptor, AdminMANOplatform){
 
 	
 	var manoProviderId=0;
@@ -1060,7 +1060,8 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 	 $scope.activateVOBD =function(c) {
 	        return $scope.activevxfOnBoardedDescriptor = c;
 	    };
-	    
+	    	    
+
 	    
 	$scope.selectedMANOProviders = AdminMANOprovider.query(function() {
 		    $scope.mpTotalNumber = $scope.selectedMANOProviders.length;
@@ -1117,11 +1118,27 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 				$location.path("/vxfs");
 			});
 		};
+		
+		
+	var orderBy = $filter('orderBy');
+	$scope.categories = Category.query(function() {
+		$scope.categories = orderBy($scope.categories, 'name', false);
+		$scope.loadVxF($scope.categories);
+	}); 
+
 	
 
     $scope.loadVxF=function(cats){
+
+    	var orderBy = $filter('orderBy');
+        $scope.MANOplatforms =  AdminMANOplatform.query(function() {
+    		$scope.MANOplatforms = orderBy($scope.MANOplatforms, 'name', false);
+    		
+    	});	
+        
     	var myvxf = AdminVxFMetadata.get({id:$routeParams.id}, function() {
 
+    		//synch categories with local model
     		var categoriesToPush=[];
 	   	 	angular.forEach(myvxf.categories, function(myvxfcateg, myvxfcategkey) {
 		    		
@@ -1136,7 +1153,27 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 			//now re add the categories to synchronize with local model
 			angular.forEach(categoriesToPush, function(cat, key) {
 				myvxf.categories.push(cat);
-			 	});	 			
+			});	 			
+			
+
+    		//synch MANO providers with local model
+    		var providersToPush=[];
+	   	 	angular.forEach(myvxf.supportedMANOPlatforms, function(myvxfprov, myvxfcprovkey) {
+		    		
+		    		angular.forEach( $scope.MANOplatforms, function(pr, key) {
+	   	    		if (myvxfprov.id === pr.id){
+	   	    			providersToPush.push(pr);
+	   	    		}
+		    		});
+		 	});
+			
+	   	 	myvxf.supportedMANOPlatforms=[];//clear everything
+			//now re add the categories to synchronize with local model
+			angular.forEach(providersToPush, function(cat, key) {
+				myvxf.supportedMANOPlatforms.push(cat);
+			});				
+			
+			
 			
 			$scope.vxf=myvxf;
 			
@@ -1151,12 +1188,8 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
    	 	
     };
 
-    var orderBy = $filter('orderBy');
-	$scope.categories = Category.query(function() {
-		$scope.categories = orderBy($scope.categories, 'name', false);
-		$scope.loadVxF($scope.categories);
-	}); 
-	
+    
+    
 	$scope.addExtension= function(vxf){
 		console.log('addExtension');
 		var e={};
