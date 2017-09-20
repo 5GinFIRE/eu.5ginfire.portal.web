@@ -16,7 +16,7 @@
 				<ul class="nav navbar-nav" >
 						<li ng-class="navClass('experiments_marketplace')" ><a href="#/experiments_marketplace">Experiments</a></li>
 						
-						<!-- li ng-show="loggedIn && ( (loggedinportaluser.role === 'ROLE_EXPERIMENTER')|| (loggedinportaluser.role === 'ROLE_PORTALADMIN') )" ng-class="navClass('vxf_marketplace')" ><a href="#/vxf_marketplace">VxFs</a></li -->
+						<!-- li ng-show="loggedIn && ( (loggedinportaluser.role === 'EXPERIMENTER')|| (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1) )" ng-class="navClass('vxf_marketplace')" ><a href="#/vxf_marketplace">VxFs</a></li -->
 						<li ng-class="navClass('vxf_marketplace')" ><a href="#/vxf_marketplace">VxFs</a></li>
 						
 						
@@ -29,28 +29,28 @@
 								</ul>
 						</li>
 							
-						<li ng-show="loggedIn && ( (loggedinportaluser.role === 'ROLE_EXPERIMENTER')|| (loggedinportaluser.role === 'ROLE_PORTALADMIN') || ( (loggedinportaluser.role === 'ROLE_VXF_DEVELOPER') )" class="dropdown"><a class="dropdown-toggle"
+						<li ng-show="loggedIn && ( (loggedinportaluser.role === 'EXPERIMENTER')|| (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1) || ( (loggedinportaluser.role === 'VXF_DEVELOPER') )" class="dropdown"><a class="dropdown-toggle"
 							href="" data-toggle="dropdown">Admin <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li ng-show="loggedinportaluser.role === 'ROLE_PORTALADMIN'" ><a href="#/users">System Users</a></li>
-								<li><a ng-show="( (loggedinportaluser.role === 'ROLE_EXPERIMENTER') || (loggedinportaluser.role === 'ROLE_PORTALADMIN')  )" href="#/experiments">Registered Experiments</a></li>
-								<li><a ng-show="( (loggedinportaluser.role === 'ROLE_EXPERIMENTER') || ( (loggedinportaluser.role === 'ROLE_VXF_DEVELOPER') )"href="#/vxfs">Registered VxFs</a></li>
-								<li><a ng-show="loggedinportaluser.role === 'ROLE_PORTALADMIN'" href="#/subscribed_resources">Registered Resources</a></li>
-								<li ng-show="loggedinportaluser.role === 'ROLE_PORTALADMIN'"><a href="#/deployments_admin">Deployed Experiments</a></li>
-								<li ng-show="loggedinportaluser.role === 'ROLE_PORTALADMIN'" class="divider"></li>
-								<li ng-show="loggedinportaluser.role === 'ROLE_PORTALADMIN'"><a href="#/categories">System Categories</a></li>		
-								<li ng-show="loggedinportaluser.role === 'ROLE_PORTALADMIN'"><a href="#/manoplatforms">System MANO Platforms</a></li>
-								<li ng-show="loggedinportaluser.role === 'ROLE_PORTALADMIN'"><a href="#/manoproviders">System MANO Providers</a></li>
-								<li ng-show="loggedinportaluser.role === 'ROLE_PORTALADMIN'" class="divider"></li>
-								<li ng-show="loggedinportaluser.role === 'ROLE_PORTALADMIN'"  ><a href="#/deployments">All pending requests</a></li>
-								<li ng-show="loggedinportaluser.role === 'ROLE_PORTALADMIN'"><a href="#">System info</a></li>
+								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1" ><a href="#/users">System Users</a></li>
+								<li><a ng-show="( (loggedinportaluser.roles.indexOf('EXPERIMENTER')>-1 ) || (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1)  )" href="#/experiments">Registered Experiments</a></li>
+								<li><a ng-show="( (loggedinportaluser.roles.indexOf('VXF_DEVELOPER')>-1 ) || (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1)  )" href="#/vxfs">Registered VxFs</a></li>
+								<li><a ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1" href="#/subscribed_resources">Registered Resources</a></li>
+								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1"><a href="#/deployments_admin">Deployed Experiments</a></li>
+								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1" class="divider"></li>
+								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1"><a href="#/categories">System Categories</a></li>		
+								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1"><a href="#/manoplatforms">System MANO Platforms</a></li>
+								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1"><a href="#/manoproviders">System MANO Providers</a></li>
+								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1" class="divider"></li>
+								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1"  ><a href="#/deployments">All pending requests</a></li>
+								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1"><a href="#">System info</a></li>
 							</ul></li>
 			
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li ng-show="!loggedIn"><a href="#/login" >Sign In</a></li>
 					<li ng-show="loggedIn" class="dropdown"><a href="" class="dropdown-toggle"
-						data-toggle="dropdown">{{loggedinportaluser.name}} ({{loggedinportaluser.role}}, id: {{loggedinportaluser.id}}) <span class="caret"></span></a>
+						data-toggle="dropdown">{{loggedinportaluser.name}} ({{loggedinportaluser.roles}}, id: {{loggedinportaluser.id}}) <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#portal_client">Portal Client</a></li>
 							<li class="divider"></li>

@@ -1550,7 +1550,7 @@ appControllers.controller('SignupCtrl', ['$scope', '$route', '$routeParams', '$l
                                          function( $scope, $route, $routeParams, $location, PortalUser, $anchorScroll, APIEndPointService, $http,formDataObject){
 	$scope.portaluser=new PortalUser();
     $scope.portaluser.active='false';
-    $scope.portaluser.role = 'ROLE_EXPERIMENTER';
+    $scope.portaluser.role = 'EXPERIMENTER';
     
     $scope.registerNewPortalUser=function(){
         	
