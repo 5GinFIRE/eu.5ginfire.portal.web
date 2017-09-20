@@ -29,7 +29,7 @@
 								</ul>
 						</li>
 							
-						<li ng-show="loggedIn && ( (loggedinportaluser.role === 'EXPERIMENTER')|| (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1) || ( (loggedinportaluser.role === 'VXF_DEVELOPER') )" class="dropdown"><a class="dropdown-toggle"
+						<li ng-show="loggedIn && ( ( loggedinportaluser.roles.indexOf('EXPERIMENTER')>-1) )|| (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1) || ( (loggedinportaluser.role === 'VXF_DEVELOPER') )" class="dropdown"><a class="dropdown-toggle"
 							href="" data-toggle="dropdown">Admin <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1" ><a href="#/users">System Users</a></li>
@@ -50,7 +50,7 @@
 				<ul class="nav navbar-nav navbar-right">
 					<li ng-show="!loggedIn"><a href="#/login" >Sign In</a></li>
 					<li ng-show="loggedIn" class="dropdown"><a href="" class="dropdown-toggle"
-						data-toggle="dropdown">{{loggedinportaluser.name}} ({{loggedinportaluser.roles}}, id: {{loggedinportaluser.id}}) <span class="caret"></span></a>
+						data-toggle="dropdown">{{loggedinportaluser.name}} ( <span ng-repeat="r in loggedinportaluser.roles">{{r}} {{$last ? '' : ', '}} </span> - id: {{loggedinportaluser.id}}) <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#portal_client">Portal Client</a></li>
 							<li class="divider"></li>

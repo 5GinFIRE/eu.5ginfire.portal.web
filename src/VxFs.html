@@ -26,12 +26,20 @@
 			                        Categories
 			                    </div>
 			                </th>
+			                
+							<th>
+			                    <div class="tr-ng-title">
+			                        Supported MANO platforms
+			                    </div>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<td nowrap="nowrap" >
-							<div ng-repeat="vxfcat in gridItem.categories">{{vxfcat.name}} </div>
+							<div ng-repeat="vxfcat in gridItem.categories">{{vxfcat.name}}  {{$last ? '' : ', '}}</div>
+							</td>
+							<td nowrap="nowrap" >
+							<div ng-repeat="vxfmanoprv in gridItem.supportedMANOPlatforms">{{vxfmanoprv.name}}  {{$last ? '' : ', '}}</div>
 							</td>
 							<td><a href="{{gridItem.packageLocation}}">Package</td>
 							<td nowrap="nowrap" >
@@ -39,6 +47,8 @@
 								<p><strong>UUID: {{gridItem.uuid}}</strong><br></p>
 								<p><strong>Version: {{gridItem.version}}</strong><br></p>
 								<p><strong>Packaging Format: {{gridItem.packagingFormat}}</strong><br></p>
+								<p><strong>Supported MANO Platforms: <span ng-repeat="vxfmanoprv in gridItem.supportedMANOPlatforms">{{vxfmanoprv.name}} {{$last ? '' : ', '}} </span> </strong><br></p>
+								
 								<p>Date created: <strong>{{gridItem.dateCreated| date:'medium'}}</strong></p>
 								<p>Last update: <strong>{{gridItem.dateUpdated | date:'medium' }}</strong></p>
 								<a class="btn btn-danger" ng-click="deleteVxF(gridItem, gridItem.id)"><i class="fa fa-trash-o "></i></a>
