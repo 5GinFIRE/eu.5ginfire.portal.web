@@ -5,7 +5,7 @@
 				<h1 id="headerTitle">Edit VxF</h1>
 				<h3>by user: {{vxf.owner.username}}</h3>
 
-				<form class="form-horizontal" name="form" role="form" ng-submit="submitUpdateVxF()" id="updateVxFForm">
+				<form class="form-horizontal" name="form" role="form" ng-submit="submitUpdateVxF(true)" id="updateVxFForm">
 					<div class="form-group">
 						<label for="vxf.name" class="col-sm-2 control-label">Name</label>
 						<div class="col-sm-10">
@@ -127,50 +127,37 @@
 						<div class="col-sm-10">							
 							<p class="help-block">Manage VNF on-boarding to target MANO providers</p>
 							
-								<button type="button" class="btn btn-primary" ng-click="addMANOprovider()">On-board to MANO provider</button>								
+								<button type="button" class="btn btn-primary" ng-click="onboardToMANOprovider()">On-board to MANO provider</button>							
 								<p></p>
 								<div class="col-sm-12" role="tabpanel">
 								  <!-- Nav tabs -->
 								  <ul class="nav nav-tabs" role="tablist" >
 								    <li ng-repeat="vobd in vxf.vxfOnBoardedDescriptors" role="presentation" ng-class="{'active': isActive(vobd) }">
-								    		<a data-target="{{vobd.deployId}}" aria-controls="{{vobd.deployId}}" role="tab" data-toggle="tab" ng-click="activateVOBD(vobd)" >On board ID:{{vobd.deployId}}</a></li>
+								    		<a data-target="{{vobd.deployId}}" aria-controls="{{vobd.deployId}}" role="tab" data-toggle="tab" ng-click="activateVOBD(vobd)" >On board ID:{{vobd.id}}</a></li>
 								   </ul>
 								
 								  <!-- Tab panes -->
 								  <div class="col-sm-12 tab-content"  >
-								    <div ng-repeat="vobd in vxf.vxfOnBoardedDescriptors" role="tabpanel"  ng-class="{'tab-pane':true, 'active': isActive(vobd) }" id="{{vobd.deployId}}">
+								    <div ng-repeat="vobd in vxf.vxfOnBoardedDescriptors" role="tabpanel"  ng-class="{'tab-pane':true, 'active': isActive(vobd) }" id="{{vobd.id}}">
 								    <p>Select MANO provider to on-board VxF {{vxf.name}}</p>
 								    
-								    <select ng-model="selectedMANOProvider" ng-options="sm.name for sm in selectedMANOProviders" ></select>
-								    
-								    <button type="button" class="btn btn-primary" ng-click="onBoardVxF(vobd, selectedMANOProvider)">On-Board VxF</button>
+								    <select ng-disabled="vobd.onBoardingStatus === 'ONBOARDED'" ng-model="selectedMANOProvider" ng-options="sm.name for sm in selectedMANOProviders" ></select>								    
+								    <button ng-disabled="vobd.onBoardingStatus === 'ONBOARDED'" type="button" class="btn btn-info" ng-click="onBoardVxF( vobd, selectedMANOProvider)">On-Board VxF</button>
+									<button ng-disabled="vobd.onBoardingStatus === 'ONBOARDED'" type="button" class="btn btn-warning" ng-click="deleteVxFOnBoardedDescriptor( vobd, selectedMANOProvider )">Delete</button>	
 								    
 								    
 								    <div ng-show="vobd.onBoardingStatus!=''" class="col-sm-12 deployArtifact shadowed" > 
 								    	<div class="col-sm-12"> 
-								    	<p> <b>{{vobd.onBoardingStatus}}</b>  ( {{vobd.deployId}} )  ( {{vobd.lastOnboarding | date:'medium' }} )  
-								    	<button type="button" class="btn btn-primary pull-right" ng-click="removeDeploymentArtifact(container, selectedVxF)">Remove</button>
+								    	<p> <b>Status: {{vobd.onBoardingStatus}} </b>  (target MANO provider: {{vobd.obMANOprovider.name}})
+								    	<br/> Deployment ID: {{vobd.deployId}} 
+								    	<br/> On-boarded at: {{vobd.lastOnboarding | date:'medium' }}  
+								    	<button  ng-disabled="vobd.onBoardingStatus != 'ONBOARDED'" type="button" class="btn btn-warning pull-right" ng-click="removeVxFFromMANO( vobd, vxf)">Off-board VxF from MANO</button>
 								    	 </p>
 								    	</div>
-									    <div class="col-sm-12 deployArtifactExtensions" ng-repeat="ext in da.extensions">
-									    	<div class="col-sm-2">	{{ext.name}} </div> 
-									    	<div class="col-sm-10">	 
-									    		<input type="text"  ng-model="ext.value"  /> 
-										    	
-										    	<button popover type="button" class="btn btn-info" data-toggle="popover" title="Value of parameter" data-html="true"
-										    	data-content="Type a <b>static value</b>, or use <pre>$containerID.value</pre> as a reference. For example <pre>$container0.IP</pre>"><i class="fa fa-question " ></i></button>
-										    		
-										    		
-									    	</div> 
-									    </div>
 								    
-								    
-								    </div>
-								  
-								  </div>
-								
-								</div>
-								
+								    </div>								  
+								  </div>								
+								</div>							
 								
 
 							</div>

@@ -1035,22 +1035,46 @@ appControllers.controller('VxFAddController', function($scope, $location,
 
 
 
-appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParams', '$location', 'AdminVxFMetadata', '$anchorScroll',
+appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParams', '$location', 'AdminVxFMetadata', '$anchorScroll', 'popupService',
                                                 '$http', 'formDataObject', 'cfpLoadingBar', 'Category', '$filter', 'APIEndPointService',
                                                 'AdminMANOprovider', 'VxFOnBoardedDescriptor', 'AdminMANOplatform',
-     function( $scope, $route, $routeParams, $location, AdminVxFMetadata, $anchorScroll, $http,formDataObject, cfpLoadingBar, 
+     function( $scope, $route, $routeParams, $location, AdminVxFMetadata, $anchorScroll, popupService,
+    		 $http,formDataObject, cfpLoadingBar, 
     		 Category, $filter,APIEndPointService, AdminMANOprovider, VxFOnBoardedDescriptor, AdminMANOplatform){
 
 	
-	var manoProviderId=0;
-	
-	$scope.addMANOprovider = function() {
-    	console.log('addMANOProviderId');
-    	manoProviderId = manoProviderId+1;
-    	var contnr = new VxFOnBoardedDescriptor(null, manoProviderId);
+	$scope.onboardToMANOprovider = function() {
+    	console.log('onboardToMANOprovider');
+    	var contnr = new VxFOnBoardedDescriptor();
     	$scope.vxf.vxfOnBoardedDescriptors.push(contnr);
-    	$scope.activevxfOnBoardedDescriptor = contnr;
+    	$scope.activevxfOnBoardedDescriptor = contnr;   
+    	$scope.submitUpdateVxF( false );  //save vxf with the new descriptor added 
 	};
+	
+	$scope.deleteVxFOnBoardedDescriptor = function( avxfOnBoardedDescriptor, selectedMANOProvider ) {
+
+    	console.log("VxFOnBoardedDescriptor from VxF" + avxfOnBoardedDescriptor.id + ", " + selectedMANOProvider.name);
+        if(popupService.showPopup('Really delete MANO on-boarding "'+ avxfOnBoardedDescriptor.id+'" ?')){    	
+		 	var dep=VxFOnBoardedDescriptor.get({id:avxfOnBoardedDescriptor.id}, function() {
+		 		
+			    
+				 	
+		        	dep.$delete(function(){
+	
+		        		console.log("DELETED avxfOnBoardedDescriptor.id "+ avxfOnBoardedDescriptor.id);
+		 			    $scope.vxf.vxfOnBoardedDescriptors.splice( $scope.vxf.vxfOnBoardedDescriptors.indexOf(avxfOnBoardedDescriptor), 1  );
+		 			   syncScreenData(  $scope.vxf, $scope.categories );
+		            }, function(error) {
+		            	$window.alert("Cannot delete: "+error.data);
+		            });
+		        
+		 	}); 
+        }
+    	  
+        //No need to save the VxF. With Delete the backend API model is updated
+    	//$scope.submitUpdateVxF( false );  //save vxf with the new descriptor added 
+	};
+	
 
 	$scope.isActive=function(c) {
         return $scope.activevxfOnBoardedDescriptor === c;
@@ -1075,32 +1099,28 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 	    	console.log("onBoardVxF" + avxfOnBoardedDescriptor.deployId + ", " + selectedMANOProvider.name);
 	        //var avobd = avxfOnBoardedDescriptor;
 	        //here we contact API and eventually do the onboarding
-	        avxfOnBoardedDescriptor.onBoardingStatus = 'SUCCESS';
-	        avxfOnBoardedDescriptor.lastOnboarding = 1505336789714;
+	        avxfOnBoardedDescriptor.onBoardingStatus = 'ONBOARDED';
+	        avxfOnBoardedDescriptor.lastOnboarding = new Date();
+	        avxfOnBoardedDescriptor.obMANOprovider = selectedMANOProvider;
 	        //sareturn avobd;
 	        
 	    };
 	    
-	 $scope.submitUpdateVxF = function submit() {
+	  $scope.removeVxFFromMANO = function( avxfOnBoardedDescriptor, vxf) {
+		  	if(popupService.showPopup('Really off-board '+vxf.name+' from MANO Provider"'+ avxfOnBoardedDescriptor.id+'" ?')){
+		        avxfOnBoardedDescriptor.onBoardingStatus = 'OFFBOARDED';
+		        avxfOnBoardedDescriptor.lastOnboarding = new Date();	        
+	        }
+	        
+	    };   
+	    
+	 $scope.submitUpdateVxF = function submit(closeWindow) {
 
 		 var catidsCommaSeparated = '';
 		 angular.forEach ( $scope.vxf.categories, function(categ, categkey) {
 			 catidsCommaSeparated = catidsCommaSeparated+categ.id+',';
 		 });
-		 
-//			var $rows = $TABLE.find('tr:not(:hidden)');
-//			$rows.each(function () {
-//			    var param = $(this).find("td").eq(0).html();
-//			    if (param){ //not undefined
-//			    	var val = $(this).find("td").eq(1).html();    
-//			    	
-//			    	var e={};
-//					e.name = param;
-//					e.value = val;			    	
-//			    	$scope.vxf.extensions.push(e);
-//			    }
-//			});
-		 
+		 		 
 			return $http({
 				method : 'PUT',
 				url : APIEndPointService.APIURL+'services/api/repo/admin/vxfs/'+$routeParams.id,
@@ -1114,8 +1134,17 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 					//file : $scope.file
 				},
 				transformRequest : formDataObject
-			}).success(function() {
-				$location.path("/vxfs");
+			}).success(function(data, status, headers, config) {			
+
+//		        console.log("data: " + data);
+		        $scope.vxf = JSON.parse(  JSON.stringify(data)  );
+		        
+				if (closeWindow){
+					$location.path("/vxfs");					
+				} else {
+			    	syncScreenData(  $scope.vxf, $scope.categories );
+			    	$scope.activevxfOnBoardedDescriptor = $scope.vxf.vxfOnBoardedDescriptors[ $scope.vxf.vxfOnBoardedDescriptors.length-1 ];
+				}
 			});
 		};
 		
@@ -1127,6 +1156,7 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 	}); 
 
 	
+	
 
     $scope.loadVxF=function(cats){
 
@@ -1136,59 +1166,55 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
     		
     	});	
         
-    	var myvxf = AdminVxFMetadata.get({id:$routeParams.id}, function() {
-
-    		//synch categories with local model
-    		var categoriesToPush=[];
-	   	 	angular.forEach(myvxf.categories, function(myvxfcateg, myvxfcategkey) {
-		    		
-		    		angular.forEach(cats, function(categ, key) {
-	   	    		if (myvxfcateg.id === categ.id){
-	   	    			categoriesToPush.push(categ);
-	   	    		}
-		    		});
-		 	});
-			
-	   	 	myvxf.categories=[];//clear everything
-			//now re add the categories to synchronize with local model
-			angular.forEach(categoriesToPush, function(cat, key) {
-				myvxf.categories.push(cat);
-			});	 			
-			
-
-    		//synch MANO providers with local model
-    		var providersToPush=[];
-	   	 	angular.forEach(myvxf.supportedMANOPlatforms, function(myvxfprov, myvxfcprovkey) {
-		    		
-		    		angular.forEach( $scope.MANOplatforms, function(pr, key) {
-	   	    		if (myvxfprov.id === pr.id){
-	   	    			providersToPush.push(pr);
-	   	    		}
-		    		});
-		 	});
-			
-	   	 	myvxf.supportedMANOPlatforms=[];//clear everything
-			//now re add the categories to synchronize with local model
-			angular.forEach(providersToPush, function(cat, key) {
-				myvxf.supportedMANOPlatforms.push(cat);
-			});				
-			
-			
-			
-			$scope.vxf=myvxf;
-			
-			manoProviderId = myvxf.vxfOnBoardedDescriptors.length - 1;
-			$scope.activevxfOnBoardedDescriptor = myvxf.vxfOnBoardedDescriptors[0];
-    		
-    	});     
-    		      
-   	 	//appl.category = $scope.categories[appl.category];
-        
-    	//$scope.app=ExperimentMetadata.get({id:$routeParams.id});        
-   	 	
+    	var avxf = AdminVxFMetadata.get({id:$routeParams.id}, function() {    		
+    		syncScreenData( avxf, cats );    		
+    	});         	 	
     };
 
     
+    var syncScreenData = function( myvxf, cats ){
+		//synch categories with local model
+		var categoriesToPush=[];
+   	 	angular.forEach(myvxf.categories, function(myvxfcateg, myvxfcategkey) {
+	    		
+	    		angular.forEach(cats, function(categ, key) {
+   	    		if (myvxfcateg.id === categ.id){
+   	    			categoriesToPush.push(categ);
+   	    		}
+	    		});
+	 	});
+		
+   	 	myvxf.categories=[];//clear everything
+		//now re add the categories to synchronize with local model
+		angular.forEach(categoriesToPush, function(cat, key) {
+			myvxf.categories.push(cat);
+		});	 			
+		
+
+		//synch MANO providers with local model
+		var providersToPush=[];
+   	 	angular.forEach(myvxf.supportedMANOPlatforms, function(myvxfprov, myvxfcprovkey) {
+	    		
+	    		angular.forEach( $scope.MANOplatforms, function(pr, key) {
+   	    		if (myvxfprov.id === pr.id){
+   	    			providersToPush.push(pr);
+   	    		}
+	    		});
+	 	});
+		
+   	 	myvxf.supportedMANOPlatforms=[];//clear everything
+		//now re add the categories to synchronize with local model
+		angular.forEach(providersToPush, function(cat, key) {
+			myvxf.supportedMANOPlatforms.push(cat);
+		});				
+		
+		
+		
+		$scope.vxf=myvxf;
+		
+		manoProviderId = myvxf.vxfOnBoardedDescriptors.length - 1;
+		$scope.activevxfOnBoardedDescriptor = myvxf.vxfOnBoardedDescriptors[0];
+	};
     
 	$scope.addExtension= function(vxf){
 		console.log('addExtension');

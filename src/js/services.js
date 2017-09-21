@@ -291,23 +291,17 @@ appServices.factory('AdminMANOprovider', function($resource, APIEndPointService)
 	});
 });
 
-appServices.factory('VxFOnBoardedDescriptor', function() {
-	
-	var vobd = function(id, did, avxf) {
-	       
-	    this.id = id;
-	     
-	    this.deployId = did;
-	    this.vxf = avxf;
-	 
-	    this.isObject = function(object) {
-	        return object instanceof Object;
-	    };
-	 
-	};
-	
-	return vobd;
-	
+
+appServices.factory('VxFOnBoardedDescriptor', function($resource, APIEndPointService) {
+	console.log(" =====> IN appServices.factory('VxFOnBoardedDescriptor' <=========");
+	return $resource(APIEndPointService.APIURL+"services/api/repo/admin/vxfobds/:id", 
+			{ id: '@id' }, {
+	    update: {
+	        method: 'PUT' // this method issues a PUT request
+      	
+	      }
+	});
 });
+
 
 
