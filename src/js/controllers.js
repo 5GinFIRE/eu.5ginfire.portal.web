@@ -1063,7 +1063,7 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 	
 		        		console.log("DELETED avxfOnBoardedDescriptor.id "+ avxfOnBoardedDescriptor.id);
 		 			    $scope.vxf.vxfOnBoardedDescriptors.splice( $scope.vxf.vxfOnBoardedDescriptors.indexOf(avxfOnBoardedDescriptor), 1  );
-		 			   syncScreenData(  $scope.vxf, $scope.categories );
+		 			    syncScreenData(  $scope.vxf, $scope.categories );
 		            }, function(error) {
 		            	$window.alert("Cannot delete: "+error.data);
 		            });
@@ -1099,9 +1099,36 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 	    	console.log("onBoardVxF" + avxfOnBoardedDescriptor.deployId + ", " + selectedMANOProvider.name);
 	        //var avobd = avxfOnBoardedDescriptor;
 	        //here we contact API and eventually do the onboarding
-	        avxfOnBoardedDescriptor.onBoardingStatus = 'ONBOARDED';
-	        avxfOnBoardedDescriptor.lastOnboarding = new Date();
+	        //avxfOnBoardedDescriptor.onBoardingStatus = 'ONBOARDED';
+	        //avxfOnBoardedDescriptor.lastOnboarding = new Date();
 	        avxfOnBoardedDescriptor.obMANOprovider = selectedMANOProvider;
+	        
+	        avxfOnBoardedDescriptor.onBoardingStatus = 'ONBOARDING';
+
+	        return $http({
+				method : 'PUT',
+				url : APIEndPointService.APIURL+'services/api/repo/admin/vxfobds/'+ avxfOnBoardedDescriptor.id +'/onboard',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+
+	            data: avxfOnBoardedDescriptor
+				
+	            
+			}).success(function(data, status, headers, config) {			
+
+		        var d = JSON.parse(  JSON.stringify(data)  );		        
+		        var vxfobdToSync = $scope.vxf.vxfOnBoardedDescriptors[ $scope.vxf.vxfOnBoardedDescriptors.indexOf(avxfOnBoardedDescriptor) ];
+		        vxfobdToSync.onBoardingStatus = d.onBoardingStatus;
+		        vxfobdToSync.lastOnboarding = d.lastOnboarding;
+		    	//$scope.activevxfOnBoardedDescriptor = $scope.vxf.vxfOnBoardedDescriptors.indexOf( d ) ;
+		        		
+		        
+			}).
+	        error(function (data, status, headers, config) {
+	            alert("failed! "+status);
+	        }); 	   
+	        
 	        //sareturn avobd;
 	        
 	    };

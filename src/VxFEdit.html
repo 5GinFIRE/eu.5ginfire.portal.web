@@ -144,6 +144,7 @@
 								    <select ng-disabled="vobd.onBoardingStatus === 'ONBOARDED'" ng-model="selectedMANOProvider" ng-options="sm.name for sm in selectedMANOProviders" ></select>								    
 								    <button ng-disabled="vobd.onBoardingStatus === 'ONBOARDED'" type="button" class="btn btn-info" ng-click="onBoardVxF( vobd, selectedMANOProvider)">On-Board VxF</button>
 									<button ng-disabled="vobd.onBoardingStatus === 'ONBOARDED'" type="button" class="btn btn-warning" ng-click="deleteVxFOnBoardedDescriptor( vobd, selectedMANOProvider )">Delete</button>	
+									<button ng-show="vobd.onBoardingStatus === 'ONBOARDING'" type="button" class="btn  pull-right" ><i class="fa fa-circle-o-notch fa-spin fa-fw" aria-hidden="true"></i></i>Waiting...</button>	
 								    
 								    
 								    <div ng-show="vobd.onBoardingStatus!=''" class="col-sm-12 deployArtifact shadowed" > 
