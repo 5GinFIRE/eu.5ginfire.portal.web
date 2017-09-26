@@ -1037,10 +1037,10 @@ appControllers.controller('VxFAddController', function($scope, $location,
 
 appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParams', '$location', 'AdminVxFMetadata', '$anchorScroll', 'popupService',
                                                 '$http', 'formDataObject', 'cfpLoadingBar', 'Category', '$filter', 'APIEndPointService',
-                                                'AdminMANOprovider', 'VxFOnBoardedDescriptor', 'AdminMANOplatform',
+                                                'AdminMANOprovider', 'VxFOnBoardedDescriptor', 'AdminMANOplatform', '$interval',
      function( $scope, $route, $routeParams, $location, AdminVxFMetadata, $anchorScroll, popupService,
     		 $http,formDataObject, cfpLoadingBar, 
-    		 Category, $filter,APIEndPointService, AdminMANOprovider, VxFOnBoardedDescriptor, AdminMANOplatform){
+    		 Category, $filter,APIEndPointService, AdminMANOprovider, VxFOnBoardedDescriptor, AdminMANOplatform, $interval){
 
 	
 	$scope.onboardToMANOprovider = function() {
@@ -1120,8 +1120,14 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 		        var d = JSON.parse(  JSON.stringify(data)  );		        
 		        var vxfobdToSync = $scope.vxf.vxfOnBoardedDescriptors[ $scope.vxf.vxfOnBoardedDescriptors.indexOf(avxfOnBoardedDescriptor) ];
 		        vxfobdToSync.onBoardingStatus = d.onBoardingStatus;
+		        vxfobdToSync.deployId = d.deployId;
 		        vxfobdToSync.lastOnboarding = d.lastOnboarding;
+		        vxfobdToSync.vxfMANOProviderID = d.vxfMANOProviderID;
 		    	//$scope.activevxfOnBoardedDescriptor = $scope.vxf.vxfOnBoardedDescriptors.indexOf( d ) ;
+		        
+		        $scope.checkOBVDStatus( vxfobdToSync );
+		        
+
 		        		
 		        
 			}).
@@ -1132,6 +1138,63 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 	        //sareturn avobd;
 	        
 	    };
+	    
+	 $scope.checkOBVDStatus = function( avxfOnBoardedDescriptor) {
+	        var interval=5000;
+	        var retry = 0;
+	        var i = $interval(function(){ //make an interval to check every 5sec the status of the VxF onboarding
+	  	      interval += 5000;
+	  	      try {
+	  	    	  var vobd = avxfOnBoardedDescriptor;
+	  	    	  console.log("CheckStatusOfOBVD vxfobdToSync " + vobd.id);
+	  	    		 
+	  	    	 if( vobd.onBoardingStatus === 'ONBOARDED' ){ //when window closes without login
+		  	    	  console.log("Will cancel CheckStatusOfOBVD vxfobdToSync for " + vobd.id);
+	  	      			$interval.cancel(i);
+	  	      		}
+	  	    	  
+	  	    	  retry = retry+1;
+	  	    	  if ( retry> 3){ 
+		  	    	  console.log("Will cancel max retries CheckStatusOfOBVD vxfobdToSync for " + vobd.id);
+	  	      			$interval.cancel(i);	  
+	  	    	  }
+	  	    	  
+	  	    	  //here make a get
+		  	        return $http({
+		  				method : 'GET',
+		  				url : APIEndPointService.APIURL+'services/api/repo/admin/vxfobds/'+ avxfOnBoardedDescriptor.id +'/status',
+		  				headers : {
+		  					'Content-Type' : 'application/json'
+		  				},
+	
+		  	            data: avxfOnBoardedDescriptor
+		  				
+		  	            
+		  			}).success(function(data, status, headers, config) {			
+	
+		  		        var d = JSON.parse(  JSON.stringify(data)  );		        
+		  		        var vxfobdToSync = $scope.vxf.vxfOnBoardedDescriptors[ $scope.vxf.vxfOnBoardedDescriptors.indexOf(avxfOnBoardedDescriptor) ];
+		  		        vxfobdToSync.onBoardingStatus = d.onBoardingStatus;
+		  		        vxfobdToSync.deployId = d.deployId;
+		  		        vxfobdToSync.lastOnboarding = d.lastOnboarding;
+		  		        vxfobdToSync.vxfMANOProviderID = d.vxfMANOProviderID;	
+		  		        		
+		  		        
+		  			}).
+		  	        error(function (data, status, headers, config) {
+		  	            alert("failed! "+status);
+		  	        });	  		        
+	  		        
+		  		  
+	  	    	 
+	  	    	  
+	  	      		
+	  	      } catch(e){
+	  	        console.error(e);
+	  	      }
+	  	    }, interval);
+	        		        
+	 };
 	    
 	  $scope.removeVxFFromMANO = function( avxfOnBoardedDescriptor, vxf) {
 		  	if(popupService.showPopup('Really off-board '+vxf.name+' from MANO Provider"'+ avxfOnBoardedDescriptor.id+'" ?')){
@@ -1242,6 +1305,10 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 		manoProviderId = myvxf.vxfOnBoardedDescriptors.length - 1;
 		$scope.activevxfOnBoardedDescriptor = myvxf.vxfOnBoardedDescriptors[0];
 	};
+	
+	
+	
+	
     
 	$scope.addExtension= function(vxf){
 		console.log('addExtension');
