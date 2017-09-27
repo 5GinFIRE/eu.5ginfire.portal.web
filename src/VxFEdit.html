@@ -149,8 +149,8 @@
 								    <p>Select MANO provider to on-board VxF {{vxf.name}}</p>
 								    
 								    <select ng-disabled="vobd.onBoardingStatus === 'ONBOARDED' || vobd.onBoardingStatus === 'ONBOARDING' " ng-model="vobd.obMANOprovider" ng-options="sm.name for sm in selectedMANOProviders" ></select>								    
-								    <button ng-disabled="vobd.onBoardingStatus === 'ONBOARDED' || vobd.onBoardingStatus === 'ONBOARDING' " type="button" class="btn btn-info" ng-click="onBoardVxF( vobd, selectedMANOProvider)">On-Board VxF</button>
-									<button ng-disabled="vobd.onBoardingStatus === 'ONBOARDED' || vobd.onBoardingStatus === 'ONBOARDING' " type="button" class="btn btn-warning" ng-click="deleteVxFOnBoardedDescriptor( vobd, selectedMANOProvider )">Delete</button>	
+								    <button ng-disabled="vobd.onBoardingStatus === 'ONBOARDED' || vobd.onBoardingStatus === 'ONBOARDING' " type="button" class="btn btn-info" ng-click="onBoardVxF( vobd, vobd.obMANOprovider)">On-Board VxF</button>
+									<button ng-disabled="vobd.onBoardingStatus === 'ONBOARDED' || vobd.onBoardingStatus === 'ONBOARDING' " type="button" class="btn btn-warning" ng-click="deleteVxFOnBoardedDescriptor( vobd )">Delete</button>	
 									<button ng-show="vobd.onBoardingStatus === 'ONBOARDING'" type="button" class="btn  pull-right" ><i class="fa fa-spinner fa-spin fa-fw " aria-hidden="true"></i></i>Waiting...</button>	
 								    
 								    
