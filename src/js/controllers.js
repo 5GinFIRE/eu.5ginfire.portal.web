@@ -1281,7 +1281,7 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 		});	 			
 		
 
-		//synch MANO providers with local model
+		//synch MANO platforms with local model
 		var providersToPush=[];
    	 	angular.forEach(myvxf.supportedMANOPlatforms, function(myvxfprov, myvxfcprovkey) {
 	    		
@@ -1304,6 +1304,19 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 		
 		manoProviderId = myvxf.vxfOnBoardedDescriptors.length - 1;
 		$scope.activevxfOnBoardedDescriptor = myvxf.vxfOnBoardedDescriptors[0];
+		
+		//sync with local model
+		angular.forEach(myvxf.vxfOnBoardedDescriptors, function(myvxobd, myvxfobdkey) {
+			angular.forEach( $scope.selectedMANOProviders, function(pr, key) {
+	  	    	
+   	    		if (myvxobd.obMANOprovider.id === pr.id){
+   	    			myvxobd.obMANOprovider = pr;
+   	    		}
+	    	});
+			
+		});
+		
+		
 	};
 	
 	
