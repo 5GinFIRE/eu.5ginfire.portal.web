@@ -148,10 +148,10 @@
 								    <div ng-repeat="vobd in vxf.vxfOnBoardedDescriptors" role="tabpanel"  ng-class="{'tab-pane':true, 'active': isActive(vobd) }" id="{{vobd.id}}">
 								    <p>Select MANO provider to on-board VxF {{vxf.name}}</p>
 								    
-								    <select ng-disabled="vobd.onBoardingStatus === 'ONBOARDED'" ng-model="vobd.obMANOprovider" ng-options="sm.name for sm in selectedMANOProviders" ></select>								    
-								    <button ng-disabled="vobd.onBoardingStatus === 'ONBOARDED'" type="button" class="btn btn-info" ng-click="onBoardVxF( vobd, selectedMANOProvider)">On-Board VxF</button>
-									<button ng-disabled="vobd.onBoardingStatus === 'ONBOARDED'" type="button" class="btn btn-warning" ng-click="deleteVxFOnBoardedDescriptor( vobd, selectedMANOProvider )">Delete</button>	
-									<button ng-show="vobd.onBoardingStatus === 'ONBOARDING'" type="button" class="btn  pull-right" ><i class="fa fa-circle-o-notch fa-spin fa-fw" aria-hidden="true"></i></i>Waiting...</button>	
+								    <select ng-disabled="vobd.onBoardingStatus === 'ONBOARDED' || vobd.onBoardingStatus === 'ONBOARDING' " ng-model="vobd.obMANOprovider" ng-options="sm.name for sm in selectedMANOProviders" ></select>								    
+								    <button ng-disabled="vobd.onBoardingStatus === 'ONBOARDED' || vobd.onBoardingStatus === 'ONBOARDING' " type="button" class="btn btn-info" ng-click="onBoardVxF( vobd, selectedMANOProvider)">On-Board VxF</button>
+									<button ng-disabled="vobd.onBoardingStatus === 'ONBOARDED' || vobd.onBoardingStatus === 'ONBOARDING' " type="button" class="btn btn-warning" ng-click="deleteVxFOnBoardedDescriptor( vobd, selectedMANOProvider )">Delete</button>	
+									<button ng-show="vobd.onBoardingStatus === 'ONBOARDING'" type="button" class="btn  pull-right" ><i class="fa fa-spinner fa-spin fa-fw " aria-hidden="true"></i></i>Waiting...</button>	
 								    
 								    
 								    <div ng-show="vobd.onBoardingStatus!=''" class="col-sm-12 deployArtifact shadowed" > 
