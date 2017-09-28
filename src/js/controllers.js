@@ -1388,7 +1388,26 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 
 appControllers.controller('VxFViewController', ['$scope', '$route', '$routeParams', '$location', 'VxFMetadata',
                                                  function( $scope, $route, $routeParams, $location, VxFMetadata ){
-    $scope.vxf=VxFMetadata.get({id:$routeParams.id});
+    $scope.vxf=VxFMetadata.get({id:$routeParams.id}, function() {    		
+    	
+    	  $scope.tabs = [
+    		    { id:0, title:'Description', content:$scope.vxf.longDescription },
+    		    { id:1, title:'Terms of use', content:$scope.vxf.termsOfUse }
+    		  ];
+    	  
+    	  $scope.tab = $scope.tabs[0];
+    	
+    	
+	});         
+    
+    $scope.isActive=function(c) {
+        return $scope.tab === c;
+    };
+    
+    
+	 $scope.activate =function(c) {
+	        return $scope.tab = c;
+	    }
 
 }]);
 

@@ -24,8 +24,29 @@
 				<p>Supported MANO Platforms: <strong><span ng-repeat="supmanoplatf in vxf.supportedMANOPlatforms">{{supmanoplatf.name}} </span></strong></p>
 				<p>Onboarded to MANO providers: <span ng-repeat="vobd in vxf.vxfOnBoardedDescriptors"> <span class="label label-primary"> {{vobd.obMANOprovider.name}} </span> &nbsp;  </span></p>
 				
-				<p>Description:</p>
-				<p>{{vxf.longDescription}}</p>
+				<div class="col-sm-12" role="tabpanel">
+				
+				<!-- Nav tabs -->
+					<!-- Nav tabs -->
+				  <ul class="nav nav-tabs" role="tablist" >
+				    <li ng-repeat="tab in tabs" role="presentation" ng-class="{'active': isActive(tab) }">
+				    	<a data-target="{{tab.id}}" aria-controls="{{tab.id}}" role="tab" data-toggle="tab" ng-click="activate(tab)" >{{tab.title}}</a></li>
+				   </ul>
+					
+					  <!-- Tab panes -->
+				  <div class="col-sm-12 tab-content"  >
+				    <div ng-repeat="tab in tabs" role="tabpanel"  ng-class="{'tab-pane':true, 'active': isActive(tab) }" id="{{tab.id}}">
+				    <pre >{{tab.content}}</pre>
+				    
+											  
+				  </div>								
+				</div>		
+					
+				</div>
+				
+
+
+		
 
 			</div>
 		</div>
