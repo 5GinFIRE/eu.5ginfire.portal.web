@@ -434,10 +434,10 @@ appControllers.controller('AppAddController', function($scope, $location,
             		files: $scope.files }
 			
             
-		}).success(function(data, status, headers, config) {
+		}).then(function(response) {
 			$location.path("/experiments");
-		}).
-        error(function (data, status, headers, config) {
+		}),
+        error(function (response) {
             alert("failed!");
         });
 	};
@@ -467,7 +467,7 @@ appControllers.controller('AppAddController', function($scope, $location,
 				//file : $scope.file
 			},
 			transformRequest : formDataObject
-		}).success(function() {
+		}).then(function() {
 			$location.path("/experiments");
 		});
 	};
@@ -667,10 +667,10 @@ appControllers.controller('AppEditController', ['$scope', '$route', '$routeParam
 	            data: { 
             		app: $scope.app, 
             		files: $scope.files }
-			}).success(function(data, status, headers, config) {
+			}).then(function(response) {
 				$location.path("/experiments");
 			}).
-	        error(function (data, status, headers, config) {
+	        error(function (response) {
 	            alert("failed!");
 	        });
 		};
@@ -1026,7 +1026,7 @@ appControllers.controller('VxFAddController', function($scope, $location,
 				//file : $scope.file
 			},
 			transformRequest : formDataObject
-		}).success(function() {
+		}).then(function( response ) {
 			$location.path("/vxfs");
 		});
 	};
@@ -1115,9 +1115,10 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 	            data: avxfOnBoardedDescriptor
 				
 	            
-			}).success(function(data, status, headers, config) {			
+			}).then(function successCallback( response ) {			
 
-		        var d = JSON.parse(  JSON.stringify(data)  );		        
+		        console.log("onBoardVxF successCallback");
+		        var d = JSON.parse(  JSON.stringify( response.data )  );		        
 		        var vxfobdToSync = $scope.vxf.vxfOnBoardedDescriptors[ $scope.vxf.vxfOnBoardedDescriptors.indexOf(avxfOnBoardedDescriptor) ];
 		        vxfobdToSync.onBoardingStatus = d.onBoardingStatus;
 		        vxfobdToSync.deployId = d.deployId;
@@ -1130,10 +1131,10 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 
 		        		
 		        
-			}).
-	        error(function (data, status, headers, config) {
+			}),
+	        function error (data, status, headers, config) {
 	            alert("failed! "+status);
-	        }); 	   
+	        }; 	  	   
 	        
 	        //sareturn avobd;
 	        
@@ -1170,9 +1171,10 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 		  	            data: avxfOnBoardedDescriptor
 		  				
 		  	            
-		  			}).success(function(data, status, headers, config) {			
-	
-		  		        var d = JSON.parse(  JSON.stringify(data)  );		        
+		  			}).then(function successCallback( response ) {			
+
+				        console.log("checkOBVDStatus successCallback");
+		  		        var d = JSON.parse(  JSON.stringify( response.data)  );		        
 		  		        var vxfobdToSync = $scope.vxf.vxfOnBoardedDescriptors[ $scope.vxf.vxfOnBoardedDescriptors.indexOf(avxfOnBoardedDescriptor) ];
 		  		        vxfobdToSync.onBoardingStatus = d.onBoardingStatus;
 		  		        vxfobdToSync.deployId = d.deployId;
@@ -1180,10 +1182,10 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 		  		        vxfobdToSync.vxfMANOProviderID = d.vxfMANOProviderID;	
 		  		        		
 		  		        
-		  			}).
-		  	        error(function (data, status, headers, config) {
-		  	            alert("failed! "+status);
-		  	        });	  		        
+		  			}),
+			        function error ( response ) {
+			            alert("failed! "+ response.status);
+			        }; 	 		        
 	  		        
 		  		  
 	  	    	 
@@ -1218,9 +1220,10 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 		            data: avxfOnBoardedDescriptor
 					
 		            
-				}).success(function(data, status, headers, config) {			
+				}).then(function successCallback(response) {			
+			        console.log("removeVxFFromMANO successCallback");
 
-			        var d = JSON.parse(  JSON.stringify(data)  );		        
+			        var d = JSON.parse(  JSON.stringify(response.data)  );		        
 			        var vxfobdToSync = $scope.vxf.vxfOnBoardedDescriptors[ $scope.vxf.vxfOnBoardedDescriptors.indexOf(avxfOnBoardedDescriptor) ];
 			        vxfobdToSync.onBoardingStatus = d.onBoardingStatus;
 			        vxfobdToSync.deployId = d.deployId;
@@ -1233,10 +1236,10 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 
 			        		
 			        
-				}).
-		        error(function (data, status, headers, config) {
-		            alert("failed! "+status);
-		        }); 	   
+				}),
+		        function error (response) {
+		            alert("failed! "+response.status);
+		        }; 	   
 		        
 	        }
 	        
@@ -1262,10 +1265,10 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 					//file : $scope.file
 				},
 				transformRequest : formDataObject
-			}).success(function(data, status, headers, config) {			
+			}).then(function(response) {			
 
 //		        console.log("data: " + data);
-		        $scope.vxf = JSON.parse(  JSON.stringify(data)  );
+		        $scope.vxf = JSON.parse(  JSON.stringify(response.data)  );
 		        
 				if (closeWindow){
 					$location.path("/vxfs");					
@@ -1776,7 +1779,7 @@ appControllers.controller('SignupCtrl', ['$scope', '$route', '$routeParams', '$l
     				emailmessage: msg,
     			},
     			transformRequest : formDataObject
-    		}).success(function() {
+    		}).then(function( response ) {
     			alert("A confirmation email has been sent in order to activate your account.");
     			$location.path("/");
     		}).

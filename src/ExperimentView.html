@@ -13,7 +13,7 @@
 				<h1 id="headerTitle">{{app.name}} </h1>
 				<p><span ng-repeat="appcat in app.categories"><span class="label label-info">{{appcat.name}}</span>&nbsp;&nbsp;</span></p>
 				<br/>
-				<a class="btn btn-success btn-lg" data-toggle="modal" ng-href="#/create_app_deployment/{{app.id}}"> <i class="fa fa-cloud-upload fa-2x pull-left"></i><b>&nbsp;&nbsp;&nbsp;&nbsp;Deploy&nbsp;&nbsp;&nbsp;&nbsp;</b><br><small>Version: {{app.version}}</small></a>
+				<a class="btn btn-success btn-lg" data-toggle="modal" ng-href="#!/create_app_deployment/{{app.id}}"> <i class="fa fa-cloud-upload fa-2x pull-left"></i><b>&nbsp;&nbsp;&nbsp;&nbsp;Deploy&nbsp;&nbsp;&nbsp;&nbsp;</b><br><small>Version: {{app.version}}</small></a>
 				<h3>{{app.shortDescription}}</h3>
 				<p>Author: <strong>{{app.owner.username}}</strong></p>
 				<p>Organization: <strong>{{app.owner.organization}}</strong></p>
