@@ -38,16 +38,16 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 		controller : 'SubscribedResourceEditController'
 	}).when('/experiments', {
 		templateUrl : 'Experiments.html',
-		controller : 'AppListController'
+		controller : 'ExperimentListController'
 	}).when('/experiment_add', {
 		templateUrl : 'ExperimentAdd.html',
-		controller : 'AppAddController'
+		controller : 'ExperimentAddController'
 	}).when('/experiment_edit/:id', {
 		templateUrl : 'ExperimentEdit.html',
-		controller : 'AppEditController'
+		controller : 'ExperimentEditController'
 	}).when('/experiment_view/:id', {
 		templateUrl : 'ExperimentView.html',
-		controller : 'AppViewController'
+		controller : 'ExperimentViewController'
 	}).when('/categories', {
 		templateUrl : 'Categories.html',
 		controller : 'CategoriesListController'

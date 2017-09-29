@@ -22,11 +22,9 @@
 						
 						<li ng-show="loggedIn" class="dropdown">
 							<a class="dropdown-toggle"	href="" data-toggle="dropdown">Deployments <span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-							<!-- li ng-class="navClass('fiware_instances')" ><a href="#!/fiware_instances">FIWARE Instances</a></li -->
-							<li ng-class="navClass('deployments')" ><a href="#!/mydeployments">Deployed Experiments</a></li>
-							<li><a href="#!/subscribed_resources">Registered Resources</a></li>
-								</ul>
+							<ul class="dropdown-menu" role="menu">								
+								<li ng-class="navClass('deployments')" ><a href="#!/mydeployments">Deployed Experiments</a></li>
+							</ul>
 						</li>
 							
 						<li ng-show="loggedIn && ( ( loggedinportaluser.roles.indexOf('EXPERIMENTER')>-1) )|| (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1) || ( (loggedinportaluser.role === 'VXF_DEVELOPER') )" class="dropdown"><a class="dropdown-toggle"

@@ -241,7 +241,7 @@ appControllers.controller('SubscribedResourceEditController', ['$scope', '$route
 //experiments controller
 
 
-appControllers.controller('AppListController', ['$scope','$window','$log', 'AdminExperimentMetadata', 'popupService','ngDialog',
+appControllers.controller('ExperimentListController', ['$scope','$window','$log', 'AdminExperimentMetadata', 'popupService','ngDialog',
                                              	function($scope, $window, $log, AdminExperimentMetadata, popupService, ngDialog ) {
                  	
                  	
@@ -273,181 +273,48 @@ appControllers.controller('AppListController', ['$scope','$window','$log', 'Admi
                  	 
 }]);
 
-appControllers.controller('AppAddController', function($scope, $location,
-		AdminExperimentMetadata, PortalUser, $rootScope, $http,formDataObject, Category,$filter,APIEndPointService, Container, DeployArtifact, VxFMetadata) {
+appControllers.controller('ExperimentAddController', function($scope, $location,
+		AdminExperimentMetadata, PortalUser, $rootScope, $http,formDataObject, Category,$filter,APIEndPointService, Container, DeployArtifact, ExperimentMetadata) {
 
 	
-	$scope.app = new AdminExperimentMetadata();
-	$scope.app.owner = $rootScope.loggedinportaluser;//PortalUser.get({id:$rootScope.loggedinportaluser.id});
+	$scope.exprm = new AdminExperimentMetadata();
+	$scope.exprm.owner = $rootScope.loggedinportaluser;//PortalUser.get({id:$rootScope.loggedinportaluser.id});
+	$scope.exprm.extensions=[];
 
-	$scope.app.containers=[];//clear everything
-	
-	var contnrId=0;
-	
-	var contnr = new Container(contnrId, 'Container'+contnrId);
-	$scope.app.containers.push(contnr);
-	$scope.activeContainer = contnr;
-	
-    $scope.addContainer = function() {
-    	console.log('addContainer');
-    	contnrId = contnrId+1;
-    	var contnr = new Container(null, 'Container'+contnrId);
-    	$scope.app.containers.push(contnr);
-	};
-	
-
-	$scope.removeContainer = function(container){
-		$scope.app.containers.splice( $scope.app.containers.indexOf(container) ,1);
-		$scope.activeContainer = $scope.app.containers[0];
-	}
-	
-	$scope.removeDeploymentArtifact= function(container, selectedVxF) {
-
-		container.ss.splice( container.deployArtifacts.indexOf(selectedVxF) ,1);
-		
-	}
-	
-	$scope.isActive=function(c) {
-        return $scope.activeContainer === c;
-    };
-    
-    
-    $scope.activateContainer =function(c) {
-        return $scope.activeContainer = c;
-    };
-    
 
 	var orderBy = $filter('orderBy');
-    $scope.vxfs = VxFMetadata.query(function() {
-		    $scope.vxfsTotalNumber = $scope.vxfs.length;
-		    $scope.vxfs = orderBy($scope.vxfs, 'name', false);
-		    $scope.selectedVxF = $scope.vxfs[0]; 
-	}); 
-    
-    
-    
-    $scope.addDeploymentArtifact= function(container, selectedVxF) {
-
-        var da =new DeployArtifact( null, selectedVxF.uuid, 
-        		selectedVxF.name , 
-        		'uuid/'+selectedVxF.uuid, 
-        		selectedVxF.packageLocation, 
-        		selectedVxF.extensions);
-        container.deployArtifacts.push(da);
-        return da;
-        
-    };
-    
-    
 	$scope.categories = Category.query(function() {
 		$scope.categories = orderBy($scope.categories, 'name', false);
 		
 	}); 
 	
-	
-	//an array of files selected
-    $scope.files = [];
-    $scope.screenshotimages = [];
-    $scope.image = "";
     
-   //listen for the file selected event
-    
-
-    $scope.$on("fileSelectedClearPrevious", function (event, args) {
-    	$scope.files = [];
-        $scope.screenshotimages = [];
-    });
-    
-    $scope.$on("fileSelected", function (event, args) {
-        $scope.$apply(function () {            
-            //add the file object to the scope's files collection
-            $scope.files.push(args.file);
-            
-            var reader = new FileReader();
-            
-        	reader.onload = function (e) {
-        		var mdl = {
-        				file: args.file,
-        				img: e.target.result
-        		}
-        		
-        		$scope.screenshotimages.push( mdl ); 
-        	    $scope.image = mdl.img;//trick to load the image
-                $scope.$apply();
-                
-            }
-        	
-            reader.readAsDataURL(args.file);
-            
-            
-        });
-    });
-	
-	
-	$scope.addApp = function() {
-		$scope.app.$save(function() {
+	$scope.addExperiment = function() {
+		$scope.exprm.$save(function() {
 			$location.path("/experiments");
 		});
 	}
 	
-	$scope.submitNewApp = function submit() {
-		
-		var catidsCommaSeparated = '';
-		 angular.forEach ( $scope.app.categories, function(categ, categkey) {
-			 catidsCommaSeparated = catidsCommaSeparated+categ.id+',';
-		 });
-		 
-		return $http({
-			method : 'POST',
-			url : APIEndPointService.APIURL+'services/api/repo/admin/experiments/',
-			headers : {
-				'Content-Type' : undefined
-			},
-
-            //This method will allow us to change how the data is sent up to the server
-            // for which we'll need to encapsulate the model data in 'FormData'
-
-			transformRequest: function (data) {
-                var formData = new FormData();
-                //need to convert our json object to a string version of json otherwise
-                // the browser will do a 'toString()' on the object which will result 
-                // in the value '[Object object]' on the server.
-                //formData.append("app", angular.toJson(data.app));
-                formData.append("application",  angular.toJson( data.app, false) );
-                //formData.append("prodname", $scope.app.name);
-                //formData.append("shortDescription", $scope.app.shortDescription);
-                //formData.append("longDescription", $scope.app.longDescription);
-                //formData.append("version", $scope.app.version);
-                formData.append("prodIcon", $scope.uploadedAppIcon);
-                //formData.append("categories", catidsCommaSeparated);
-                //now add all of the assigned files
-                for (var i = 0; i < data.files.length; i++) {
-                	formData.append("screenshots", data.files[i]);
-                }
-                
-                return formData;
-            },
-            //Create an object that contains the model and files which will be transformed
-            // in the above transformRequest method
-            data: { 
-            		app: $scope.app, 
-            		files: $scope.files }
-			
-            
-		}).then(function(response) {
-			$location.path("/experiments");
-		}),
-        error(function (response) {
-            alert("failed!");
-        });
+	
+	$scope.addExtension= function(vxf){
+		console.log('addExtension');
+		var e={};
+		e.name = 'param';
+		e.value = 'val';
+    	
+    	$scope.exprm.extensions.push(e);
+	}
+	
+	$scope.removeRow = function(ext) {
+		$scope.exprm.extensions.splice( $scope.exprm.extensions.indexOf(ext) ,1);
 	};
 	
 	
-
-	$scope.submitNewAppOLD = function submit() {
+	
+	$scope.submitNewExperiment = function submit() {
 		
 		var catidsCommaSeparated = '';
-		 angular.forEach ( $scope.app.categories, function(categ, categkey) {
+		 angular.forEach ( $scope.exprm.categories, function(categ, categkey) {
 			 catidsCommaSeparated = catidsCommaSeparated+categ.id+',';
 		 });
 		 
@@ -457,20 +324,32 @@ appControllers.controller('AppAddController', function($scope, $location,
 			headers : {
 				'Content-Type' : 'multipart/form-data'
 			},
-			data : {
-				prodname: $scope.app.name,
-				shortDescription: $scope.app.shortDescription,
-				longDescription: $scope.app.longDescription,
-				version: $scope.app.version,
-				prodIcon: $scope.app.uploadedAppIcon,
-				categories: catidsCommaSeparated,
-				//file : $scope.file
-			},
-			transformRequest : formDataObject
-		}).then(function() {
+            //This method will allow us to change how the data is sent up to the server
+            // for which we'll need to encapsulate the model data in 'FormData'
+			transformRequest: formDataObject,
+            //Create an object that contains the model and files which will be transformed
+            // in the above transformRequest method
+            data: { 
+            		exprm: angular.toJson( $scope.exprm, false), 
+            		prodIcon: $scope.uploadedExperimentIcon,
+            		prodFile: $scope.uploadedExperimentFile
+            		}
+			
+            
+		}).then(function(response) {
 			$location.path("/experiments");
-		});
+		}),
+        function error ( response ) {
+            alert("failed! "+ response.status);
+        }; 	
+
 	};
+	
+	
+    
+	
+	
+
 
 });
 
@@ -565,199 +444,338 @@ appControllers.directive('fileUpload', function () {
     };
 });
 
-appControllers.controller('AppEditController', ['$scope', '$route', '$routeParams', '$location', 
-                                                'AdminExperimentMetadata', '$anchorScroll','$http', 'formDataObject', 'cfpLoadingBar', 'Category', '$filter', 'APIEndPointService', 'VxFMetadata', 'Container', 'DeployArtifact',
+appControllers.controller('ExperimentEditController', ['$scope', '$route', '$routeParams', '$location', 
+                                                'AdminExperimentMetadata', '$anchorScroll','$http', 'formDataObject', 'cfpLoadingBar', 'Category', '$filter', 'APIEndPointService', 
+                                                'AdminMANOprovider', 'VxFOnBoardedDescriptor', 'AdminMANOplatform', '$interval',
      function( $scope, $route, $routeParams, $location, AdminExperimentMetadata, $anchorScroll,
-    		 $http,formDataObject, cfpLoadingBar, Category, $filter, APIEndPointService, VxFMetadata, Container, DeployArtifact){
+    		 $http,formDataObject, cfpLoadingBar, Category, $filter, APIEndPointService, AdminMANOprovider, ExperimentOnBoardDescriptor, AdminMANOplatform, $interval ){
 	
 	
-
-	var contnrId=0;
-	
-	$scope.addContainer = function() {
-    	console.log('addContainer');
-    	contnrId = contnrId+1;
-    	var contnr = new Container(null, 'Container'+contnrId);
-    	$scope.app.containers.push(contnr);
+    
+	$scope.onboardToMANOprovider = function() {
+    	console.log('onboardToMANOprovider');
+    	var contnr = new ExperimentOnBoardDescriptor();
+    	$scope.exprm.experimentOnBoardDescriptors.push(contnr);
+    	$scope.activeExperimentOnBoardDescriptor = contnr;   
+    	$scope.submitUpdateExperiment( false );  //save Experiment with the new descriptor added 
 	};
 	
-	$scope.removeContainer = function(container){
-		$scope.app.containers.splice( $scope.app.containers.indexOf(container) ,1);
-		
-	}
-	
-	$scope.removeDeploymentArtifact= function(container, selectedVxF) {
+	$scope.deleteExperimentOnBoardDescriptor = function( eOnBoardDescriptor ) {
 
-		container.deployArtifacts.splice( container.deployArtifacts.indexOf(selectedVxF) ,1);
-		
-	}
+    	console.log("ExperimentOnBoardDescriptor from Experiment" + eOnBoardDescriptor.id );
+        if(popupService.showPopup('Really delete MANO on-boarding "'+ eOnBoardDescriptor.id+'" ?')){    	
+		 	var dep=VxFOnBoardedDescriptor.get({id:eOnBoardDescriptor.id}, function() {
+		 		
+			    
+				 	
+		        	dep.$delete(function(){
 	
+		        		console.log("DELETED eOnBoardDescriptor.id "+ eOnBoardDescriptor.id);
+		 			    $scope.exprm.experimentOnBoardDescriptors.splice( $scope.exprm.experimentOnBoardDescriptors.indexOf(eOnBoardDescriptor), 1  );
+		 			    syncScreenData(  $scope.exprm, $scope.categories );
+		            }, function(error) {
+		            	$window.alert("Cannot delete: "+error.data);
+		            });
+		        
+		 	}); 
+        }
+    	  
+        //No need to save the experiment. With Delete the backend API model is updated
+    	//$scope.submitUpdateExperiment( false );  //save experiment with the new descriptor added 
+	};
+	
+
 	$scope.isActive=function(c) {
-        return $scope.activeContainer === c;
+        return $scope.activeExperimentOnBoardDescriptor === c;
     };
     
     
-    $scope.activateContainer =function(c) {
-        return $scope.activeContainer = c;
-    };
-    
-    
-    $scope.vxfs = VxFMetadata.query(function() {
-		    $scope.vxfsTotalNumber = $scope.vxfs.length;
-		    $scope.vxfs = orderBy($scope.vxfs, 'name', false);
-		    $scope.selectedVxF = $scope.vxfs[0]; 
-	}); 
-    
-    
-    
-    $scope.addDeploymentArtifact= function(container, selectedVxF) {
+	 $scope.activateVOBD =function(c) {
+	        return $scope.activeExperimentOnBoardDescriptor = c;
+	    };
+	    	    
 
-        var da =new DeployArtifact( null, selectedVxF.uuid, 
-        		selectedVxF.name , 
-        		'uuid/'+selectedVxF.uuid, 
-        		selectedVxF.packageLocation, 
-        		selectedVxF.extensions);
-        container.deployArtifacts.push(da);
-        return da;
-        
-    };
+	    
+	$scope.selectedMANOProviders = AdminMANOprovider.query(function() {
+		    $scope.mpTotalNumber = $scope.selectedMANOProviders.length;
+		    $scope.MANOProviders = orderBy($scope.selectedMANOProviders, 'name', false);
+		     
+	});
+	
+	
+	  $scope.onBoardExperiment = function( eOnBoardedDescriptor, selMANOProvider) {
 
+	    	console.log("onBoardVxF" + eOnBoardedDescriptor.deployId + ", " + selMANOProvider.name);
+	        //var avobd = eOnBoardedDescriptor;
+	        //here we contact API and eventually do the onboarding
+	        //eOnBoardedDescriptor.onBoardingStatus = 'ONBOARDED';
+	        //eOnBoardedDescriptor.lastOnboarding = new Date();
+	    	eOnBoardedDescriptor.obMANOprovider = selMANOProvider;
+	        
+	    	eOnBoardedDescriptor.onBoardingStatus = 'ONBOARDING';
+
+	        return $http({
+				method : 'PUT',
+				url : APIEndPointService.APIURL+'services/api/repo/admin/experimentobds/'+ eOnBoardedDescriptor.id +'/onboard',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+
+	            data: eOnBoardedDescriptor
+				
+	            
+			}).then(function successCallback( response ) {			
+
+		        console.log("onBoardVxF successCallback");
+		        var d = JSON.parse(  JSON.stringify( response.data )  );		        
+		        var vxfobdToSync = $scope.vxf.vxfOnBoardedDescriptors[ $scope.vxf.vxfOnBoardedDescriptors.indexOf(eOnBoardedDescriptor) ];
+		        vxfobdToSync.onBoardingStatus = d.onBoardingStatus;
+		        vxfobdToSync.deployId = d.deployId;
+		        vxfobdToSync.lastOnboarding = d.lastOnboarding;
+		        vxfobdToSync.vxfMANOProviderID = d.vxfMANOProviderID;
+		    	//$scope.activeExperimentOnBoardDescriptor = $scope.vxf.vxfOnBoardedDescriptors.indexOf( d ) ;
+		        
+		        $scope.checkOBVDStatus( vxfobdToSync );
+		        
+
+		        		
+		        
+			}),
+	        function error (response) {
+	            alert("failed! "+response.status);
+	        }; 	  	   
+	        
+	        //sareturn avobd;
+	        
+	    };
+	    
+	 $scope.checkOBVDStatus = function( eOnBoardedDescriptor) {
+	        var interval=5000;
+	        var retry = 0;
+	        var i = $interval(function(){ //make an interval to check every 5sec the status of the VxF onboarding
+	  	      interval += 5000;
+	  	      try {
+	  	    	  var vobd = eOnBoardedDescriptor;
+	  	    	  console.log("CheckStatusOfOBVD vxfobdToSync " + vobd.id);
+	  	    		 
+	  	    	 if( vobd.onBoardingStatus === 'ONBOARDED' ){ //when window closes without login
+		  	    	  console.log("Will cancel CheckStatusOfOBVD vxfobdToSync for " + vobd.id);
+	  	      			$interval.cancel(i);
+	  	      		}
+	  	    	  
+	  	    	  retry = retry+1;
+	  	    	  if ( retry> 3){ 
+		  	    	  console.log("Will cancel max retries CheckStatusOfOBVD vxfobdToSync for " + vobd.id);
+	  	      			$interval.cancel(i);	  
+	  	    	  }
+	  	    	  
+	  	    	  //here make a get
+		  	        return $http({
+		  				method : 'GET',
+		  				url : APIEndPointService.APIURL+'services/api/repo/admin/vxfobds/'+ eOnBoardedDescriptor.id +'/status',
+		  				headers : {
+		  					'Content-Type' : 'application/json'
+		  				},
 	
-	
-	
-	
-	 $scope.submitUpdateApp = function submit() {
-		 //cfpLoadingBar.start();
-		 	
-		 	
+		  	            data: eOnBoardedDescriptor
+		  				
+		  	            
+		  			}).then(function successCallback( response ) {			
+
+				        console.log("checkOBVDStatus successCallback");
+		  		        var d = JSON.parse(  JSON.stringify( response.data)  );		        
+		  		        var vxfobdToSync = $scope.vxf.vxfOnBoardedDescriptors[ $scope.vxf.vxfOnBoardedDescriptors.indexOf(eOnBoardedDescriptor) ];
+		  		        vxfobdToSync.onBoardingStatus = d.onBoardingStatus;
+		  		        vxfobdToSync.deployId = d.deployId;
+		  		        vxfobdToSync.lastOnboarding = d.lastOnboarding;
+		  		        vxfobdToSync.vxfMANOProviderID = d.vxfMANOProviderID;	
+		  		        		
+		  		        
+		  			}),
+			        function error ( response ) {
+			            alert("failed! "+ response.status);
+			        }; 	 		        
+	  		        
+		  		  
+	  	    	 
+	  	    	  
+	  	      		
+	  	      } catch(e){
+	  	        console.error(e);
+	  	      }
+	  	    }, interval);
+	        		        
+	 };
+	    
+	  $scope.removeVxFFromMANO = function( eOnBoardedDescriptor, vxf) {
+		  	if(popupService.showPopup('Really off-board '+vxf.name+' from MANO Provider"'+ eOnBoardedDescriptor.id+'" ?')){
+		        //eOnBoardedDescriptor.onBoardingStatus = 'OFFBOARDED';
+		        //eOnBoardedDescriptor.lastOnboarding = new Date();
+		        console.log("offBoardVxF" + eOnBoardedDescriptor.deployId );
+		        //var avobd = avxfOnBoardedDescriptor;
+		        //here we contact API and eventually do the onboarding
+		        //eOnBoardedDescriptor.onBoardingStatus = 'ONBOARDED';
+		        //eOnBoardedDescriptor.lastOnboarding = new Date();
+		        
+		        eOnBoardedDescriptor.onBoardingStatus = 'OFFBOARDING';
+
+		        return $http({
+					method : 'PUT',
+					url : APIEndPointService.APIURL+'services/api/repo/admin/vxfobds/'+ eOnBoardedDescriptor.id +'/offboard',
+					headers : {
+						'Content-Type' : 'application/json'
+					},
+
+		            data: eOnBoardedDescriptor
+					
+		            
+				}).then(function successCallback(response) {			
+			        console.log("removeVxFFromMANO successCallback");
+
+			        var d = JSON.parse(  JSON.stringify(response.data)  );		        
+			        var vxfobdToSync = $scope.vxf.vxfOnBoardedDescriptors[ $scope.vxf.vxfOnBoardedDescriptors.indexOf(eOnBoardedDescriptor) ];
+			        vxfobdToSync.onBoardingStatus = d.onBoardingStatus;
+			        vxfobdToSync.deployId = d.deployId;
+			        vxfobdToSync.lastOnboarding = d.lastOnboarding;
+			        vxfobdToSync.vxfMANOProviderID = d.vxfMANOProviderID;
+			    	//$scope.activeExperimentOnBoardDescriptor = $scope.vxf.vxfOnBoardedDescriptors.indexOf( d ) ;
+			        
+			        $scope.checkOBVDStatus( vxfobdToSync );
+			        
+
+			        		
+			        
+				}),
+		        function error (response) {
+		            alert("failed! "+response.status);
+		        }; 	   
+		        
+	        }
+	        
+	    };   
+	    
+	 $scope.submitUpdateExperiment = function submit(closeWindow) {
+
+		 var catidsCommaSeparated = '';
+		 angular.forEach ( $scope.vxf.categories, function(categ, categkey) {
+			 catidsCommaSeparated = catidsCommaSeparated+categ.id+',';
+		 });
+		 		 
 			return $http({
 				method : 'PUT',
 				url : APIEndPointService.APIURL+'services/api/repo/admin/experiments/'+$routeParams.id,
 				headers : {
-					'Content-Type' : undefined
+					'Content-Type' : 'multipart/form-data'
 				},
-				transformRequest: function (data) {
-	                var formData = new FormData();
-	                formData.append("application",  angular.toJson( data.app, false) );
-	                    //need to convert our json object to a string version of json otherwise
-	                // the browser will do a 'toString()' on the object which will result 
-	                // in the value '[Object object]' on the server.
-	                //formData.append("app", angular.toJson(data.app));
-	                //formData.append("userid", $scope.app.owner.id);
-	                //formData.append("uuid", $scope.app.uuid);
-	                //formData.append("prodname", $scope.app.name);
-	                //formData.append("shortDescription", $scope.app.shortDescription);
-	                //formData.append("longDescription", $scope.app.longDescription);
-	                //formData.append("version", $scope.app.version);
-	                formData.append("prodIcon", $scope.uploadedAppIcon);
-	                //formData.append("categories", catidsCommaSeparated);
-	                //now add all of the assigned files
-	                //var fd=new FormData();
-	                for (var i = 0; i < data.files.length; i++) {
-	                    //add each file to the form data and iteratively name them
-	                	//fd.append("screenshots[" + i+"]", data.files[i]);
-	                	formData.append("screenshots", data.files[i]);
-	                }
-	                //formData.append("screenshots", fd);
-	                //formData.append("screenshots", data.files);
-	                
-	                
-	                return formData;
-	            },
-	            data: { 
-            		app: $scope.app, 
-            		files: $scope.files }
-			}).then(function(response) {
-				$location.path("/experiments");
-			}).
-	        error(function (response) {
-	            alert("failed!");
-	        });
+				data : {
+					vxf: angular.toJson( $scope.vxf, false ),					
+					prodIcon: $scope.uploadedVxFIcon,
+					prodFile: $scope.uploadedVxFFile,
+					//file : $scope.file
+				},
+				transformRequest : formDataObject
+			}).then(function(response) {			
+
+//		        console.log("data: " + data);
+		        $scope.vxf = JSON.parse(  JSON.stringify(response.data)  );
+		        
+				if (closeWindow){
+					$location.path("/vxfs");					
+				} else {
+			    	syncScreenData(  $scope.vxf, $scope.categories );
+			    	$scope.activeExperimentOnBoardDescriptor = $scope.vxf.vxfOnBoardedDescriptors[ $scope.vxf.vxfOnBoardedDescriptors.length-1 ];
+				}
+			});
 		};
-	
-
-    $scope.loadApp=function(cats){
-    	var myapp = AdminExperimentMetadata.get({id:$routeParams.id}, function() {
-    		
-    		var categoriesToPush=[];
-    		angular.forEach(myapp.categories, function(myappcateg, myappcategkey) {
-	   	    		//console.log("Examining == > myappcategkey= "+myappcategkey+", myappcateg.id="+myappcateg.id+", myappcateg.name="+myappcateg.name);
-	   	    		
-	   	    		angular.forEach(cats, function(categ, key) {
-		   	    		if (myappcateg.id === categ.id){
-		   	    			categoriesToPush.push(categ);
-		   	    		}
-	   	    		});
-	   	 	});
-    		
-    		myapp.categories=[];//clear everything
-    		//now re add the categories to synchronize with local model
-    		angular.forEach(categoriesToPush, function(cat, key) {
-    			myapp.categories.push(cat);
-	   	 	});	 
-    		
-    		angular.forEach(myapp.categories, function(myappcateg, myappcategkey) {
-   	    		console.log(" == >myappcategkey= "+myappcategkey+", myappcateg.id="+myappcateg.id+", myappcateg.name="+myappcateg.name);
-	   	 	});	 		
-   	 		
-   	 		$scope.app=myapp;    
-    		
-   	 		contnrId = myapp.containers.length-1;
-   	 		$scope.activeContainer = myapp.containers[0];
-    	});     
-    		          
-   	 	
-    };
-
-    var orderBy = $filter('orderBy');
+		
+		
+	var orderBy = $filter('orderBy');
 	$scope.categories = Category.query(function() {
 		$scope.categories = orderBy($scope.categories, 'name', false);
-		$scope.loadApp($scope.categories);
+		$scope.loadVxF($scope.categories);
 	}); 
-	
-	
-	//screenshots handling /////////////////////////
-	
-	//an array of files selected
-    $scope.files = [];
-    $scope.screenshotimages = [];
-    $scope.image = "";
-    
-   //listen for the file selected event
-    
 
-    $scope.$on("fileSelectedClearPrevious", function (event, args) {
-    	$scope.files = [];
-        $scope.screenshotimages = [];
-    });
-    
-    $scope.$on("fileSelected", function (event, args) {
-        $scope.$apply(function () {            
-            //add the file object to the scope's files collection
-            $scope.files.push(args.file);
-            
-            var reader = new FileReader();
-            
-        	reader.onload = function (e) {
-        		var mdl = {
-        				file: args.file,
-        				img: e.target.result
-        		}
-        		
-        		$scope.screenshotimages.push( mdl ); 
-        	    $scope.image = mdl.img;//trick to load the image
-                $scope.$apply();
-                
-            }
-        	
-            reader.readAsDataURL(args.file);            
-            
-        });
-    });
+	
+	
 
-	//screenshots handling /////////////////////////
+    $scope.loadExperiment=function(cats){
+
+    	var orderBy = $filter('orderBy');
+
+        
+    	var avxf = AdminExperimentMetadata.get({id:$routeParams.id}, function() {    		
+    		syncScreenData( avxf, cats );    		
+    	});         	 	
+    };
+
+    
+    var syncScreenData = function( myvxf, cats ){
+		//synch categories with local model
+		var categoriesToPush=[];
+   	 	angular.forEach(myvxf.categories, function(myvxfcateg, myvxfcategkey) {
+	    		
+	    		angular.forEach(cats, function(categ, key) {
+   	    		if (myvxfcateg.id === categ.id){
+   	    			categoriesToPush.push(categ);
+   	    		}
+	    		});
+	 	});
+		
+   	 	myvxf.categories=[];//clear everything
+		//now re add the categories to synchronize with local model
+		angular.forEach(categoriesToPush, function(cat, key) {
+			myvxf.categories.push(cat);
+		});	 			
+		
+
+	
+		
+		
+		
+		$scope.exprm=myvxf;
+		
+		manoProviderId = myvxf.experimentOnBoardedDescriptors.length - 1;
+		$scope.activeExperimentOnBoardDescriptor = myvxf.vxfOnBoardedDescriptors[0];
+		
+		//sync with local model
+		angular.forEach(myvxf.vxfOnBoardedDescriptors, function(myvxobd, myvxfobdkey) {
+			if (myvxobd.obMANOprovider != null){
+
+				angular.forEach( $scope.selectedMANOProviders, function(pr, key) {
+		  	    	
+	   	    		if (myvxobd.obMANOprovider.id === pr.id){
+	   	    			myvxobd.obMANOprovider = pr;
+	   	    		}
+		    	});
+			}
+			
+		});
+		
+		
+	};
 	
 	
+	
+	
+    
+	$scope.addExtension= function(vxf){
+		console.log('addExtension');
+		var e={};
+		e.name = 'param';
+		e.value = 'val';
+    	
+    	$scope.vxf.extensions.push(e);
+	}
+		
+	$scope.removeRow = function(ext) {
+		$scope.vxf.extensions.splice( $scope.vxf.extensions.indexOf(ext) ,1);
+	};
+	
+	
+	$('.table-remove').click(function () {
+		  $(this).parents('tr').detach();
+	});
+
     
 }]);
 
@@ -996,21 +1014,6 @@ appControllers.controller('VxFAddController', function($scope, $location,
 	
 	
 	$scope.submitNewVxF = function submit() {
-		 
-//		var $rows = $TABLE.find('tr:not(:hidden)');
-//		$rows.each(function () {
-//		    var param = $(this).find("td").eq(0).html();
-//		    if (param){ //not undefined
-//		    	var val = $(this).find("td").eq(1).html();    
-//		    	//extsCommaSeparated = extsCommaSeparated+param+'='+val+',';
-//		    	
-//		    	var e={};
-//				e.name = param;
-//				e.value = val;
-//		    	
-//		    	$scope.vxf.extensions.push(e);
-//		    }
-//		});
 		
 		 
 		return $http({
@@ -1028,7 +1031,10 @@ appControllers.controller('VxFAddController', function($scope, $location,
 			transformRequest : formDataObject
 		}).then(function( response ) {
 			$location.path("/vxfs");
-		});
+		}),
+        error(function (response) {
+            alert("failed!");
+        });
 	};
 
 });
@@ -1132,8 +1138,8 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 		        		
 		        
 			}),
-	        function error (data, status, headers, config) {
-	            alert("failed! "+status);
+	        function error (response) {
+	            alert("failed! "+response.status);
 	        }; 	  	   
 	        
 	        //sareturn avobd;
@@ -1396,7 +1402,8 @@ appControllers.controller('VxFViewController', ['$scope', '$route', '$routeParam
     	  $scope.tabs = [
     		    { id:0, title:'Description', content:$scope.vxf.longDescription },
     		    { id:1, title:'Terms of use', content: '<pre>' + $scope.vxf.termsOfUse + '</pre>' },
-    		    { id:1, title:'Descriptor', content: '<pre>' + $scope.vxf.descriptor + '</pre>'  }
+    		    { id:1, title:'Descriptor', content: '<pre>' + $scope.vxf.descriptorHTML + '</pre>'  },
+    		    { id:1, title:'Descriptor (YAML)', content: '<pre>' + $scope.vxf.descriptor + '</pre>'  }
     		  ];
     	  
     	  $scope.tab = $scope.tabs[0];

@@ -3,131 +3,99 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<h1 id="headerTitle">Add new Experiment</h1>
-				<h3>by user: {{app.owner.username}}</h3>
+				<h3>by user: {{exprm.owner.username}}</h3>
 
-				<form class="form-horizontal" name="form" role="form" ng-submit="submitNewApp()" id="addApplicationForm">
+				<form class="form-horizontal" name="form" role="form" ng-submit="submitNewExperiment()" id="addApplicationForm">
 					<div class="form-group">
-						<label for="app.name" class="col-sm-2 control-label">Name</label>
+						<label for="exprm.name" class="col-sm-2 control-label">Name</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control"  ng-model="app.name" value="" placeholder="name..." />
+							<input type="text" class="form-control"  ng-model="exprm.name" value="" placeholder="name..." />
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="app.version" class="col-sm-2 control-label">Version</label>
+						<label for="exprm.version" class="col-sm-2 control-label">Version</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control"  ng-model="app.version" value="" placeholder="" />
+							<input type="text" class="form-control"  ng-model="exprm.version" value="" placeholder="" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="app.shortDescription" class="col-sm-2 control-label">Teaser</label>
+						<label for="exprm.shortDescription" class="col-sm-2 control-label">Teaser</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control"  ng-model="app.shortDescription" value="" placeholder="" />
+							<input type="text" class="form-control"  ng-model="exprm.shortDescription" value="" placeholder="" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="app.longDescription" class="col-sm-2 control-label">Description</label>
+						<label for="exprm.longDescription" class="col-sm-2 control-label">Description</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control"  ng-model="app.longDescription" value="" placeholder="" />
+							<input type="text" class="form-control"  ng-model="exprm.longDescription" value="" placeholder="" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="app.uploadedAppIcon" class="col-sm-2 control-label">Logo</label>
+						<label for="exprm.uploadedExperimentIcon" class="col-sm-2 control-label">Logo</label>
 						<div class="col-sm-10">
-							<input type="file" class="form-control" name="uploadedAppIcon"  file-model="uploadedAppIcon" placeholder="" />
+							<input type="file" class="form-control" name="uploadedExperimentIcon"  file-model="exprm.uploadedExperimentIcon" placeholder="" />
 							<p class="help-block">Select logo image</p>
 							
 						</div>
 					</div>
 					
 					
+					
 					<div class="form-group">
-						<label for="app.category" class="col-sm-2 control-label">Category ( <span ng-repeat="appcat in app.categories">{{appcat.name}} </span> )</label>
+						<label for="exprm.uploadedExperimentFile" class="col-sm-2 control-label">Package File (.tar.gz)</label>
 						<div class="col-sm-10">
-							<select multiple class="form-control" ng-model="app.categories" ng-options="cat.name for cat in categories" >
+							<input type="file" class="form-control" name="uploadedExperimentFile"  file-model="exprm.uploadedExperimentFile" placeholder="" />
+							<p class="help-block">Select file (.tar.gz)</p>
+							
+						</div>
+					</div>
+					
+					
+					<div class="form-group">
+						<label for="role" class="col-sm-2 control-label">Packaging format</label>
+						<div class="col-sm-10">
+							<select class="form-control" ng-model="exprm.packagingFormat" >
+							  <option selected="selected">OSMvTWO</option>
+							  <option>TOSCA</option>
 							</select>
 						</div>
 					</div>
 					
-					<div class="form-group">
-						<label for="app.containers" class="col-sm-2 control-label">Containers</label>
-						<div class="col-sm-10">							
-							<p class="help-block">Create containers with VxFs</p>
-							
-								<button type="button" class="btn btn-primary" ng-click="addContainer()">Add container</button>								
-								<p></p>
-								<div class="col-sm-12" role="tabpanel">
-								  <!-- Nav tabs -->
-								  <ul class="nav nav-tabs" role="tablist" >
-								    <li ng-repeat="container in app.containers" role="presentation" ng-class="{'active': isActive(container) }">
-								    		<a data-target="{{container.name}}" aria-controls="{{container.name}}" role="tab" data-toggle="tab" ng-click="activateContainer(container)" >{{container.name}}</a></li>
-								   </ul>
-								
-								  <!-- Tab panes -->
-								  <div class="col-sm-12 tab-content"  >
-								    <div ng-repeat="container in app.containers" role="tabpanel"  ng-class="{'tab-pane':true, 'active': isActive(container) }" id="{{container.name}}">
-								    <p>Select and configure artifacts  to deploy into {{container.name}}</p>
-								    
-								    <select ng-model="selectedVxF" ng-options="vxf.name for vxf in vxfs" ></select>
-								    
-								    <button type="button" class="btn btn-primary" ng-click="addDeploymentArtifact(container, selectedVxF)">Add deployment artifact</button>
-								    <button type="button" class="btn btn-primary pull-right" ng-click="removeContainer(container)">Remove Container</button>
-								    
-								    
-								    <div class="col-sm-12 deployArtifact shadowed" ng-repeat="da in container.deployArtifacts"> 
-								    	<div class="col-sm-12"> 
-								    	<p> <b>{{da.name}}</b>  ( {{da.uuid}} )  
-								    	<button type="button" class="btn btn-primary pull-right" ng-click="removeDeploymentArtifact(container, selectedVxF)">Remove</button>
-								    	 </p>
-								    	</div>
-									    <div class="col-sm-12 deployArtifactExtensions" ng-repeat="ext in da.extensions">
-									    	<div class="col-sm-2">	{{ext.name}} </div> 
-									    	<div class="col-sm-10">	 
-									    		<input type="text"  ng-model="ext.value"  /> 
-										    	
-										    	<button popover type="button" class="btn btn-info" data-toggle="popover" title="Value of parameter" data-html="true"
-										    	data-content="Type a <b>static value</b>, or use <pre>$containerID.value</pre> as a reference. For example <pre>$container0.IP</pre>"><i class="fa fa-question " ></i></button>
-										    		
-										    		
-									    	</div> 
-									    </div>
-								    
-								    
-								    </div>
-								    
-								    </div>
-								  
-								  </div>
-								
-								</div>
-								
-								
-
-						</div>
-					</div>
-					
-					
-					
-					
 					
 					<div class="form-group">
-						<label for="app.screenshots" class="col-sm-2 control-label">Screenshots</label>
+						<label for="exprm.category" class="col-sm-2 control-label">Category ( <span ng-repeat="appcat in exprm.categories">{{appcat.name}} </span> )</label>
 						<div class="col-sm-10">
-							<input type="file" file-upload multiple/>
-							<p class="help-block">Select screenshot images</p>
-						    
-						    <div class="col-sm-3" ng-repeat="shot in screenshotimages">
-						    	<div class="col-sm-12 screenshottile">
-								    <div class="col-sm-12" style="word-wrap: break-word;"><p>{{shot.file.name}}</p></div>
-								    <div class="col-sm-12"> <img ng-if="image" src="{{shot.img}}" alt="" width="100%"></div>
-							    </div>
-						        
-						    </div>
-						    
-						    
+							<select multiple class="form-control" ng-model="exprm.categories" ng-options="cat.name for cat in categories" >
+							</select>
 						</div>
 					</div>
+
+
 					
-					
+					<div class="form-group">
+						<label for="exprm.extensions" class="col-sm-2 control-label">Extension variables</label>
+						<div class="col-sm-10">
+							<div id="tableExtensions" class="table-editable">
+							    <span class="table-add glyphicon glyphicon-plus" ng-click="addExtension(exprm)"></span>
+							    <table class="table" >
+							      <tr>
+							        <th>Name</th>
+							        <th>Value</th>
+							        <th></th>
+							      </tr>
+							      <tr class="" ng-repeat="ext in exprm.extensions">
+									<td><pre contenteditable="true" ng-model="ext.name"></pre></td>
+							        <td><pre contenteditable="true" ng-model="ext.value"></pre></td>
+							        <td>
+							          <span class="table-remove glyphicon glyphicon-remove" ng-click="removeRow(ext)"></span>
+							        </td>
+							       
+							      </tr>
+							      
+							    </table>
+							  </div>
+						</div>
+					  </div>
 					
 
 					<div class="form-group">
