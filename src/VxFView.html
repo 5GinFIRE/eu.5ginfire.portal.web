@@ -36,7 +36,7 @@
 					  <!-- Tab panes -->
 				  <div class="col-sm-12 tab-content"  >
 				    <div ng-repeat="tab in tabs" role="tabpanel"  ng-class="{'tab-pane':true, 'active': isActive(tab) }" id="{{tab.id}}">
-				    <pre >{{tab.content}}</pre>
+				     <p ng-bind-html="tab.content" ></p> 
 				    
 											  
 				  </div>								

@@ -1,4 +1,4 @@
-var appControllers = angular.module('portalapp.controllers',[ 'ngAnimate']) 
+var appControllers = angular.module('portalapp.controllers',[ 'ngAnimate', 'ngSanitize']) 
 
 
 appControllers.controller('FeaturedApps', ['$scope','$window','$log', 'ExperimentMetadata', 'Category', '$filter',
@@ -1392,7 +1392,8 @@ appControllers.controller('VxFViewController', ['$scope', '$route', '$routeParam
     	
     	  $scope.tabs = [
     		    { id:0, title:'Description', content:$scope.vxf.longDescription },
-    		    { id:1, title:'Terms of use', content:$scope.vxf.termsOfUse }
+    		    { id:1, title:'Terms of use', content: '<pre>' + $scope.vxf.termsOfUse + '</pre>' },
+    		    { id:1, title:'Descriptor', content: '<pre>' + $scope.vxf.descriptor + '</pre>'  }
     		  ];
     	  
     	  $scope.tab = $scope.tabs[0];
