@@ -313,11 +313,7 @@ appControllers.controller('ExperimentAddController', function($scope, $location,
 	
 	$scope.submitNewExperiment = function submit() {
 		
-		var catidsCommaSeparated = '';
-		 angular.forEach ( $scope.exprm.categories, function(categ, categkey) {
-			 catidsCommaSeparated = catidsCommaSeparated+categ.id+',';
-		 });
-		 
+
 		return $http({
 			method : 'POST',
 			url : APIEndPointService.APIURL+'services/api/repo/admin/experiments/',
@@ -446,7 +442,7 @@ appControllers.directive('fileUpload', function () {
 
 appControllers.controller('ExperimentEditController', ['$scope', '$route', '$routeParams', '$location', 
                                                 'AdminExperimentMetadata', '$anchorScroll','$http', 'formDataObject', 'cfpLoadingBar', 'Category', '$filter', 'APIEndPointService', 
-                                                'AdminMANOprovider', 'VxFOnBoardedDescriptor', 'AdminMANOplatform', '$interval',
+                                                'AdminMANOprovider', 'ExperimentOnBoardDescriptor', 'AdminMANOplatform', '$interval',
      function( $scope, $route, $routeParams, $location, AdminExperimentMetadata, $anchorScroll,
     		 $http,formDataObject, cfpLoadingBar, Category, $filter, APIEndPointService, AdminMANOprovider, ExperimentOnBoardDescriptor, AdminMANOplatform, $interval ){
 	
@@ -464,7 +460,7 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 
     	console.log("ExperimentOnBoardDescriptor from Experiment" + eOnBoardDescriptor.id );
         if(popupService.showPopup('Really delete MANO on-boarding "'+ eOnBoardDescriptor.id+'" ?')){    	
-		 	var dep=VxFOnBoardedDescriptor.get({id:eOnBoardDescriptor.id}, function() {
+		 	var dep=ExperimentOnBoardDescriptor.get({id:eOnBoardDescriptor.id}, function() {
 		 		
 			    
 				 	
@@ -528,7 +524,7 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 
 		        console.log("onBoardVxF successCallback");
 		        var d = JSON.parse(  JSON.stringify( response.data )  );		        
-		        var vxfobdToSync = $scope.vxf.vxfOnBoardedDescriptors[ $scope.vxf.vxfOnBoardedDescriptors.indexOf(eOnBoardedDescriptor) ];
+		        var vxfobdToSync = $scope.vxf.experimentOnBoardDescriptors[ $scope.vxf.experimentOnBoardDescriptors.indexOf(eOnBoardedDescriptor) ];
 		        vxfobdToSync.onBoardingStatus = d.onBoardingStatus;
 		        vxfobdToSync.deployId = d.deployId;
 		        vxfobdToSync.lastOnboarding = d.lastOnboarding;
@@ -692,7 +688,7 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 	var orderBy = $filter('orderBy');
 	$scope.categories = Category.query(function() {
 		$scope.categories = orderBy($scope.categories, 'name', false);
-		$scope.loadVxF($scope.categories);
+		$scope.loadExperiment($scope.categories);
 	}); 
 
 	
@@ -703,16 +699,16 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
     	var orderBy = $filter('orderBy');
 
         
-    	var avxf = AdminExperimentMetadata.get({id:$routeParams.id}, function() {    		
-    		syncScreenData( avxf, cats );    		
+    	var exp = AdminExperimentMetadata.get({id:$routeParams.id}, function() {    		
+    		syncScreenData( exp, cats );    		
     	});         	 	
     };
 
     
-    var syncScreenData = function( myvxf, cats ){
+    var syncScreenData = function( myexp, cats ){
 		//synch categories with local model
 		var categoriesToPush=[];
-   	 	angular.forEach(myvxf.categories, function(myvxfcateg, myvxfcategkey) {
+   	 	angular.forEach(myexp.categories, function(myvxfcateg, myvxfcategkey) {
 	    		
 	    		angular.forEach(cats, function(categ, key) {
    	    		if (myvxfcateg.id === categ.id){
@@ -721,7 +717,7 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 	    		});
 	 	});
 		
-   	 	myvxf.categories=[];//clear everything
+   	 myexp.categories=[];//clear everything
 		//now re add the categories to synchronize with local model
 		angular.forEach(categoriesToPush, function(cat, key) {
 			myvxf.categories.push(cat);
@@ -732,13 +728,13 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 		
 		
 		
-		$scope.exprm=myvxf;
+		$scope.exprm = myexp;
 		
-		manoProviderId = myvxf.experimentOnBoardedDescriptors.length - 1;
-		$scope.activeExperimentOnBoardDescriptor = myvxf.vxfOnBoardedDescriptors[0];
+		manoProviderId = myexp.experimentOnBoardedDescriptors.length - 1;
+		$scope.activeExperimentOnBoardDescriptor = myexp.experimentOnBoardedDescriptors[0];
 		
 		//sync with local model
-		angular.forEach(myvxf.vxfOnBoardedDescriptors, function(myvxobd, myvxfobdkey) {
+		angular.forEach( myexp.experimentOnBoardedDescriptors, function(myvxobd, myvxfobdkey) {
 			if (myvxobd.obMANOprovider != null){
 
 				angular.forEach( $scope.selectedMANOProviders, function(pr, key) {
@@ -780,38 +776,30 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 }]);
 
 
-appControllers.controller('AppViewController', ['$scope', '$route', '$routeParams', '$location', 'ExperimentMetadata',
+appControllers.controller('ExperimentViewController', ['$scope', '$route', '$routeParams', '$location', 'ExperimentMetadata',
                                                  function( $scope, $route, $routeParams, $location, ExperimentMetadata ){
-    $scope.app=ExperimentMetadata.get({id:$routeParams.id}, function() {
-        //console.log("WILL GET ExperimentMetadata with ID "+$routeParams.id);
-        var shots = $scope.app.screenshots;
-        $scope.screenshotimages = shots.split(",") ;    	
-    	
-        
-        // initial image index
-        $scope._Index = 0;
+    $scope.exprm = ExperimentMetadata.get({id:$routeParams.id}, function() {
 
-        // if a current image is the same as requested image
-        $scope.isActive = function (index) {
-            return $scope._Index === index;
-        };
-
-        // show prev image
-        $scope.showPrev = function () {
-            $scope._Index = ($scope._Index > 0) ? --$scope._Index : $scope.screenshotimages.length - 1;
-        };
-
-        // show next image
-        $scope.showNext = function () {
-            $scope._Index = ($scope._Index < $scope.screenshotimages.length - 1) ? ++$scope._Index : 0;
-        };
-
-        // show a certain image
-        $scope.showPhoto = function (index) {
-            $scope._Index = index;
-        };
-        
-    });
+  	  $scope.tabs = [
+  		    { id:0, title:'Description', content:$scope.exprm.longDescription },
+  		    { id:1, title:'Terms of use', content: '<pre>' + $scope.exprm.termsOfUse + '</pre>' },
+  		    { id:1, title:'Descriptor', content: '<pre>' + $scope.exprm.descriptorHTML + '</pre>'  },
+  		    { id:1, title:'Descriptor (YAML)', content: '<pre>' + $scope.exprm.descriptor + '</pre>'  }
+  		  ];
+  	  
+  	  $scope.tab = $scope.tabs[0];
+  	
+  	
+	});         
+  
+  $scope.isActive=function(c) {
+      return $scope.tab === c;
+  };
+  
+  
+	 $scope.activate =function(c) {
+	        return $scope.tab = c;
+	    }
 
 }]);
 
