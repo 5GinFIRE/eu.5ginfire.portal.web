@@ -442,9 +442,10 @@ appControllers.directive('fileUpload', function () {
 
 appControllers.controller('ExperimentEditController', ['$scope', '$route', '$routeParams', '$location', 
                                                 'AdminExperimentMetadata', '$anchorScroll','$http', 'formDataObject', 'cfpLoadingBar', 'Category', '$filter', 'APIEndPointService', 
-                                                'AdminMANOprovider', 'ExperimentOnBoardDescriptor', 'AdminMANOplatform', '$interval',
+                                                'AdminMANOprovider', 'ExperimentOnBoardDescriptor', 'AdminMANOplatform', '$interval', 'popupService',
      function( $scope, $route, $routeParams, $location, AdminExperimentMetadata, $anchorScroll,
-    		 $http,formDataObject, cfpLoadingBar, Category, $filter, APIEndPointService, AdminMANOprovider, ExperimentOnBoardDescriptor, AdminMANOplatform, $interval ){
+    		 $http,formDataObject, cfpLoadingBar, Category, $filter, APIEndPointService, AdminMANOprovider, 
+    		 ExperimentOnBoardDescriptor, AdminMANOplatform, $interval, popupService ){
 	
 	
     
@@ -653,7 +654,7 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 	 $scope.submitUpdateExperiment = function submit(closeWindow) {
 
 		 var catidsCommaSeparated = '';
-		 angular.forEach ( $scope.vxf.categories, function(categ, categkey) {
+		 angular.forEach ( $scope.exprm.categories, function(categ, categkey) {
 			 catidsCommaSeparated = catidsCommaSeparated+categ.id+',';
 		 });
 		 		 
@@ -664,22 +665,22 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 					'Content-Type' : 'multipart/form-data'
 				},
 				data : {
-					vxf: angular.toJson( $scope.vxf, false ),					
+					exprm: angular.toJson( $scope.exprm, false ),					
 					prodIcon: $scope.uploadedVxFIcon,
-					prodFile: $scope.uploadedVxFFile,
+					prodFile: $scope.uploadedExperimentFile,
 					//file : $scope.file
 				},
 				transformRequest : formDataObject
 			}).then(function(response) {			
 
 //		        console.log("data: " + data);
-		        $scope.vxf = JSON.parse(  JSON.stringify(response.data)  );
+		        $scope.exprm = JSON.parse(  JSON.stringify(response.data)  );
 		        
 				if (closeWindow){
-					$location.path("/vxfs");					
+					$location.path("/experiments");					
 				} else {
-			    	syncScreenData(  $scope.vxf, $scope.categories );
-			    	$scope.activeExperimentOnBoardDescriptor = $scope.vxf.vxfOnBoardedDescriptors[ $scope.vxf.vxfOnBoardedDescriptors.length-1 ];
+			    	syncScreenData(  $scope.exprm, $scope.categories );
+			    	$scope.activeExperimentOnBoardDescriptor = $scope.exprm.experimentOnBoardDescriptors[ $scope.exprm.experimentOnBoardDescriptors.length-1 ];
 				}
 			});
 		};
@@ -720,7 +721,7 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
    	 myexp.categories=[];//clear everything
 		//now re add the categories to synchronize with local model
 		angular.forEach(categoriesToPush, function(cat, key) {
-			myvxf.categories.push(cat);
+			myexp.categories.push(cat);
 		});	 			
 		
 
@@ -730,11 +731,11 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 		
 		$scope.exprm = myexp;
 		
-		manoProviderId = myexp.experimentOnBoardedDescriptors.length - 1;
-		$scope.activeExperimentOnBoardDescriptor = myexp.experimentOnBoardedDescriptors[0];
+		manoProviderId = myexp.experimentOnBoardDescriptors.length - 1;
+		$scope.activeExperimentOnBoardDescriptor = myexp.experimentOnBoardDescriptors[0];
 		
 		//sync with local model
-		angular.forEach( myexp.experimentOnBoardedDescriptors, function(myvxobd, myvxfobdkey) {
+		angular.forEach( myexp.experimentOnBoardDescriptors, function(myvxobd, myvxfobdkey) {
 			if (myvxobd.obMANOprovider != null){
 
 				angular.forEach( $scope.selectedMANOProviders, function(pr, key) {
@@ -760,11 +761,11 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 		e.name = 'param';
 		e.value = 'val';
     	
-    	$scope.vxf.extensions.push(e);
+    	$scope.myexp.extensions.push(e);
 	}
 		
 	$scope.removeRow = function(ext) {
-		$scope.vxf.extensions.splice( $scope.vxf.extensions.indexOf(ext) ,1);
+		$scope.myexp.extensions.splice( $scope.myexp.extensions.indexOf(ext) ,1);
 	};
 	
 	
