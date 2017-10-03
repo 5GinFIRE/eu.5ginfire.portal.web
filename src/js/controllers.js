@@ -502,7 +502,7 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 	
 	  $scope.onBoardExperiment = function( eOnBoardedDescriptor, selMANOProvider) {
 
-	    	console.log("onBoardVxF" + eOnBoardedDescriptor.deployId + ", " + selMANOProvider.name);
+	    	console.log("onBoardexperiment" + eOnBoardedDescriptor.deployId + ", " + selMANOProvider.name);
 	        //var avobd = eOnBoardedDescriptor;
 	        //here we contact API and eventually do the onboarding
 	        //eOnBoardedDescriptor.onBoardingStatus = 'ONBOARDED';
@@ -525,14 +525,13 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 
 		        console.log("onBoardVxF successCallback");
 		        var d = JSON.parse(  JSON.stringify( response.data )  );		        
-		        var vxfobdToSync = $scope.vxf.experimentOnBoardDescriptors[ $scope.vxf.experimentOnBoardDescriptors.indexOf(eOnBoardedDescriptor) ];
-		        vxfobdToSync.onBoardingStatus = d.onBoardingStatus;
-		        vxfobdToSync.deployId = d.deployId;
-		        vxfobdToSync.lastOnboarding = d.lastOnboarding;
-		        vxfobdToSync.vxfMANOProviderID = d.vxfMANOProviderID;
-		    	//$scope.activeExperimentOnBoardDescriptor = $scope.vxf.vxfOnBoardedDescriptors.indexOf( d ) ;
+		        var expobdToSync = $scope.exprm.experimentOnBoardDescriptors[ $scope.exprm.experimentOnBoardDescriptors.indexOf(eOnBoardedDescriptor) ];
+		        expobdToSync.onBoardingStatus = d.onBoardingStatus;
+		        expobdToSync.deployId = d.deployId;
+		        expobdToSync.lastOnboarding = d.lastOnboarding;
+		        expobdToSync.vxfMANOProviderID = d.vxfMANOProviderID;
 		        
-		        $scope.checkOBVDStatus( vxfobdToSync );
+		        $scope.checkOBVDStatus( expobdToSync );
 		        
 
 		        		
@@ -569,7 +568,7 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 	  	    	  //here make a get
 		  	        return $http({
 		  				method : 'GET',
-		  				url : APIEndPointService.APIURL+'services/api/repo/admin/vxfobds/'+ eOnBoardedDescriptor.id +'/status',
+		  				url : APIEndPointService.APIURL+'services/api/repo/admin/experimentobds/'+ eOnBoardedDescriptor.id +'/status',
 		  				headers : {
 		  					'Content-Type' : 'application/json'
 		  				},
@@ -581,11 +580,11 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 
 				        console.log("checkOBVDStatus successCallback");
 		  		        var d = JSON.parse(  JSON.stringify( response.data)  );		        
-		  		        var vxfobdToSync = $scope.vxf.vxfOnBoardedDescriptors[ $scope.vxf.vxfOnBoardedDescriptors.indexOf(eOnBoardedDescriptor) ];
-		  		        vxfobdToSync.onBoardingStatus = d.onBoardingStatus;
-		  		        vxfobdToSync.deployId = d.deployId;
-		  		        vxfobdToSync.lastOnboarding = d.lastOnboarding;
-		  		        vxfobdToSync.vxfMANOProviderID = d.vxfMANOProviderID;	
+		  		        var expobdToSync = $scope.exprm.experimentOnBoardDescriptors[ $scope.exprm.experimentOnBoardDescriptors.indexOf(eOnBoardedDescriptor) ];
+		  		        expobdToSync.onBoardingStatus = d.onBoardingStatus;
+		  		        expobdToSync.deployId = d.deployId;
+		  		        expobdToSync.lastOnboarding = d.lastOnboarding;
+		  		        expobdToSync.vxfMANOProviderID = d.vxfMANOProviderID;	
 		  		        		
 		  		        
 		  			}),
@@ -604,21 +603,15 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 	        		        
 	 };
 	    
-	  $scope.removeVxFFromMANO = function( eOnBoardedDescriptor, vxf) {
-		  	if(popupService.showPopup('Really off-board '+vxf.name+' from MANO Provider"'+ eOnBoardedDescriptor.id+'" ?')){
-		        //eOnBoardedDescriptor.onBoardingStatus = 'OFFBOARDED';
-		        //eOnBoardedDescriptor.lastOnboarding = new Date();
-		        console.log("offBoardVxF" + eOnBoardedDescriptor.deployId );
-		        //var avobd = avxfOnBoardedDescriptor;
-		        //here we contact API and eventually do the onboarding
-		        //eOnBoardedDescriptor.onBoardingStatus = 'ONBOARDED';
-		        //eOnBoardedDescriptor.lastOnboarding = new Date();
-		        
+	  $scope.removeExperimentFromMANO = function( eOnBoardedDescriptor, expr) {
+		  	if(popupService.showPopup('Really off-board '+expr.name+' from MANO Provider"'+ eOnBoardedDescriptor.id+'" ?')){
+		        console.log("offBoardExperiment" + eOnBoardedDescriptor.deployId );
+		
 		        eOnBoardedDescriptor.onBoardingStatus = 'OFFBOARDING';
 
 		        return $http({
 					method : 'PUT',
-					url : APIEndPointService.APIURL+'services/api/repo/admin/vxfobds/'+ eOnBoardedDescriptor.id +'/offboard',
+					url : APIEndPointService.APIURL+'services/api/repo/admin/experimentobds/'+ eOnBoardedDescriptor.id +'/offboard',
 					headers : {
 						'Content-Type' : 'application/json'
 					},
@@ -627,17 +620,17 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 					
 		            
 				}).then(function successCallback(response) {			
-			        console.log("removeVxFFromMANO successCallback");
+			        console.log("removExperimentFromMANO successCallback");
 
 			        var d = JSON.parse(  JSON.stringify(response.data)  );		        
-			        var vxfobdToSync = $scope.vxf.vxfOnBoardedDescriptors[ $scope.vxf.vxfOnBoardedDescriptors.indexOf(eOnBoardedDescriptor) ];
-			        vxfobdToSync.onBoardingStatus = d.onBoardingStatus;
-			        vxfobdToSync.deployId = d.deployId;
-			        vxfobdToSync.lastOnboarding = d.lastOnboarding;
-			        vxfobdToSync.vxfMANOProviderID = d.vxfMANOProviderID;
+			        var expobdToSync = $scope.exprm.experimentOnBoardDescriptors[ $scope.exprm.experimentOnBoardDescriptors.indexOf(eOnBoardedDescriptor) ];
+			        expobdToSync.onBoardingStatus = d.onBoardingStatus;
+			        expobdToSync.deployId = d.deployId;
+			        expobdToSync.lastOnboarding = d.lastOnboarding;
+			        expobdToSync.vxfMANOProviderID = d.vxfMANOProviderID;
 			    	//$scope.activeExperimentOnBoardDescriptor = $scope.vxf.vxfOnBoardedDescriptors.indexOf( d ) ;
 			        
-			        $scope.checkOBVDStatus( vxfobdToSync );
+			        $scope.checkOBVDStatus( expobdToSync );
 			        
 
 			        		

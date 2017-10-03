@@ -148,7 +148,7 @@
 								    	<br/> Deployment ID: {{vobd.deployId}} 
 								    	<br/> Experiment ID at MANO Provider : {{vobd.vxfMANOProviderID}}
 								    	<br/> On-boarded at: {{vobd.lastOnboarding | date:'medium' }}  
-								    	<button  ng-disabled="vobd.onBoardingStatus != 'ONBOARDED'  || vobd.onBoardingStatus === 'ONBOARDING' " type="button" class="btn btn-warning pull-right" ng-click="removeExperimentFromMANO( vobd, exprm)">Off-board Experiment from MANO</button>
+								    	<button  ng-disabled="vobd.onBoardingStatus != 'ONBOARDED'  && vobd.onBoardingStatus != 'ONBOARDING' " type="button" class="btn btn-warning pull-right" ng-click="removeExperimentFromMANO( vobd, exprm)">Off-board Experiment from MANO</button>
 								    	 </p>
 								    	</div>
 								    
