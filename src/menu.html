@@ -23,7 +23,7 @@
 						<li ng-show="loggedIn" class="dropdown">
 							<a class="dropdown-toggle"	href="" data-toggle="dropdown">Deployments <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">								
-								<li ng-class="navClass('deployments')" ><a href="#!/mydeployments">Deployed Experiments</a></li>
+								<li ng-class="navClass('deployments')" ><a href="#!/deployments">Deploy Experiments</a></li>
 							</ul>
 						</li>
 							
@@ -31,7 +31,7 @@
 							href="" data-toggle="dropdown">Admin <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1" ><a href="#!/users">System Users</a></li>
-								<li><a ng-show="( (loggedinportaluser.roles.indexOf('EXPERIMENTER')>-1 ) || (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1)  )" href="#!/experiments">Registered Experiments</a></li>
+								<li><a ng-show="( (loggedinportaluser.roles.indexOf('EXPERIMENTER')>-1 ) || (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1)  )" href="#!/experiments">Registered Experiment Descriptors</a></li>
 								<li><a ng-show="( (loggedinportaluser.roles.indexOf('VXF_DEVELOPER')>-1 ) || (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1)  )" href="#!/vxfs">Registered VxFs</a></li>
 								<li><a ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1" href="#!/subscribed_resources">Registered Resources</a></li>
 								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1"><a href="#!/deployments_admin">Deployed Experiments</a></li>

@@ -78,9 +78,9 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 	}).when('/fiware_instances', {
 		templateUrl : 'FiwareInstances.html',
 		controller : 'FiwareInstancesController'
-	}).when('/mydeployments', {
-		templateUrl : 'MyDeployments.html',
-		controller : 'MyDeploymentsListController'
+	}).when('/deployments', {
+		templateUrl : 'Deployments.html',
+		controller : 'DeploymentsListController'
 	}).when('/create_app_deployment/:id', {
 		templateUrl : 'CreateAppDeployment.html',
 		controller : 'CreateAppDeploymentController'

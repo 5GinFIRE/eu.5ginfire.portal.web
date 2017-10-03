@@ -3,8 +3,14 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<h1>My Deployed Experiments</h1>
+				<h1>Deployed Experiments</h1>
 				<h3>View and manage deployed experiments</h3>
+				<a class="btn btn-success btn-lg" data-toggle="modal" ng-href="#!/experiment_request"> 
+				<i class="fa fa-cogs fa-2x pull-left"></i>&nbsp;&nbsp;Request New<br>&nbsp;Experiment</a>
+				<br>
+				<br>
+				
+				
 				<table id="grid1" tr-ng-grid="" class="usersGrid" items="mydeployments" page-items="10"
 					fields="['id', 'name', 'status', 'owner.username', 'baseApplication.name' ]">
 					

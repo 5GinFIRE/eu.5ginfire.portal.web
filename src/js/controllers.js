@@ -782,6 +782,11 @@ appControllers.controller('ExperimentViewController', ['$scope', '$route', '$rou
   		  ];
   	  
   	  $scope.tab = $scope.tabs[0];
+  	  
+  	  if ( $scope.exprm.iconsrc.indexOf( 'unknown' ) !== -1 ){
+  		$scope.exprm.iconsrc = "images/experiment.png";
+  		console.log("$scope.exprm.iconsrc = " + $scope.exprm.iconsrc);
+  	  }
   	
   	
 	});         
@@ -880,6 +885,16 @@ appControllers.controller('ExperimentsMarketplaceController', ['$scope','$window
  		    //console.log($scope.apps);
  		    $scope.appsTotalNumber = $scope.apps.length;
 		    $scope.apps = orderBy($scope.apps, 'name', false);
+		    
+		    angular.forEach($scope.apps, function(app, key) {
+		    	if ( app.iconsrc.indexOf( 'unknown' ) !== -1 ){
+		    		app.iconsrc = "images/experiment.png";
+			  		console.log("app.iconsrc = " + app.iconsrc);
+			  	  }
+		    	
+				});
+		    
+		    
  	}); 
  		 
  	$scope.filterCategory=function(category){
@@ -1389,6 +1404,14 @@ appControllers.controller('VxFViewController', ['$scope', '$route', '$routeParam
     		  ];
     	  
     	  $scope.tab = $scope.tabs[0];
+    	  
+    	  var v =  $scope.vxf;
+    	if ( v.iconsrc.indexOf( 'unknown' ) !== -1 ){
+    		v.iconsrc = "images/vxf.png";
+	  		console.log("v.iconsrc = " + v.iconsrc);
+	  	  }
+		    	
+				
     	
     	
 	});         
@@ -1418,6 +1441,14 @@ appControllers.controller('VxFsMarketplaceController', ['$scope','$window','$log
          		    //console.log($scope.apps);
          		    $scope.vxfsTotalNumber = $scope.vxfs.length;
         		    $scope.vxfs = orderBy($scope.vxfs, 'name', false);
+        		    
+        		    angular.forEach($scope.vxfs, function(v, key) {
+        		    	if ( v.iconsrc.indexOf( 'unknown' ) !== -1 ){
+        		    		v.iconsrc = "images/vxf.png";
+        			  		console.log("v.iconsrc = " + v.iconsrc);
+        			  	  }
+        		    	
+        				});
          	}); 
          		 
          	$scope.filterCategory=function(category){
@@ -1493,7 +1524,7 @@ appControllers.controller('FiwareInstancesController', ['$scope','$window','$log
 
 //////////Deployments controller
 
-appControllers.controller('MyDeploymentsListController', ['$scope','$window','$log', 'DeploymentDescriptor', 'popupService','ngDialog','$http', 'APIEndPointService',
+appControllers.controller('DeploymentsListController', ['$scope','$window','$log', 'DeploymentDescriptor', 'popupService','ngDialog','$http', 'APIEndPointService',
                                              	function($scope, $window, $log, DeploymentDescriptor, popupService, ngDialog, $http, APIEndPointService ) {
                  	
                  	
