@@ -523,7 +523,7 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 	            
 			}).then(function successCallback( response ) {			
 
-		        console.log("onBoardVxF successCallback");
+		        console.log("onBoardExperiment successCallback");
 		        var d = JSON.parse(  JSON.stringify( response.data )  );		        
 		        var expobdToSync = $scope.exprm.experimentOnBoardDescriptors[ $scope.exprm.experimentOnBoardDescriptors.indexOf(eOnBoardedDescriptor) ];
 		        expobdToSync.onBoardingStatus = d.onBoardingStatus;

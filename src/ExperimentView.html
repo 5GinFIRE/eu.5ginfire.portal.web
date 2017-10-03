@@ -17,12 +17,11 @@
 				<i class="fa fa-download fa-2x pull-left"></i><b>&nbsp;&nbsp;&nbsp;&nbsp;Package&nbsp;&nbsp;&nbsp;&nbsp;</b><br><small>Version: {{exprm.version}}</small></a>
 				<h3>{{exprm.shortDescription}}</h3>
 				<p>Author: <strong>{{exprm.owner.username}}</strong>, Organization: <strong>{{exprm.owner.organization}}</strong></p>
-				<p>Vendor: <strong>{{exprm.vendor}}</strong></p>
 				<p>Date created: <strong>{{exprm.dateCreated| date:'medium'}}</strong>, Last update: <strong>{{exprm.dateUpdated | date:'medium' }}</strong></p>
 				<p>UUID: <strong>{{exprm.uuid}}</strong></p>
+				<p>Status: <strong>{{ exprm.valid?'Validated':'Not Valid'; }}</strong></p>
 				<p ng-show="exprm.certified">Certified by: <strong  >{{exprm.certifiedBy}}</strong></p>
-				<p>Supported MANO Platforms: <strong><span ng-repeat="supmanoplatf in exprm.supportedMANOPlatforms">{{supmanoplatf.name}} </span></strong></p>
-				<p>Onboarded to MANO providers: <span ng-repeat="vobd in exprm.vxfOnBoardedDescriptors"> <span class="label label-primary"> {{vobd.obMANOprovider.name}} </span> &nbsp;  </span></p>
+				<p>Onboarded to MANO providers: <span ng-repeat="vobd in exprm.experimentOnBoardDescriptors | filter:{onBoardingStatus: 'ONBOARDED'}"> <span class="label label-primary"> {{vobd.obMANOprovider.name}} </span> &nbsp;  </span></p>
 				
 				<div class="col-sm-12" role="tabpanel">
 				
