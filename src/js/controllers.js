@@ -1599,7 +1599,7 @@ appControllers.controller('DeploymentsListController', ['$scope','$window','$log
 }]);
 
 
-appControllers.controller('CreateAppDeploymentController', ['$scope', '$route', '$rootScope', '$routeParams','$window','$log', 
+appControllers.controller('DeploymentAddController', ['$scope', '$route', '$rootScope', '$routeParams','$window','$log', 
                                                             'DeploymentDescriptor', 'ExperimentMetadata', 'DeployContainer','DeployArtifact',
                                                             'SubscribedResource', '$filter', '$http', 'APIEndPointService', '$location',
                                              	function($scope, $route, $rootScope, $routeParams, $window, $log, DeploymentDescriptor, 

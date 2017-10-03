@@ -82,8 +82,8 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 		templateUrl : 'Deployments.html',
 		controller : 'DeploymentsListController'
 	}).when('/create_app_deployment/:id', {
-		templateUrl : 'CreateAppDeployment.html',
-		controller : 'CreateAppDeploymentController'
+		templateUrl : 'DeploymentAdd.html',
+		controller : 'DeploymentAddController'
 	}).when('/deployments_admin', {
 		templateUrl : 'DeploymentsAdmin.html',
 		controller : 'DeploymentsAdminListController'
