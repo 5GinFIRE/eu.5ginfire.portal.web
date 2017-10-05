@@ -1,4 +1,4 @@
-var appControllers = angular.module('portalapp.controllers',[ 'ngAnimate', 'ngSanitize']) 
+var appControllers = angular.module('portalapp.controllers',[ 'ngAnimate', 'ngSanitize', 'ngMaterial', 'ngMessages']) 
 
 
 appControllers.controller('FeaturedApps', ['$scope','$window','$log', 'ExperimentMetadata', 'Category', '$filter',
@@ -7,7 +7,21 @@ appControllers.controller('FeaturedApps', ['$scope','$window','$log', 'Experimen
         	var orderBy = $filter('orderBy');
          	$scope.apps = ExperimentMetadata.query(function() {
         		    $scope.apps = orderBy($scope.apps, 'name', true);
+        		    
+        		    
+        		    
+        		    angular.forEach($scope.apps, function(app, key) {
+        		    	if ( app.iconsrc.indexOf( 'unknown' ) !== -1 ){
+        		    		app.iconsrc = "images/experiment.png";
+        			  		console.log("app.iconsrc = " + app.iconsrc);
+        			  	  }
+        		    	
+        				});
+        		    
          		  }); 
+         	
+         	
+         	
 }]);
          	
          	
@@ -1533,70 +1547,18 @@ appControllers.controller('DeploymentsListController', ['$scope','$window','$log
  		  }); 
  	
 
-	 $scope.deleteDeployment = function(gridItem, depidx){
 
-		$log.debug("Selected to DELETE Deployment with id = "+ depidx);
-
-		 	var dep=DeploymentDescriptor.get({id:depidx}, function() {
-		 		
-			    
-		        if(popupService.showPopup('Really delete Deployment "'+dep.name+'" ?')){
-				 	
-		        	dep.$delete(function(){
-
-		 			    $log.debug("DELETED DeploymentDescriptor ID "+ dep.id);
-		    			$scope.mydeployments.splice( $scope.mydeployments.indexOf(gridItem),1  );
-		    			
-		            }, function(error) {
-		            	$window.alert("Cannot delete: "+error.data);
-		            });
-		        
-		        }
-		 	});
-	    };
-	    
- 		 
- 	  putAction   = function(action, deployment, depidx){
- 		  $log.debug("Selected to "+action+" Deployment with id = "+ depidx);
-	 		
-	 		return $http({
-				method : 'PUT',
-				url : APIEndPointService.APIURL+'services/api/repo/admin/deployments/'+depidx+'?action='+action,
-				headers : {
-					'Content-Type' : 'application/json'
-				},
-
-	            data: deployment
-				
-	            
-			}).success(function(data, status, headers, config) {			
-
-//		        console.log("data: " + data);
-//		        console.log("data: " + JSON.stringify(data));
-//		        console.log("status: " + status);
-//		        console.log("headers: " + headers);
-//		        console.log("config: " + config);
-		        var d = JSON.parse(  JSON.stringify(data)  );
-		        
-		        $scope.mydeployments[$scope.mydeployments.indexOf(deployment)] = d;
-		        		
-		        
-			}).
-	        error(function (data, status, headers, config) {
-	            alert("failed to communicate! "+status);
-	        });
- 	   }
- 	    
- 	    
- 	   
- 	  $scope.uninstallDeployment = function(deployment, depidx){
-  		 putAction('UNINSTALL',deployment, depidx ); 
-	 	
-	   }
- 	
  	          	
                  	 
 }]);
+
+
+appControllers.filter("dateComputedField", function () {
+    return function (fieldValueUnused, item) {
+        return item.id + " / " + item.name;
+    };
+});
+     
 
 
 appControllers.controller('DeploymentAddController', ['$scope', '$route', '$rootScope', '$routeParams','$window','$log', 
@@ -1607,51 +1569,23 @@ appControllers.controller('DeploymentAddController', ['$scope', '$route', '$root
                                              			$filter, $http, APIEndPointService, $location) {
                  	
 
-	var orderBy = $filter('orderBy');   	
-	$scope.subscribedresources = SubscribedResource.query(function() {
-			$scope.subscribedresources = orderBy($scope.subscribedresources, 'url', false);
-		  }); 
-		 
+	var orderBy = $filter('orderBy');
+
+ 	$scope.experiments = ExperimentMetadata.query(function() {
+ 		    
+		    $scope.experiments = orderBy($scope.experiments, 'name', false);
+		    
+		    
+		    
+ 	}); 
 	
 	$scope.newdeployment = new DeploymentDescriptor(); 	
 	$scope.newdeployment.owner = $rootScope.loggedinportaluser;//PortalUser.get({id:$rootScope.loggedinportaluser.id});
-	$scope.newdeployment.deployContainers=[];//clear everything 	
-	
- 	var myapp = ExperimentMetadata.get({id:$routeParams.id}, function() {	 		
-	 		$scope.newdeployment.baseApplication=myapp;    	
-	 		$scope.newdeployment.name=myapp.name+' Deployment';
-	 		
-	 		angular.forEach(myapp.containers, function(container, containerkey) {
-	 			var dc = new DeployContainer(null, container.name);
-	 			
-	 			angular.forEach(container.deployArtifacts , function(deployArtifact, artifactkey) {
-	 				var da =new DeployArtifact( null, deployArtifact.uuid, 
-	 						deployArtifact.name , 
-	 						deployArtifact.artifactURL, 
-	 						deployArtifact.artifactPackageURL, 
-	 						deployArtifact.extensions);
-	 				
-		 			dc.deployArtifacts.push(da);
-	 				
-	 			});
-	 			
-	 			$scope.newdeployment.deployContainers.push(dc);
-	 			
-	   	 	});	 
-	 		
-	 		$scope.activeContainer = $scope.newdeployment.deployContainers[0];
-	 		
-	}); 
+
+	$scope.newdeployment.startReqDate = new Date();
+	$scope.newdeployment.endReqDate = new Date();
  	
- 	$scope.isActive=function(c) {
-        return $scope.activeContainer === c;
-    };
-    
-    
-    $scope.activateContainer =function(c) {
-        return $scope.activeContainer = c;
-    };
-    
+ 
     
     
     $scope.submitNewAppDeployment = function submit() {
@@ -1666,12 +1600,16 @@ appControllers.controller('DeploymentAddController', ['$scope', '$route', '$root
             data: $scope.newdeployment
 			
             
-		}).success(function(data, status, headers, config) {
-			$location.path("/mydeployments");
-		}).
-        error(function (data, status, headers, config) {
-            alert("failed!");
-        });
+		}).then(function successCallback( response ) {		
+			$location.path("/deployments");	
+
+		}),
+        function error (response) {
+            alert("failed! "+response.status);
+        }; 	 
+		
+		
+		
 	};
  	          	
                  	 
@@ -1761,6 +1699,57 @@ appControllers.controller('DeploymentsAdminListController', ['$scope','$window',
  	          	
                  	 
 }]);
+
+
+
+appControllers.controller('DeploymentEditController', ['$scope', '$route', '$rootScope', '$routeParams','$window','$log', 
+                                                            'DeploymentDescriptor', 'ExperimentMetadata', 'DeployContainer','DeployArtifact',
+                                                            'SubscribedResource', '$filter', '$http', 'APIEndPointService', '$location',
+                                             	function($scope, $route, $rootScope, $routeParams, $window, $log, DeploymentDescriptor, 
+                                             			ExperimentMetadata, DeployContainer, DeployArtifact,  SubscribedResource , 
+                                             			$filter, $http, APIEndPointService, $location) {
+                 	
+
+	
+            
+		$scope.adeployment = DeploymentDescriptor.get({id:$routeParams.id}, function() {  
+
+			$scope.adeployment.startReqDate = new Date( $scope.adeployment.startReqDate );
+			$scope.adeployment.endReqDate = new Date( $scope.adeployment.endReqDate );
+			if ($scope.adeployment.startDate ){
+				$scope.adeployment.startDate = new Date( $scope.adeployment.startDate );
+			}else {
+				$scope.adeployment.startDate = new Date( $scope.adeployment.startReqDate );				
+			}
+			if ($scope.adeployment.endDate ){
+				$scope.adeployment.endDate = new Date( $scope.adeployment.endDate );
+			}else{
+				$scope.adeployment.endDate = new Date( $scope.adeployment.endReqDate );
+				
+			}
+		 	
+		 	$scope.experiments = ExperimentMetadata.query(function() {		 		
+				    //sync data
+				    angular.forEach( $scope.experiments, function(pr, key) {
+				        console.log("-------------------");
+		   	    		if ( $scope.adeployment.experiment.id === pr.id){
+		   	    			$scope.adeployment.experiment = pr;
+		   	    		}
+			    	});
+				    
+		 	}); 
+
+    	});     
+		
+		
+		   $scope.updateDeployment=function(){
+		        $scope.adeployment.$update(function(){
+					$location.path("/deployments_admin");
+		        });
+		    };
+                 	 
+}]);
+
 
 
 appControllers.controller('SignupCtrl', ['$scope', '$route', '$routeParams', '$location', 'PortalUser', '$anchorScroll', 'APIEndPointService', '$http' , 'formDataObject',

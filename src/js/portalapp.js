@@ -81,12 +81,15 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 	}).when('/deployments', {
 		templateUrl : 'Deployments.html',
 		controller : 'DeploymentsListController'
-	}).when('/create_app_deployment/:id', {
+	}).when('/create_deployment', {
 		templateUrl : 'DeploymentAdd.html',
 		controller : 'DeploymentAddController'
 	}).when('/deployments_admin', {
 		templateUrl : 'DeploymentsAdmin.html',
 		controller : 'DeploymentsAdminListController'
+	}).when('/edit_deployment/:id', {
+		templateUrl : 'DeploymentEdit.html',
+		controller : 'DeploymentEditController'
 	}).when('/portal_client', {
 		templateUrl : 'PortalClient.html',
 		controller : 'PortalClientViewController'
@@ -297,6 +300,17 @@ app.controller("LoginCtrl", ["$scope", "$location", "$window", "authenticationSv
     
     
 }]);
+
+
+
+//configure cirrect date output
+
+app.config(function($mdDateLocaleProvider) {
+    $mdDateLocaleProvider.formatDate = function(date) {
+       return moment(date).format('DD-MM-YYYY');
+    };
+});
+
 
 
 

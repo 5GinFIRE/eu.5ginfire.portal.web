@@ -6,13 +6,25 @@
 				<h1>Admin all Deployed Experiments</h1>
 				<h3>View and manage all deployed Experiments</h3>
 				<table id="grid1" tr-ng-grid="" class="usersGrid" items="mydeployments" page-items="10"
-					fields="['id', 'name', 'status', 'owner.username', 'baseApplication.name' ]">
+					fields="['id', 'name',  'experiment.name','dateCreated', 'startReqDate', 'endReqDate', 'startDate', 'endDate' ]">
 					
 					<thead>
 						<tr>
 							<th field-name="id" display-name="Id" cell-width="5em"display-align="right"></th>
 							<th field-name="name" display-name="Name"></th>
-							<th field-name="status" display-name="Status"></th>
+			                <th field-name="dateCreated" display-name="Requested at" display-format="date:'dd-MM-yyyy HH:mm:ss'">
+			                <th field-name="startReqDate" display-name="Reqested start" display-format="date:'dd-MM-yyyy'">
+			                <th field-name="endReqDate" display-name="Reqested end" display-format="date:'dd-MM-yyyy'">
+			                <th field-name="startDate" display-name="Start at" display-format="date:'dd-MM-yyyy'">
+			                <th field-name="endDate" display-name="End at" display-format="date:'dd-MM-yyyy'">
+							<th>
+			                    <div class="tr-ng-title">
+			                        Status
+			                    </div>
+			                </th>
+							<th>
+			                    <div class="tr-ng-title">manage</div>
+			                </th>
 							
 							
 						</tr>
@@ -21,28 +33,16 @@
 						<tr>
 							
 							<td nowrap="nowrap" >
-								<p>Date created: <strong>{{gridItem.dateCreated| date:'medium'}}</strong></p>
-								<h4>Status:									
-									<span ng-show="gridItem.status === 'PENDING_ADMIN_AUTH'  " class="label label-warning">Pending Approval</span>
-									<span ng-show="gridItem.status != 'PENDING_ADMIN_AUTH'  " class="label label-info">{{gridItem.status}}</span>
+								<h4>									
+									<span  ng-class="{label:true, 'label-primary': gridItem.status === 'UNDER_REVIEW', 'label-success': gridItem.status === 'SCHEDULED', 'label-danger': gridItem.status === 'REJECTED', 'label-info': gridItem.status === 'RUNNING'}" >{{gridItem.status}}</span>
+									
 								</h4>
-								
-								<small><div ng-repeat="container in gridItem.deployContainers" style="background-color: rgb(121, 126, 159); color: white; padding: 5px;">
-									<b>{{container.name}}</b><br>
-									<small>({{container.targetResource.url}})</small><br>
-									<div ng-repeat="da in container.deployArtifacts" style="background-color: white; color: black; padding: 5px;">
-										<span >{{da.name}} : <b>{{da.status}}</b> </span>
-										</div>
-								</div></small>
-								
-								<p>&nbsp;</p>
-								<a  
-									class="btn btn-danger" ng-click="deleteDeployment(gridItem, gridItem.id)"><i class="fa fa-trash-o "></i> Delete</a>
-								<a ng-show="gridItem.status === 'PENDING_ADMIN_AUTH'  "  class="btn btn-info" ng-click="authDeployment(gridItem, gridItem.id)"><i class="fa fa-cog "></i> Authorize</a>
-								<a ng-show="gridItem.status === 'PENDING_ADMIN_AUTH'  "  class="btn btn-info" ng-click="denyDeployment(gridItem, gridItem.id)"><i class="fa fa-cog "></i> Deny</a>
-								<a ng-show="gridItem.status === 'INSTALLED'  "  class="btn btn-info" ng-click="uninstallDeployment(gridItem, gridItem.id)"><i class="fa fa-remove "></i> Uninstall</a>
+							</td>				
+							<td nowrap="nowrap" >
+								<a class="btn btn-danger" ng-click="deleteDeployment(gridItem, gridItem.id)"><i class="fa fa-trash-o "></i></a>
+								<a class="btn btn-primary" ng-href="#!/edit_deployment/{{gridDisplayItem.id}}"><i class="fa fa-pencil-square-o "></i></a>			
 							</td>
-						</tr>	
+						</tr>
 					</tbody>
 				</table>
 

@@ -1,0 +1,88 @@
+<div class="page-header" >
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<h1 id="headerTitle">Request new deployment</h1>
+				<h4>user: {{adeployment.owner.username}}</h4>
+
+				<form class="form-horizontal" name="form" role="form" ng-submit="updateDeployment()" id="addApplicationForm">
+				
+					
+				
+				
+				
+					<div class="form-group">
+						<label for="app.name" class="col-sm-2 control-label">Experiment</label>
+						<div class="col-sm-10">
+							<select ng-model="adeployment.experiment" ng-options="e.name for e in experiments" ></select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="app.name" class="col-sm-2 control-label">Name</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  ng-model="adeployment.name" value="" placeholder="enter an alias for your requested deployment" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="vxf.longDescription" class="col-sm-2 control-label">Description</label>
+						<div class="col-sm-10">
+							<textarea class="form-control"   rows="5"  ng-model="adeployment.description" value="" placeholder="" /></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="app.name" class="col-sm-2 control-label">Tentative Start Date</label>
+						<div class="col-sm-10">
+							 <md-datepicker ng-model="adeployment.startReqDate" md-placeholder="Enter date" md-date-locale ="{ msgOpenCalendar: 'Open a special calendar' }" ></md-datepicker>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="app.name" class="col-sm-2 control-label">Tentative End Date</label>
+						<div class="col-sm-10">
+							 <md-datepicker ng-model="adeployment.endReqDate" md-placeholder="Enter date"></md-datepicker>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="app.name" class="col-sm-2 control-label">Scheduled Start Date</label>
+						<div class="col-sm-10">
+							 <md-datepicker ng-model="adeployment.startDate" md-placeholder="Enter date" md-date-locale ="{ msgOpenCalendar: 'Open a special calendar' }" ></md-datepicker>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="app.name" class="col-sm-2 control-label">Scheduled End Date</label>
+						<div class="col-sm-10">
+							 <md-datepicker ng-model="adeployment.endDate" md-placeholder="Enter date"></md-datepicker>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="role" class="col-sm-2 control-label">Status</label>
+						<div class="col-sm-10">
+							<select class="form-control" ng-model="adeployment.status" >
+							  <option>UNDER_REVIEW</option>
+							  <option selected="selected">SCHEDULED</option>on>
+							  <option selected="selected">RUNNING</option>on>
+							  <option selected="selected">REJECTED</option>on>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="adeployment.feedback" class="col-sm-2 control-label">Comments and Feedback</label>
+						<div class="col-sm-10">
+							<textarea class="form-control"   rows="5"  ng-model="adeployment.feedback" value="" placeholder="" /></textarea>
+						</div>
+					</div>
+					
+					
+				
+					
+
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<input class="btn btn-default" type="submit" value="Save" />
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
