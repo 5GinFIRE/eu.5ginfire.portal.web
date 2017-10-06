@@ -1766,7 +1766,7 @@ appControllers.controller('SignupCtrl', ['$scope', '$route', '$routeParams', '$l
         	});
         	
         	link = APIEndPointService.WEBURL+'/#/registerconfirm?rid='+randomid+'&uname='+$scope.portaluser.username;
-            msg='Dear '+$scope.portaluseruser.name+' <br>thank you for registering a 5GinFIRE account!<br><br>\r\n'+
+            msg='Dear '+$scope.portaluser.name+' <br>thank you for registering a 5GinFIRE account!<br><br>\r\n'+
             'Please follow this link:<br> '+link+
             ' <br> or copy it to your web browser\r\n'+
             '<br><br>Thank you\r\nThe FORGEStore team';
@@ -1791,10 +1791,10 @@ appControllers.controller('SignupCtrl', ['$scope', '$route', '$routeParams', '$l
     		}).then(function( response ) {
     			alert("A confirmation email has been sent in order to activate your account.");
     			$location.path("/");
-    		}).
-            error(function (data, status, headers, config) {
-                alert("failed!");
-            });
+    		}),
+	        function error (response) {
+	            alert("failed! "+response.status);
+	        }; 
         	
         };
     

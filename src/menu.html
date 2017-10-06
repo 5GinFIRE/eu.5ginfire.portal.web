@@ -20,14 +20,14 @@
 						<li ng-class="navClass('vxf_marketplace')" ><a href="#!/vxf_marketplace">VxFs</a></li>
 						
 						
-						<li ng-show="loggedIn" class="dropdown">
+						<li ng-show="loggedIn  && ( ( loggedinportaluser.roles.indexOf('EXPERIMENTER')>-1)  || (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1))" class="dropdown">
 							<a class="dropdown-toggle"	href="" data-toggle="dropdown">Deployments <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">								
 								<li ng-class="navClass('deployments')" ><a href="#!/deployments">Deploy Experiments</a></li>
 							</ul>
 						</li>
 							
-						<li ng-show="loggedIn && ( ( loggedinportaluser.roles.indexOf('EXPERIMENTER')>-1) )|| (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1) || ( (loggedinportaluser.role === 'VXF_DEVELOPER') )" class="dropdown"><a class="dropdown-toggle"
+						<li ng-show="loggedIn && ( ( loggedinportaluser.roles.indexOf('EXPERIMENTER')>-1) )|| (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1) || (loggedinportaluser.roles.indexOf('VXF_DEVELOPER')>-1)" class="dropdown"><a class="dropdown-toggle"
 							href="" data-toggle="dropdown">Admin <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1" ><a href="#!/users">System Users</a></li>
