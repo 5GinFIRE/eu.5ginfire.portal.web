@@ -66,6 +66,9 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 	}).when('/vxf_add', {
 		templateUrl : 'VxFAdd.html',
 		controller : 'VxFAddController'
+	}).when('/vxf_upload', {
+		templateUrl : 'VxFUpload.html',
+		controller : 'VxFUploadController'
 	}).when('/vxf_edit/:id', {
 		templateUrl : 'VxFEdit.html',
 		controller : 'VxFEditController'

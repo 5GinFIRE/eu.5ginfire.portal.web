@@ -1051,6 +1051,62 @@ appControllers.controller('VxFAddController', function($scope, $location,
 });
 
 
+appControllers.controller('VxFUploadController', function($scope, $location,
+		AdminVxFMetadata, PortalUser, $rootScope, $http,formDataObject, Category, $filter,
+		APIEndPointService, AdminMANOplatform) {
+	
+	$scope.vxf = new AdminVxFMetadata();
+	$scope.vxf.owner = $rootScope.loggedinportaluser;//PortalUser.get({id:$rootScope.loggedinportaluser.id});
+	$scope.vxf.extensions=[];
+	
+	
+	var orderBy = $filter('orderBy');
+	$scope.categories = Category.query(function() {
+		$scope.categories = orderBy($scope.categories, 'name', false);
+		
+	}); 
+	
+	
+	var orderBy = $filter('orderBy');
+    $scope.MANOplatforms =  AdminMANOplatform.query(function() {
+		$scope.MANOplatforms = orderBy($scope.MANOplatforms, 'name', false);
+		
+	});
+	    
+	    
+	$scope.addVxF = function() {
+		$scope.vxf.$save(function() {
+			$location.path("/vxfs");
+		});
+	}
+	
+		
+	$scope.submitNewVxF = function submit() {
+		
+		 
+		return $http({
+			method : 'POST',
+			url : APIEndPointService.APIURL+'services/api/repo/admin/vxfs/',
+			headers : {
+				'Content-Type' : 'multipart/form-data'
+			},
+			data : {
+				vxf: angular.toJson( $scope.vxf, false ),
+				prodIcon: $scope.uploadedVxFIcon,
+				prodFile: $scope.uploadedVxFFile,
+				//file : $scope.file
+			},
+			transformRequest : formDataObject
+		}).then(function( response ) {
+			$location.path("/vxfs");
+		}),
+        error(function (response) {
+            alert("failed!");
+        });
+	};
+
+});
+
 
 appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParams', '$location', 'AdminVxFMetadata', '$anchorScroll', 'popupService',
                                                 '$http', 'formDataObject', 'cfpLoadingBar', 'Category', '$filter', 'APIEndPointService',
