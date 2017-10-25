@@ -42,6 +42,9 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 	}).when('/experiment_add', {
 		templateUrl : 'ExperimentAdd.html',
 		controller : 'ExperimentAddController'
+	}).when('/experiment_upload', {
+		templateUrl : 'ExperimentUpload.html',
+		controller : 'ExperimentUploadController'
 	}).when('/experiment_edit/:id', {
 		templateUrl : 'ExperimentEdit.html',
 		controller : 'ExperimentEditController'

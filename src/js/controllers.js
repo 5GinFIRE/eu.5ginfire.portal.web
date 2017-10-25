@@ -363,6 +363,70 @@ appControllers.controller('ExperimentAddController', function($scope, $location,
 
 });
 
+appControllers.controller('ExperimentUploadController', function($scope, $location,
+		AdminExperimentMetadata, PortalUser, $rootScope, $http,formDataObject, Category,$filter,APIEndPointService, Container, DeployArtifact, ExperimentMetadata) {
+
+	
+	$scope.exprm = new AdminExperimentMetadata();
+	$scope.exprm.owner = $rootScope.loggedinportaluser;//PortalUser.get({id:$rootScope.loggedinportaluser.id});
+	$scope.exprm.extensions=[];
+
+
+	var orderBy = $filter('orderBy');
+	$scope.categories = Category.query(function() {
+		$scope.categories = orderBy($scope.categories, 'name', false);
+		
+	}); 
+	
+    
+	$scope.addExperiment = function() {
+		$scope.exprm.$save(function() {
+			$location.path("/experiments");
+		});
+	}
+	
+		
+	
+	
+	$scope.submitNewExperiment = function submit() {
+		
+
+		return $http({
+			method : 'POST',
+			url : APIEndPointService.APIURL+'services/api/repo/admin/experiments/',
+			headers : {
+				'Content-Type' : 'multipart/form-data'
+			},
+            //This method will allow us to change how the data is sent up to the server
+            // for which we'll need to encapsulate the model data in 'FormData'
+			transformRequest: formDataObject,
+            //Create an object that contains the model and files which will be transformed
+            // in the above transformRequest method
+            data: { 
+            		exprm: angular.toJson( $scope.exprm, false), 
+            		prodIcon: $scope.uploadedExperimentIcon,
+            		prodFile: $scope.uploadedExperimentFile
+            		}
+			
+            
+		}).then(function(response) {
+			$location.path("/experiments");
+		}),
+        function error ( response ) {
+            alert("failed! "+ response.status);
+        }; 	
+
+	};
+	
+	
+    
+	
+	
+
+
+});
+
+
 appControllers.directive("contenteditable", function() {
 	  return {
 	    require: "ngModel",
