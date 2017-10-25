@@ -1062,15 +1062,13 @@ appControllers.controller('VxFUploadController', function($scope, $location,
 	
 	var orderBy = $filter('orderBy');
 	$scope.categories = Category.query(function() {
-		$scope.categories = orderBy($scope.categories, 'name', false);
-		
+		$scope.categories = orderBy($scope.categories, 'name', false);		
 	}); 
 	
 	
 	var orderBy = $filter('orderBy');
     $scope.MANOplatforms =  AdminMANOplatform.query(function() {
-		$scope.MANOplatforms = orderBy($scope.MANOplatforms, 'name', false);
-		
+		$scope.MANOplatforms = orderBy($scope.MANOplatforms, 'name', false);		
 	});
 	    
 	    
