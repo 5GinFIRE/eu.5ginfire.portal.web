@@ -325,6 +325,7 @@ appControllers.controller('ExperimentAddController', function($scope, $location,
 	
 	
 	
+	
 	$scope.submitNewExperiment = function submit() {
 		
 
@@ -348,19 +349,13 @@ appControllers.controller('ExperimentAddController', function($scope, $location,
             
 		}).then(function(response) {
 			$location.path("/experiments");
-		}),
+		},
         function error ( response ) {
-            alert("failed! "+ response.status);
-        }; 	
+            alert("Failed to read the archive!");
+        }); 	
 
 	};
 	
-	
-    
-	
-	
-
-
 });
 
 appControllers.controller('ExperimentUploadController', function($scope, $location,
@@ -411,10 +406,10 @@ appControllers.controller('ExperimentUploadController', function($scope, $locati
             
 		}).then(function(response) {
 			$location.path("/experiments");
-		}),
+		},
         function error ( response ) {
-            alert("failed! "+ response.status);
-        }; 	
+            alert("Failed to read the archive!");
+        }); 	
 
 	};
 	
@@ -1106,12 +1101,10 @@ appControllers.controller('VxFAddController', function($scope, $location,
 			transformRequest : formDataObject
 		}).then(function( response ) {
 			$location.path("/vxfs");
-		}),
-        error(function (response) {
-            alert("failed!");
+		}, function errorCallback(response) {
+            alert("Failed to read uploaded archive!"  );
         });
 	};
-
 });
 
 
@@ -1161,9 +1154,8 @@ appControllers.controller('VxFUploadController', function($scope, $location,
 			transformRequest : formDataObject
 		}).then(function( response ) {
 			$location.path("/vxfs");
-		}),
-        error(function (response) {
-            alert("failed!");
+		}, function errorCallback(response) {
+            alert("Failed to read uploaded archive!"  );
         });
 	};
 
