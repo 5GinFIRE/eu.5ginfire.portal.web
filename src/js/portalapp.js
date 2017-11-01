@@ -1,5 +1,5 @@
 var app = angular.module('portalapp', [   'ngCookies', 'ngResource', 'ngRoute', 
-                                         'trNgGrid', 'portalapp.controllers', 
+                                         'trNgGrid', 'portalapp.controllers', 'portalwebapp.config', 
                                          'portalapp.services', 'ngDialog',
                                          'angular-loading-bar', 'ngAnimate' ]);
 
@@ -117,6 +117,12 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 	}).when('/edit_manoprovider/:id', {
 		templateUrl : 'MANOproviderEdit.html',
 		controller : 'MANOproviderEditController'
+	}).when('/systeminfo', {
+		templateUrl : 'SystemInfo.html',
+		controller : 'SystemInfoController'
+	}).when('/edit_systeminfo/:id', {
+		templateUrl : 'SystemInfoEdit.html',
+		controller : 'SystemInfoEditController'
 	}).otherwise({
 		redirectTo : '/'
 	});

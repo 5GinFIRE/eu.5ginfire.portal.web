@@ -2077,7 +2077,37 @@ appControllers.controller('MANOproviderEditController', ['$scope', '$route', '$f
 }]);
 
 
+appControllers.controller('SystemInfoController', ['$scope','$window','$log', 'PortalProperty', 'popupService','ngDialog',
+                                                    	function($scope, $window, $log, PortalProperty, popupService, ngDialog ) {
+                        	
+        	$scope.properties = PortalProperty.query(function() {
+        		  }); //query() returns all the categories
+        	
+        	
 
+	  		console.log("SystemInfoController = " );
+                        	 
+}]);
+
+
+appControllers.controller('SystemInfoEditController', ['$scope', '$route', '$routeParams', '$location', 'PortalProperty', '$anchorScroll',
+        function( $scope, $route, $routeParams, $location, PortalProperty, $anchorScroll){
+
+
+    //console.log("WILL EDIT Category with ID "+$routeParams.id);
+	
+    $scope.updateProperty=function(){
+        $scope.prop.$update(function(){
+			$location.path("/systeminfo");
+        });
+    };
+
+    $scope.loadProperty=function(){
+        $scope.prop=PortalProperty.get({id:$routeParams.id});
+    };
+
+    $scope.loadProperty();
+}]);
 
 
 

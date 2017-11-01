@@ -1,17 +1,5 @@
 var appServices = angular.module('portalapp.services',[]);
 
-
-appServices.factory('APIEndPointService', function() {
-	  return {	      
-	      
-		  //APIURL: "/portal/"
-		  APIURL: "http://150.140.184.212:13000/5ginfireportal/" //good to test CROSS ORIGIN scenarios. use with http://127.0.0.1/mp
-		  //APIURL: "http://localhost:13000/5ginfireportal/" //good to test CROSS ORIGIN scenarios. use with http://127.0.0.1/mp
-		  //APIURL: "http://83.212.106.218:8080/5ginfireportal/"
-	  };
-});
-
-
 //PortalUser Resource
 appServices.factory('PortalUser', function($resource, APIEndPointService) {
 	return $resource(APIEndPointService.APIURL+"services/api/repo/admin/users/:id", 
@@ -311,6 +299,18 @@ appServices.factory('ExperimentOnBoardDescriptor', function($resource, APIEndPoi
 	    update: {
 	        method: 'PUT' // this method issues a PUT request
       	
+	      }
+	});
+});
+
+
+//FStoreProperty Resource
+appServices.factory('PortalProperty', function($resource, APIEndPointService) {
+	return $resource(APIEndPointService.APIURL+"services/api/repo/admin/properties/:id", 
+			{ id: '@id' }, {
+	    update: {
+	        method: 'PUT' // this method issues a PUT request
+        	
 	      }
 	});
 });
