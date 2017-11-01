@@ -370,7 +370,8 @@ app.config(function($httpProvider) {
 							&& $location.path() != '/signup' 
 							&& $location.path() != '/experiments_marketplace'
 								&& $location.path() != '/vxf_marketplace'
-							&& ($location.path().indexOf("experiment_view") <=0) 
+									&& ($location.path().indexOf("experiment_view") <=0) 
+									&& ($location.path().indexOf("registerconfirm") <=0) 							
 							&& ($location.path().indexOf("fiwarepopup") <=0) 
 							&& ($location.path().indexOf("vxf_view") <=0) 
 							) {

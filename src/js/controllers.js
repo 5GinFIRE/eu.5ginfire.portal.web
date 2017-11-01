@@ -2109,7 +2109,35 @@ appControllers.controller('SystemInfoEditController', ['$scope', '$route', '$rou
     $scope.loadProperty();
 }]);
 
+appControllers.controller('RegisterConfigController', ['$scope', '$route', '$routeParams', '$location', 'PortalUser', '$anchorScroll', 'APIEndPointService','$http' , 'formDataObject',
+    function( $scope, $route, $routeParams, $location, PortalUser, $anchorScroll, APIEndPointService, $http, formDataObject){
 
+
+	console.log("RegisterConfigController $routeParams username"+$routeParams.uname);
+	console.log("RegisterConfigController $routeParams rid "+$routeParams.rid);
+	
+	return $http({
+		method : 'POST',
+		url : APIEndPointService.APIURL+'services/api/repo/register/verify',
+		headers : {
+			'Content-Type' : 'multipart/form-data'
+		},
+		data : {
+			username: $routeParams.uname,
+			rid: $routeParams.rid,
+		},
+		transformRequest : formDataObject		
+        
+	}).then(function successCallback( response ) {	
+		$scope.portaluser = JSON.parse(  JSON.stringify( response.data )  );
+
+	},
+    function error (response) {
+        alert("Error occured: "+response.status);
+    }); 	 
+	
+    
+}]);
 
 
 
