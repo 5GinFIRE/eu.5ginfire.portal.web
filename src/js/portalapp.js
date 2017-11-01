@@ -123,6 +123,9 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 	}).when('/edit_systeminfo/:id', {
 		templateUrl : 'SystemInfoEdit.html',
 		controller : 'SystemInfoEditController'
+	}).when('/registerconfirm', {
+		templateUrl : 'RegisterConfig.html',
+		controller : 'RegisterConfigController'
 	}).otherwise({
 		redirectTo : '/'
 	});
