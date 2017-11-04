@@ -1673,21 +1673,22 @@ appControllers.filter("dateComputedField", function () {
 
 appControllers.controller('DeploymentAddController', ['$scope', '$route', '$rootScope', '$routeParams','$window','$log', 
                                                             'DeploymentDescriptor', 'ExperimentMetadata', 'DeployContainer','DeployArtifact',
-                                                            'SubscribedResource', '$filter', '$http', 'APIEndPointService', '$location',
+                                                            'SubscribedResource', '$filter', '$http', 'APIEndPointService', '$location', 'Infrastructure',
                                              	function($scope, $route, $rootScope, $routeParams, $window, $log, DeploymentDescriptor, 
                                              			ExperimentMetadata, DeployContainer, DeployArtifact,  SubscribedResource , 
-                                             			$filter, $http, APIEndPointService, $location) {
+                                             			$filter, $http, APIEndPointService, $location, Infrastructure) {
                  	
 
 	var orderBy = $filter('orderBy');
 
- 	$scope.experiments = ExperimentMetadata.query(function() {
- 		    
+ 	$scope.experiments = ExperimentMetadata.query(function() {		    
 		    $scope.experiments = orderBy($scope.experiments, 'name', false);
-		    
-		    
-		    
  	}); 
+ 	
+ 	$scope.infrastructures = Infrastructure.query(function() {
+	    $scope.infrastructures = orderBy($scope.infrastructures, 'name', false);
+	  }); //query() returns all the portalUsers
+	 
 	
 	$scope.newdeployment = new DeploymentDescriptor(); 	
 	$scope.newdeployment.owner = $rootScope.loggedinportaluser;//PortalUser.get({id:$rootScope.loggedinportaluser.id});
@@ -1695,8 +1696,30 @@ appControllers.controller('DeploymentAddController', ['$scope', '$route', '$root
 	$scope.newdeployment.startReqDate = new Date();
 	$scope.newdeployment.endReqDate = new Date();
  	
- 
-    
+	//DeploymentDescriptorVxFPlacement
+	
+	$scope.updatePlacements = function() {
+  		console.log("newdeployment.experiment = " + $scope.newdeployment.experiment );
+  		
+  		$scope.newdeployment.vxfPlacements = [];
+  		
+  		angular.forEach ( $scope.newdeployment.experiment.constituentVxF, function(aconstituentVxF, aconstituentVxFKey) {
+			 console.log('add placement');
+			var placement={};
+//			var aconstituentVxF = {};
+//			aconstituentVxF.vnfdidRef = aconstituentVxF.vnfdidRef
+//			var aninfra = {};
+			placement.constituentVxF = aconstituentVxF;
+			placement.infrastructure = $scope.infrastructureForAll;
+		    	
+			$scope.newdeployment.vxfPlacements.push( placement );
+			 
+			 
+			 
+		 });
+  		
+	}
+	    
     
     $scope.submitNewAppDeployment = function submit() {
 		 

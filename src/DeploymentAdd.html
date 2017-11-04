@@ -7,16 +7,44 @@
 
 				<form class="form-horizontal" name="form" role="form" ng-submit="submitNewAppDeployment()" id="addApplicationForm">
 				
-					
-				
-				
-				
 					<div class="form-group">
-						<label for="app.name" class="col-sm-2 control-label">Experiment</label>
+						<label for="app.name" class="col-sm-2 control-label">Experiment (NSD)</label>
 						<div class="col-sm-10">
-							<select ng-model="newdeployment.experiment" ng-options="e.name for e in experiments" ></select>
+							<select class="form-control" ng-model="newdeployment.experiment" ng-options="e.name for e in experiments" ng-change="updatePlacements()"></select>
 						</div>
 					</div>
+					<div class="form-group">
+						<label for="app.name" class="col-sm-2 control-label">Infrastructure</label>
+						<div class="col-sm-10">
+							<select class="form-control" ng-model="infrastructureForAll" ng-options="e.name for e in infrastructures"  ng-change="updatePlacements()"></select>
+							<p class="help-block">Select Infrastructure to place all constituent VxFs</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="newdeployment.placements" class="col-sm-2 control-label">Constituent VxF Placement:</label>
+						<div class="col-sm-10">
+							<div id="tableExtensions" class="table-editable">
+							    <table class="table">
+							      <tr>
+							        <th>constituent VxF</th>
+							        <th>Infrastructure</th>
+							        <th></th>
+							      </tr>
+							      <tr class="" ng-repeat="ext in newdeployment.vxfPlacements">
+							        <td>{{ext.constituentVxF.vnfdidRef}} [ membervnfIndex:{{ext.constituentVxF.membervnfIndex}} ]</td>
+							        <td> <select class="form-control" ng-model="ext.infrastructure" ng-options="e.name for e in infrastructures" "></select> </td>
+							       
+							      </tr>
+							      
+							    </table>
+							  </div>
+							<p class="help-block">You optinally can select separate Infrastructure to place all each constituent VxFs</p>
+						</div>
+
+					</div>
+					
+					
+					
 					<div class="form-group">
 						<label for="app.name" class="col-sm-2 control-label">Name</label>
 						<div class="col-sm-10">

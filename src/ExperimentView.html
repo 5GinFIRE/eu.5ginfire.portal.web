@@ -22,6 +22,8 @@
 				<p>Status: <strong>{{ exprm.valid?'Validated':'Not Valid'; }}</strong></p>
 				<p ng-show="exprm.certified">Certified by: <strong  >{{exprm.certifiedBy}}</strong></p>
 				<p>Onboarded to MANO providers: <span ng-repeat="vobd in exprm.experimentOnBoardDescriptors | filter:{onBoardingStatus: 'ONBOARDED'}"> <span class="label label-primary"> {{vobd.obMANOprovider.name}} </span> &nbsp;  </span></p>
+				<p>Constituents: <span ng-repeat="cvxf in exprm.constituentVxF"> <a class="btn btn-default" href="#!/vxf_view/{{cvxf.vxfref.id}}" role="button"> {{cvxf.membervnfIndex}}: {{cvxf.vnfdidRef}}  </a> &nbsp;  </span></p>
+				
 				
 				<div class="col-sm-12" role="tabpanel">
 				

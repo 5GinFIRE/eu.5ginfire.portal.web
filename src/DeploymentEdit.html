@@ -14,9 +14,33 @@
 					<div class="form-group">
 						<label for="app.name" class="col-sm-2 control-label">Experiment</label>
 						<div class="col-sm-10">
-							<select ng-model="adeployment.experiment" ng-options="e.name for e in experiments" ></select>
+							{{adeployment.experiment.name}}
 						</div>
 					</div>
+					
+					<div class="form-group">
+						<label for="adeployment.placements" class="col-sm-2 control-label">Constituent VxF Placement:</label>
+						<div class="col-sm-10">
+							<div id="tableExtensions" class="table-editable">
+							    <table class="table">
+							      <tr>
+							        <th>constituent VxF</th>
+							        <th>Infrastructure</th>
+							        <th></th>
+							      </tr>
+							      <tr class="" ng-repeat="ext in adeployment.vxfPlacements">
+							         <td>{{ext.constituentVxF.vnfdidRef}} [ membervnfIndex:{{ext.constituentVxF.membervnfIndex}} ]</td>
+							         <td>{{ext.infrastructure.name}}</td>
+							       
+							       
+							      </tr>
+							      
+							    </table>
+							  </div>
+						</div>
+
+					</div>
+					
 					<div class="form-group">
 						<label for="app.name" class="col-sm-2 control-label">Name</label>
 						<div class="col-sm-10">
