@@ -475,7 +475,6 @@ app.factory("authenticationSvc", ["$http","$q","$window","$rootScope", "$log", "
         }
     }
     init();
-
     return {
         login: login,
         logout: logout,
