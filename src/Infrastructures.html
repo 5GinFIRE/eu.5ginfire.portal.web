@@ -1,0 +1,39 @@
+<div class="page-header" ng-controller="InfrastructureListController">
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<h1>Infrastructures</h1>
+				<h3>View and manage Infrastructures</h3>
+				<a class="btn btn-success btn-lg" data-toggle="modal" ng-href="#!/infrastructures_add"> <i class="fa fa-user fa-2x pull-left"></i>&nbsp;&nbsp;Create New<br>Infrastructure</a>
+				<br>
+				<br>
+				<table id="grid1" tr-ng-grid="" class="usersGrid" items="portalinfrastructures"
+					fields="['id', 'name', 'organization', 'email' ]">
+					<thead>
+						<tr>
+							<th field-name="id" display-name="Id" cell-width="5em"
+								display-align="right"></th>
+
+							<th field-name="name" display-name="Name"></th>
+							<th field-name="organization" display-name="Organization"></th>
+							<th field-name="email" display-name="e-mail"></th>
+
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td nowrap="nowrap">
+								<a class="btn btn-danger" ng-click="deleteInfrastructure(gridItem, gridItem.id,  gridItem.name)"><i class="fa fa-trash-o "></i></a>
+								<a class="btn btn-primary" ng-href="#!/edit_infrastructure/{{gridDisplayItem.id}}"><i class="fa fa-pencil-square-o "></i></a>							
+								<a class="btn btn-info" ng-click="clickToOpen(gridDisplayItem.id)"><i class="fa fa-info-circle "></i></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+</div>

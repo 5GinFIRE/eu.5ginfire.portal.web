@@ -2140,7 +2140,86 @@ appControllers.controller('RegisterConfigController', ['$scope', '$route', '$rou
 }]);
 
 
+	
+appControllers.controller('InfrastructureListController', ['$scope','$window','$log', 'Infrastructure', 'popupService', 'ngDialog',
+                            	function($scope, $window, $log, Infrastructure, popupService, ngDialog) {
+	
+	
 
+	$scope.portalinfrastructures = Infrastructure.query(function() {
+		    //console.log($scope.portalusers);
+		  }); //query() returns all the portalUsers
+		 
+	
+	
+	 $scope.deleteInfrastructure = function(gridItem, useridx, name){
+
+		 	$log.debug("Selected to DELETE Infrastructure with name = "+ name);
+		 	
+
+		 	var portalinfrastructure=Infrastructure.get({id:useridx}, function() {
+			    $log.debug("WILL DELETE Infrastructure with ID "+ portalinfrastructure.id);
+			    
+		        if(popupService.showPopup('Really delete Infrastructure '+name + '" ?')){
+		        	$log.debug("WILL DELETE Infrastructure with $scope.portalinfrastructure.id = "+ portalinfrastructure.id);
+				 	
+		        	portalinfrastructure.$delete(function(){
+		    			$scope.portalinfrastructures.splice($scope.portalinfrastructures.indexOf(gridItem),1)
+		            });
+		        
+		        }
+		 	});
+	    }
+	 
+	 $scope.clickToOpen = function (gridItem) {
+	        ngDialog.open({ 
+	        	template: 'InfrastructureView.html',
+	        	controller : ['$scope', 'Infrastructure', function( $scope,  Infrastructure){
+	        	    $scope.portalinfrastructure= Infrastructure.get({id:gridItem});
+	        	    $log.debug("WILL GET Infrastructure with ID "+gridItem);   
+	    			}],
+	    		className: 'ngdialog-theme-default'
+	    		
+	        	});
+	    };
+	    
+}]);
+
+ 
+	
+
+
+appControllers.controller('InfrastructureAddController',function($scope, $location, Infrastructure){
+
+    $scope.portalinfrastructure=new Infrastructure();
+
+    $scope.addInfrastructure =function(){
+        $scope.portalinfrastructure.$save(function(){
+			$location.path("/infrastructures");
+        });
+    }
+
+});
+
+appControllers.controller('InfrastructureEditController', ['$scope', '$route', '$routeParams', '$location', 'Infrastructure', '$anchorScroll',
+        function( $scope, $route, $routeParams, $location, Infrastructure, $anchorScroll){
+
+
+    //console.log("WILL EDIT User with ID "+$routeParams.id);
+	
+    $scope.updateInfrastructure=function(){
+    	
+        $scope.portalinfrastructure.$update(function(){
+			$location.path("/infrastructures");
+        });
+    };
+
+    $scope.loadInfrastructure=function(){
+        $scope.portalinfrastructure=Infrastructure.get({id:$routeParams.id});
+    };
+
+    $scope.loadInfrastructure();
+}]);
 
 
 

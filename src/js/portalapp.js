@@ -126,6 +126,15 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 	}).when('/registerconfirm', {
 		templateUrl : 'RegisterConfig.html',
 		controller : 'RegisterConfigController'
+	}).when('/infrastructures', {
+		templateUrl : 'Infrastructures.html',
+		controller : 'InfrastructureListController'
+	}).when('/infrastructures_add', {
+		templateUrl : 'InfrastructureAdd.html',
+		controller : 'InfrastructureAddController'
+	}).when('/edit_infrastructure/:id', {
+		templateUrl : 'InfrastructureEdit.html',
+		controller : 'InfrastructureEditController'
 	}).otherwise({
 		redirectTo : '/'
 	});

@@ -304,7 +304,7 @@ appServices.factory('ExperimentOnBoardDescriptor', function($resource, APIEndPoi
 });
 
 
-//FStoreProperty Resource
+//Property Resource
 appServices.factory('PortalProperty', function($resource, APIEndPointService) {
 	return $resource(APIEndPointService.APIURL+"services/api/repo/admin/properties/:id", 
 			{ id: '@id' }, {
@@ -315,5 +315,17 @@ appServices.factory('PortalProperty', function($resource, APIEndPointService) {
 	});
 });
 
+
+
+//Infrastructure
+appServices.factory('Infrastructure', function($resource, APIEndPointService) {
+	return $resource(APIEndPointService.APIURL+"services/api/repo/admin/infrastructures/:id", 
+			{ id: '@id' }, {
+	    update: {
+	        method: 'PUT' // this method issues a PUT request
+      	
+	      }
+	});
+});
 
 
