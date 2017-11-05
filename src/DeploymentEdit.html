@@ -3,13 +3,19 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<h1 id="headerTitle">Request new deployment</h1>
-				<h4>user: {{adeployment.owner.username}}</h4>
+				
 
 				<form class="form-horizontal" name="form" role="form" ng-submit="updateDeployment()" id="addApplicationForm">
 				
 					
 				
-				
+					<div class="form-group">
+						<label for="app.name" class="col-sm-2 control-label">User</label>
+						<div class="col-sm-10">
+							{{adeployment.owner.username}} ( {{adeployment.owner.name}}, {{adeployment.owner.email}}, {{adeployment.owner.organization}} )
+						</div>
+					</div>
+					
 				
 					<div class="form-group">
 						<label for="app.name" class="col-sm-2 control-label">Experiment</label>
