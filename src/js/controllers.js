@@ -83,7 +83,6 @@ appControllers.controller('UserViewController', ['$scope', '$route', '$routePara
 appControllers.controller('UserAddController',function($scope, $location, PortalUser){
 
     $scope.portaluser=new PortalUser();
-
     $scope.addPortalUser=function(){
         $scope.portaluser.$save(function(){
 			$location.path("/users");
@@ -100,14 +99,17 @@ appControllers.controller('UserEditController', ['$scope', '$route', '$routePara
 	
     $scope.updateUser=function(){
 
-        //console.log("$scope.password = "+$scope.password);
-        //console.log("$scope.retypepassword = "+$scope.retypepassword);
+	    console.log( $scope.portaluser );		
+        console.log("$scope.password = "+$scope.password);
+        console.log("$scope.retypepassword = "+$scope.retypepassword);
+        console.log("$scope.portaluser.password = " + $scope.portaluser.password );
     	if ( ($scope.password) && ($scope.password === $scope.retypepassword))
     		$scope.portaluser.password= $scope.password;
     	else {
             //console.log("Will send to server empty password to keep old one ");
     		$scope.portaluser.password= ''; //send empty to server, so not to change!
     	}
+        console.log("$scope.portaluser.password = " + $scope.portaluser.password );
     	
         $scope.portaluser.$update(function(){
 			$location.path("/users");
@@ -115,10 +117,15 @@ appControllers.controller('UserEditController', ['$scope', '$route', '$routePara
     };
 
     $scope.loadUser=function(){
-        $scope.portaluser=PortalUser.get({id:$routeParams.id});
+        $scope.portaluser=PortalUser.get({id:$routeParams.id}, function() {    
+    	    $scope.portaluser.password='';
+    	    console.log( $scope.portaluser );		
+    	});  
+    	
     };
 
     $scope.loadUser();
+    
 }]);
 
 appControllers.directive('equals', function() {
