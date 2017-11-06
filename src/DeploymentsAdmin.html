@@ -6,7 +6,7 @@
 				<h1>Admin all Deployed Experiments</h1>
 				<h3>View and manage all deployed Experiments</h3>
 				<table id="grid1" tr-ng-grid="" class="usersGrid" items="mydeployments" page-items="10"
-					fields="['id', 'name',  'experiment.name','dateCreated', 'startReqDate', 'endReqDate', 'startDate', 'endDate' ]">
+					fields="['id', 'name',  'experiment.name','dateCreated', 'startReqDate', 'endReqDate', 'startDate', 'endDate', 'owner.username' ]">
 					
 					<thead>
 						<tr>
@@ -17,6 +17,7 @@
 			                <th field-name="endReqDate" display-name="Reqested end" display-format="date:'dd-MM-yyyy'">
 			                <th field-name="startDate" display-name="Start at" display-format="date:'dd-MM-yyyy'">
 			                <th field-name="endDate" display-name="End at" display-format="date:'dd-MM-yyyy'">
+			                <th field-name="owner">
 							<th>
 			                    <div class="tr-ng-title">
 			                        Status
