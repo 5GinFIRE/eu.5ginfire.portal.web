@@ -1680,17 +1680,24 @@ appControllers.filter("dateComputedField", function () {
 
 appControllers.controller('DeploymentAddController', ['$scope', '$route', '$rootScope', '$routeParams','$window','$log', 
                                                             'DeploymentDescriptor', 'ExperimentMetadata', 'DeployContainer','DeployArtifact',
-                                                            'SubscribedResource', '$filter', '$http', 'APIEndPointService', '$location', 'Infrastructure',
+                                                            'SubscribedResource', '$filter', '$http', 'APIEndPointService', '$location', 'Infrastructure', 'DeployableExperimentMetadata',
                                              	function($scope, $route, $rootScope, $routeParams, $window, $log, DeploymentDescriptor, 
                                              			ExperimentMetadata, DeployContainer, DeployArtifact,  SubscribedResource , 
-                                             			$filter, $http, APIEndPointService, $location, Infrastructure) {
+                                             			$filter, $http, APIEndPointService, $location, Infrastructure, DeployableExperimentMetadata) {
                  	
 
 	var orderBy = $filter('orderBy');
 
- 	$scope.experiments = ExperimentMetadata.query(function() {		    
+	//experiments sould be all public + my Valid personal
+	
+	
+ 	$scope.experiments = DeployableExperimentMetadata.query(function() { 
+		    
 		    $scope.experiments = orderBy($scope.experiments, 'name', false);
  	}); 
+ 	
+ 	
+ 	
  	
  	$scope.infrastructures = Infrastructure.query(function() {
 	    $scope.infrastructures = orderBy($scope.infrastructures, 'name', false);

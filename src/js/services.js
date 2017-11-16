@@ -107,6 +107,21 @@ appServices.factory('AdminExperimentMetadata', function($resource, APIEndPointSe
 });
 
 
+
+//experiments Resource
+appServices.factory('DeployableExperimentMetadata', function($resource, APIEndPointService) {
+	
+	return $resource(APIEndPointService.APIURL+"services/api/repo/admin/experiments/deployable", 
+			{ id: '@id' }, {				
+		
+		    update: {
+		        method: 'PUT' // this method issues a PUT request      	
+		      	}
+	});
+	
+});
+
+
 appServices.factory('Container', function() {
 	
 	var container = function(id, aName) {
