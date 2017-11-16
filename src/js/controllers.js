@@ -1693,7 +1693,7 @@ appControllers.controller('DeploymentAddController', ['$scope', '$route', '$root
 	
  	$scope.experiments = DeployableExperimentMetadata.query(function() { 
 		    
-		    $scope.experiments = orderBy($scope.experiments, 'name', false);
+		    //$scope.experiments = orderBy($scope.experiments, 'name', false);
  	}); 
  	
  	
