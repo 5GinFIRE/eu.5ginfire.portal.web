@@ -267,8 +267,15 @@ appControllers.controller('ExperimentListController', ['$scope','$window','$log'
                  	
                  	
 
- 	$scope.apps = AdminExperimentMetadata.query(function() {
- 		    //console.log($scope.apps);
+ 	$scope.apps = AdminExperimentMetadata.query(function() {	 		
+	 		angular.forEach( $scope.apps , function( app, appkey) {
+	    		
+	 			if ( app.iconsrc.indexOf( 'unknown' ) !== -1 ){
+		    		app.iconsrc = "images/experiment.png";
+			  		console.log("app.iconsrc = " + app.iconsrc);
+			  	  }
+	 		});
+
  		  }); //query() returns all the subscribedresources
  		 
  	
@@ -1020,7 +1027,12 @@ appControllers.controller('VxFListController', ['$scope','$window','$log', 'Admi
                  	
                  	
  	$scope.vxfs= AdminVxFMetadata.query(function() {
- 		    //console.log($scope.apps);
+	 		angular.forEach( $scope.vxfs , function( vxf, appkey) {
+	    		
+	 			if ( vxf.iconsrc.indexOf( 'unknown' ) !== -1 ){
+	 				vxf.iconsrc = "images/vxf.png";
+			  	  }
+	 		});
  		  }); //query() returns all the subscribedresources
  		 
  	
