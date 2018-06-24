@@ -6,38 +6,43 @@
 					Sign up<br> <small> for the 5GinFIRE portal</small>
 				</h1>
 
-				<form name="form" class="form-horizontal" role="form" ng-submit="registerNewPortalUser()" id="addUserForm">
+				<form name="signupform" class="form-horizontal" role="form" ng-submit="registerNewPortalUser()" id="addUserForm">
 					<input type="hidden" name="userid" value="" />
 					<div class="form-group">
 						<label for="portaluser.name" class="col-sm-2 control-label">Name Lastname</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control"  ng-model="portaluser.name" value="" placeholder="name..." />
+							<input type="text" class="form-control"  ng-model="portaluser.name" value="" placeholder="name..." name="nameLastname" required />
+							<p ng-show="signupform.nameLastname.$error.required" class="help-block">You name is required.</p>
+
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="username" class="col-sm-2 control-label">Username</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control"  ng-model="portaluser.username" value=""
+							<input type="text" class="form-control"  ng-model="portaluser.username" value="" name="username" required
 								placeholder="username..." />
+							<p ng-show="signupform.username.$error.required" class="help-block">You name is required.</p>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="password" class="col-sm-2 control-label">Password</label>
 						<div class="col-sm-10">
-							<input type="password" class="form-control"  ng-model="portaluser.password" value="" equals="{{retypepassword}}" placeholder="password..."/>
+							<input type="password" class="form-control"  ng-model="portaluser.password" value="" equals="{{retypepassword}}" required placeholder="password..." name="password"/>
+							<p ng-show="signupform.password.$error.required" class="help-block">You password is required.</p>
 						</div>
 					</div>
 					
 					<div class="form-group">
 						<label for="confirm_password" class="col-sm-2 control-label">Re-type Password</label>
 						<div class="col-sm-10">
-							<input type="password" class="form-control" name='confirm_password'  ng-model="retypepassword" value="" equals="{{portaluser.password}}" placeholder='confirm password' />
+							<input type="password" class="form-control" name='confirm_password'  ng-model="retypepassword" value="" required equals="{{portaluser.password}}" placeholder='confirm password' />
+							<p ng-show="signupform.confirm_password.$error.required" class="help-block">You password is required.</p>
 						</div>
 					</div>
 					
-					<div class="form-group" ng-show="form.confirm_password.$error.passwordVerify" >
-						<label for="email" class="col-sm-2 control-label"></label>
+					<div class="form-group" ng-show="signupform.confirm_password.$error.passwordVerify" >
+						<label for="errorpasswordfield" class="col-sm-2 control-label"></label>
 						<div  class="col-sm-10 alert alert-danger">
 						Fields are not equal!
 						</div>
@@ -46,19 +51,30 @@
 					<div class="form-group">
 						<label for="email" class="col-sm-2 control-label">e-mail</label>
 						<div class="col-sm-10">
-							<input  type="email" class="form-control"  ng-model="portaluser.email" value="" placeholder="email"/>
+							<input  type="email" class="form-control"  ng-model="portaluser.email" value="" placeholder="email" required name="email"/>
+							<p ng-show="signupform.email.$error.required" class="help-block">You email is required.</p>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="organization" class="col-sm-2 control-label">Organization</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" ng-model="portaluser.organization" value="" />
+							<input type="text" class="form-control" ng-model="portaluser.organization" value="" required name="organization"/>
+							<p ng-show="signupform.organization.$error.required" class="help-block">You organization is required.</p>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="terms" class="col-sm-2 control-label">Terms</label>
+						<div class="col-sm-10">
+							<input type="checkbox" ng-model="terms" name="terms" id="terms" required />
+							<label for="terms">I Agree to the <a href="https://5ginfire.eu/data-protection-declaration/">terms.</a></label>							
+							<span class="alert alert-danger" ng-show="signupform.terms.$error.required">You must agree to the terms</span>
 						</div>
 					</div>
 					
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-							<input class="btn btn-default" type="submit" value="Register" />
+							<input class="btn btn-default" type="submit" value="Register" ng-disabled="!signupform.$valid" />
 						</div>
 					</div>
 				</form>
