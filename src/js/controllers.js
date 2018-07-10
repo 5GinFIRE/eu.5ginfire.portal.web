@@ -1944,8 +1944,8 @@ appControllers.controller('SignupCtrl', ['$scope', '$route', '$routeParams', '$l
     			alert("A confirmation email has been sent in order to activate your account.");
     			$location.path("/");
     		},
-	        function error (response) {
-	            alert("failed! "+response.status);
+	        function errorCallback(error) {
+	            alert( "Failed to register new user! Username or email already exists! " + error.data ); //+ error.data
 	        }); 
         	
         };
