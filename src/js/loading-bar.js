@@ -134,6 +134,8 @@ angular.module('cfp.loadingBarInterceptor', ['cfp.loadingBar'])
             } else {
               cfpLoadingBar.set(reqsCompleted / reqsTotal);
             }
+          } else {
+              setComplete();        	  
           }
           return $q.reject(rejection);
         }

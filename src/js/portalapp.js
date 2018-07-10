@@ -353,7 +353,7 @@ app.config(function($httpProvider) {
 				// AngularJS app, redirect to // login
 				// page
 				$rootScope.loggedIn = $rootScope.loggedIn || $rootScope.username;
-				$log.debug('========== > inside httpProvider.interceptors');
+				$log.debug('========== > inside httpProvider.interceptors request = ' + request.body );
 				
 				if ($window.sessionStorage["userInfo"]!=null) {
 		            userInfo = JSON.parse($window.sessionStorage["userInfo"]);
@@ -391,14 +391,32 @@ app.config(function($httpProvider) {
 			},
 			'responseError' : function(rejection) { // if we're not logged-in to
 													// the web service,
+				//$log.debug('========== > responseError  ' + rejection );
+				//$log.debug('========== > responseError  rejection.headers = ' + rejection.headers  );
+				$log.debug('========== > responseError  rejection.status = ' + rejection.status  );
+				
 				// redirect to login page
 				if (rejection.status === 401 && $location.path() != '/login') {
 					$rootScope.loggedIn = false;
 		            $window.sessionStorage["userInfo"] = null;
 					$location.path('/login');
 				}
+				
+				if (rejection.status === 500 ) {
+
+				}
+				
+				
 				return $q.reject(rejection);
-			}
+			},
+			'response' : function( response ) { 
+				// the web service,
+				//$log.debug('========== > response  ' + response );
+				//$log.debug('========== > response  response.status = ' + response.status  );
+				//$log.debug('========== > response  response.data = ' + response.data );
+				
+				return response;
+				}
 		};
 	});
 });

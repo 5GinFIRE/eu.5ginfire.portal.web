@@ -363,9 +363,8 @@ appControllers.controller('ExperimentAddController', function($scope, $location,
             
 		}).then(function(response) {
 			$location.path("/experiments");
-		},
-        function error ( response ) {
-            alert("Failed to read the archive!");
+		}, function errorCallback(response) {
+            alert( response.statusText + " - Failed to read uploaded archive! " + response.data["message"]  );
         }); 	
 
 	};
@@ -420,18 +419,12 @@ appControllers.controller('ExperimentUploadController', function($scope, $locati
             
 		}).then(function(response) {
 			$location.path("/experiments");
-		},
-        function error ( response ) {
-            alert("Failed to read the archive!");
+		}, function errorCallback(response) {
+            alert( response.statusText + " - Failed to read uploaded archive! " + response.data["message"]  );
         }); 	
 
 	};
 	
-	
-    
-	
-	
-
 
 });
 
@@ -1121,7 +1114,7 @@ appControllers.controller('VxFAddController', function($scope, $location,
 		}).then(function( response ) {
 			$location.path("/vxfs");
 		}, function errorCallback(response) {
-            alert("Failed to read uploaded archive!"  );
+            alert( response.statusText + " - Failed to read uploaded archive! " + response.data["message"]  );
         });
 	};
 });
@@ -1174,7 +1167,7 @@ appControllers.controller('VxFUploadController', function($scope, $location,
 		}).then(function( response ) {
 			$location.path("/vxfs");
 		}, function errorCallback(response) {
-            alert("Failed to read uploaded archive!"  );
+            alert( response.statusText + " - Failed to read uploaded archive! " + response.data["message"]  );
         });
 	};
 
