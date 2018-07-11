@@ -2265,3 +2265,78 @@ appControllers.controller('InfrastructureEditController', ['$scope', '$route', '
 
 
 
+
+
+
+appControllers.controller('VFImageListController', ['$scope','$window','$log', 'VFImage', 'popupService','ngDialog',
+                                             	function($scope, $window, $log, VFImage, popupService, ngDialog ) {
+                 	
+                 	
+ 	$scope.vfimages= VFImage.query(function() {
+	 		angular.forEach( $scope.vfimages , function( img, appkey) {	    		
+	 		});
+ 		  }); //query() returns all the subscribedresources
+ 		 
+ 	
+ 	
+ 	 $scope.deleteVFImage = function(gridItem, useridx){
+
+ 		$log.debug("Selected to DELETE vfimage with id = "+ useridx);
+ 		 	
+
+ 		 	var vxf=VFImage.get({id:useridx}, function() {
+ 			    $log.debug("WILL DELETE VFImage ID "+ vxf.id);
+ 			    
+ 		        if(popupService.showPopup('Really delete Image "'+vxf.name+'" ?')){
+ 				 	
+ 		        	vxf.$delete(function(){
+ 		    			$scope.vfimages.splice($scope.vfimages.indexOf(gridItem),1)
+ 		            });
+ 		        
+ 		        }
+ 		 	});
+ 	    }
+ 	          	
+                 	 
+}]);
+
+
+appControllers.controller('VFImageUploadController', function($scope, $location,
+		VFImage, PortalUser, $rootScope, $http,formDataObject, $filter,
+		APIEndPointService) {
+	
+	$scope.vfimage = new VFImage();
+	$scope.vfimage.owner = $rootScope.loggedinportaluser;	
+	
+		    
+	    
+	$scope.addVFImage = function() {
+		$scope.vfimage.$save(function() {
+			$location.path("/vfimages");
+		});
+	}
+	
+		
+	$scope.submitNewVFImage = function submit() {
+		
+		 
+		return $http({
+			method : 'POST',
+			url : APIEndPointService.APIURL+'services/api/repo/admin/vfimages/',
+			headers : {
+				'Content-Type' : 'multipart/form-data'
+			},
+			data : {
+				vfimage: angular.toJson( $scope.vfimage, false ),
+				prodFile: $scope.uploadedVFImageFile,
+				//file : $scope.file
+			},
+			transformRequest : formDataObject
+		}).then(function( response ) {
+			$location.path("/vfimages");
+		}, function errorCallback(response) {
+            alert( response.statusText + " - Failed to read uploaded archive! " + response.data["message"]  );
+        });
+	};
+
+});

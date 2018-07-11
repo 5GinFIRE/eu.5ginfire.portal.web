@@ -135,6 +135,12 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 	}).when('/edit_infrastructure/:id', {
 		templateUrl : 'InfrastructureEdit.html',
 		controller : 'InfrastructureEditController'
+	}).when('/vfimages', {
+		templateUrl : 'VFImages.html',
+		controller : 'VFImageListController'
+	}).when('/vfimage_upload', {
+		templateUrl : 'VFImageUpload.html',
+		controller : 'VFImageUploadController'
 	}).otherwise({
 		redirectTo : '/'
 	});

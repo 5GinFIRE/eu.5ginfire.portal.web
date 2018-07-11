@@ -226,7 +226,6 @@ appServices.factory('formDataObject', function() {
 });
 
 
-//PortalUser Resource
 appServices.factory('VxFMetadata', function($resource, APIEndPointService) {
 	return $resource(APIEndPointService.APIURL+"services/api/repo/vxfs/:id", 
 		{id : "@id"	}, {
@@ -237,7 +236,6 @@ appServices.factory('VxFMetadata', function($resource, APIEndPointService) {
 	});
 });
 
-//PortalUser Resource
 appServices.factory('AdminVxFMetadata', function($resource, APIEndPointService) {
 	return $resource(APIEndPointService.APIURL+"services/api/repo/admin/vxfs/:id", 
 		{id : "@id"	}, {
@@ -343,4 +341,17 @@ appServices.factory('Infrastructure', function($resource, APIEndPointService) {
 	});
 });
 
+
+
+
+//Infrastructure
+appServices.factory('VFImage', function($resource, APIEndPointService) {
+	return $resource(APIEndPointService.APIURL+"services/api/repo/admin/vfimages/:id", 
+			{ id: '@id' }, {
+	    update: {
+	        method: 'PUT' // this method issues a PUT request
+    	
+	      }
+	});
+});
 

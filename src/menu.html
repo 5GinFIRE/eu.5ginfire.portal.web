@@ -33,6 +33,7 @@
 								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1" ><a href="#!/users">System Users</a></li>
 								<li><a ng-show="( (loggedinportaluser.roles.indexOf('EXPERIMENTER')>-1 ) || (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1)  )" href="#!/experiments">Registered Experiment Descriptors</a></li>
 								<li><a ng-show="( (loggedinportaluser.roles.indexOf('VXF_DEVELOPER')>-1 ) || (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1)  )" href="#!/vxfs">Registered VxFs</a></li>
+								<li><a ng-show="( (loggedinportaluser.roles.indexOf('VXF_DEVELOPER')>-1 ) || (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1)  )" href="#!/vfimages">Registered Images</a></li>
 								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1"><a href="#!/deployments_admin">Registered Deployed Experiments</a></li>
 								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1" class="divider"></li>
 								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1"><a href="#!/categories">Manage Categories</a></li>		
