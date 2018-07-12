@@ -7,12 +7,12 @@
 				<h3>View and manage registered Images</h3>
 				
 				<a class="btn btn-success btn-lg" data-toggle="modal" ng-href="#!/vfimage_upload"> 
-				<i class="fa fa-upload fa-2x pull-left"></i>&nbsp;&nbsp;Upload Image<br>archive</a>
+				<i class="fa fa-upload fa-2x pull-left"></i>&nbsp;&nbsp;Register Image<br>archive</a>
 				
 				<br>
 				<br>
 				<table id="grid1" tr-ng-grid="" class="usersGrid" items="vfimages" page-items="50"
-					fields="['id', 'name', 'dateCreated', 'published', 'shortDescription',  'owner.username']">					
+					fields="['id', 'name', 'published', 'shortDescription', 'owner.username']">					
 					<thead>
 						<tr>
 							<th field-name="id" display-name="Id" cell-width="5em" display-align="right"></th>
@@ -26,7 +26,12 @@
 			                </th>
 			                <th>
 			                    <div class="tr-ng-title">
-			                        Supported by VIMs
+			                        Public URL
+			                    </div>
+			                 </th>
+			                <th>
+			                    <div class="tr-ng-title">
+			                        Local repository
 			                    </div>
 			                 </th>
 						</tr>
@@ -37,13 +42,15 @@
 							<p> {{gridItem.dateCreated| date:'medium'}} </p>
 							</td>
 							<td nowrap="nowrap" >
-							<div ng-repeat="vxfmanoprv in gridItem.supportedMANOPlatforms">{{vxfmanoprv.name}}  {{$last ? '' : ', '}}</div>
+							 <a ng-show="gridItem.publicURL" href="{{gridItem.publicURL}}">Download</a>
 							</td>
-							<td><a href="{{gridItem.packageLocation}}">Package</td>
+							
+							
+							<td><a ng-show="gridItem.packageLocation" href="{{gridItem.packageLocation}}">Download</a></td>
 							<td nowrap="nowrap" >
-								<a class="btn btn-danger" ng-click="deleteVxF(gridItem, gridItem.id)"><i class="fa fa-trash-o "></i></a>
-								<a class="btn btn-primary" ng-href="#!/vxf_edit/{{gridDisplayItem.id}}"><i class="fa fa-pencil-square-o "></i></a>									
-								<a class="btn btn-info" ng-href="#!/vxf_view/{{gridDisplayItem.id}}"><i class="fa fa-info-circle "></i></a>
+								<a class="btn btn-danger" ng-click="deleteVFImage(gridItem, gridItem.id)"><i class="fa fa-trash-o "></i></a>
+								<a class="btn btn-primary" ng-href="#!/vfimage_edit/{{gridDisplayItem.id}}"><i class="fa fa-pencil-square-o "></i></a>									
+								<a class="btn btn-info" ng-href="#!/vfimage_view/{{gridDisplayItem.id}}"><i class="fa fa-info-circle "></i></a>
 							</td>
 						</tr>
 					</tbody>

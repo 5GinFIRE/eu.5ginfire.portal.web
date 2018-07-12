@@ -2316,9 +2316,35 @@ appControllers.controller('VFImageUploadController', function($scope, $location,
 		});
 	}
 	
+	
+	$scope.nameChanged = function() {
+  		console.log("nameChanged = " + $scope.vfimage.name );
+	};
+
+	$scope.nameIsValid = false;
+	$scope.nameExists = false;
+		
+	
+	$scope.checkVFImageName = function checkName() {
+		return $http({
+			method : 'GET',
+			url : APIEndPointService.APIURL+'services/api/repo/admin/vfimages/name/' + $scope.vfimage.name,
+			headers : {
+				'Content-Type' : 'application/json'
+			}
+		}).then(function( response ) {
+			//alert( response.statusText + " - Image exists " + response.data["message"]  );;
+			$scope.nameIsValid = false;
+			$scope.nameExists = true;
+		}, function errorCallback(response) {
+            //alert( response.statusText + " -  Image does not exists ! " + response.data["message"]  );
+            $scope.nameIsValid = true;
+        	$scope.nameExists = false;
+        });
+	};
+	
 		
 	$scope.submitNewVFImage = function submit() {
-		
 		 
 		return $http({
 			method : 'POST',
