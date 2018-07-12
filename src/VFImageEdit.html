@@ -1,0 +1,203 @@
+<div class="page-header" >
+	<div class="container" autoscroll="true">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<h1 id="headerTitle">Edit VxF</h1>
+				<h3>by user: {{vxf.owner.username}}</h3>
+
+				<form class="form-horizontal" name="form" role="form" ng-submit="submitUpdateVxF(true)" id="updateVxFForm">
+					<div class="form-group">
+						<label for="vxf.name" class="col-sm-2 control-label">Name</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  ng-model="vxf.name" value="" placeholder="name..." />
+							<p class="help-block">The name must be exactly the same as in the VNF descriptor ID (vnfd:id) or name (vnfd:name) values. For TOSCA use the metadata:ID</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="vxf.version" class="col-sm-2 control-label">Version</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  ng-model="vxf.version" value="" placeholder="" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="vxf.shortDescription" class="col-sm-2 control-label">Teaser</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  ng-model="vxf.shortDescription" value="" placeholder="" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="vxf.longDescription" class="col-sm-2 control-label">Description</label>
+						<div class="col-sm-10">
+							<textarea class="form-control"   rows="5"  ng-model="vxf.longDescription" value="" placeholder="" /></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="vxf.vendor" class="col-sm-2 control-label">Vendor</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  ng-model="vxf.vendor" value="" placeholder="" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="vxf.uploadedVxFIcon" class="col-sm-2 control-label">Logo</label>
+						<div class="col-sm-10">
+							<input type="file" class="form-control" name="uploadedVxFIcon"  file-model="uploadedVxFIcon" placeholder="" />
+							<p class="help-block">Select logo image</p>
+							
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="vxf.uploadedVxFFile" class="col-sm-2 control-label">Package File (.tar.gz)</label>
+						<div class="col-sm-10">
+							<input type="file" class="form-control" name="uploadedVxFFile"  file-model="uploadedVxFFile" placeholder="" />
+							<p class="help-block">Select file (.tar.gz)</p>
+							
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="role" class="col-sm-2 control-label">Packaging format</label>
+						<div class="col-sm-10">
+							<select class="form-control" ng-model="vxf.packagingFormat" >
+							  <option>TOSCA</option>
+							  <option selected="selected">OSMvTWO</option>on>
+							</select>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="vxf.categories" class="col-sm-2 control-label">Category ( <span ng-repeat="vxfcat in vxf.categories">{{vxfcat.name}} </span> )</label>
+						<div class="col-sm-10">
+							<select multiple class="form-control" ng-model="vxf.categories" ng-options="cat.name for cat in categories" >
+							</select>
+						</div>
+					</div>
+					
+					
+					<div class="form-group">
+						<label for="vxf.termsOfUse" class="col-sm-2 control-label">Terms of Use</label>
+						<div class="col-sm-10">
+							<textarea  rows="5" class="form-control"  ng-model="vxf.termsOfUse" value="" placeholder="" ></textarea>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="vxf.descriptor" class="col-sm-2 control-label">Descriptor</label>
+						<div class="col-sm-10">
+							<textarea  rows="5" class="form-control"  ng-model="vxf.descriptor" value="" placeholder="" ></textarea>
+						</div>
+					</div>
+					
+					<div class="form-group" ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1">
+						<label for="name" class="col-sm-2 control-label">Published</label>
+						<div class="col-sm-1">
+							<input type="checkbox" class="form-control"  ng-model="vxf.published" value=""  />
+							 
+						</div>
+					</div>
+					<div class="form-group" ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1">						
+						<label for="name" class="col-sm-2 control-label">Certified</label>
+						<div class="col-sm-1">
+							<input type="checkbox" class="form-control"  ng-model="vxf.certified" value=""  />
+							 
+						</div>
+					</div>
+					
+					<div class="form-group" ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1">						
+						<label for="name" class="col-sm-2 control-label">Certified by:</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control"  ng-model="vxf.certifiedBy" value="" placeholder="" />
+						</div>
+					</div>
+					
+					
+					<div class="form-group" >
+						<label for="app.category" class="col-sm-2 control-label">Supported MANO Platforms ( <span ng-repeat="supmanoplatf in vxf.supportedMANOPlatforms">{{supmanoplatf.name}} </span> )</label>
+						<div class="col-sm-10">
+							<select multiple class="form-control" ng-model="vxf.supportedMANOPlatforms" ng-options="sm.name for sm in MANOplatforms" >
+							</select>
+						</div>
+					</div>
+					
+					
+					<div class="form-group">
+						<label for="vxf.extensions" class="col-sm-2 control-label">Extension variables</label>
+						<div class="col-sm-10">
+							<div id="tableExtensions" class="table-editable">
+							    <span class="table-add glyphicon glyphicon-plus" ng-click="addExtension(vxf)"></span>
+							    <table class="table">
+							      <tr>
+							        <th>Name</th>
+							        <th>Value</th>
+							        <th></th>
+							      </tr>
+							      <tr class="" ng-repeat="ext in vxf.extensions">
+							        <td><pre contenteditable="true" ng-model="ext.name"></pre></td>
+							        <td><pre contenteditable="true" ng-model="ext.value"></pre></td>
+							        <td>
+							          <span class="table-remove glyphicon glyphicon-remove" ng-click="removeRow(ext)"></span>
+							        </td>
+							       
+							      </tr>
+							      
+							    </table>
+							  </div>
+						</div>
+					  </div>					
+                  
+                  <div class="form-group" ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1">
+						<label for="app.containers" class="col-sm-2 control-label">MANO On Boarding</label>
+						<div class="col-sm-10">							
+							<p class="help-block">Manage VNF on-boarding to target MANO providers</p>
+							
+								<button type="button" class="btn btn-primary" ng-click="onboardToMANOprovider()">On-board to MANO provider</button>							
+								<p></p>
+								<div class="col-sm-12" role="tabpanel">
+								  <!-- Nav tabs -->
+								  <ul class="nav nav-tabs" role="tablist" >
+								    <li ng-repeat="vobd in vxf.vxfOnBoardedDescriptors" role="presentation" ng-class="{'active': isActive(vobd) }">
+								    		<a data-target="{{vobd.deployId}}" aria-controls="{{vobd.deployId}}" role="tab" data-toggle="tab" ng-click="activateVOBD(vobd)" >On board ID:{{vobd.id}}</a></li>
+								   </ul>
+								
+								  <!-- Tab panes -->
+								  <div class="col-sm-12 tab-content"  >
+								    <div ng-repeat="vobd in vxf.vxfOnBoardedDescriptors" role="tabpanel"  ng-class="{'tab-pane':true, 'active': isActive(vobd) }" id="{{vobd.id}}">
+								    <p>Select MANO provider to on-board VxF {{vxf.name}}</p>
+								    
+								    <select ng-disabled="vobd.onBoardingStatus === 'ONBOARDED' || vobd.onBoardingStatus === 'ONBOARDING' " ng-model="vobd.obMANOprovider" ng-options="sm.name for sm in selectedMANOProviders" ></select>								    
+								    <button ng-disabled="vobd.onBoardingStatus === 'ONBOARDED' || vobd.onBoardingStatus === 'ONBOARDING' " type="button" class="btn btn-info" ng-click="onBoardVxF( vobd, vobd.obMANOprovider)">On-Board VxF</button>
+									<button ng-disabled="vobd.onBoardingStatus === 'ONBOARDED' || vobd.onBoardingStatus === 'ONBOARDING' " type="button" class="btn btn-warning" ng-click="deleteVxFOnBoardedDescriptor( vobd )">Delete</button>	
+									<button ng-show="vobd.onBoardingStatus === 'ONBOARDING'" type="button" class="btn  pull-right" ><i class="fa fa-spinner fa-spin fa-fw " aria-hidden="true"></i></i>Waiting...</button>	
+								    
+								    
+								    <div ng-show="vobd.onBoardingStatus!=''" class="col-sm-12 deployArtifact shadowed" > 
+								    	<div class="col-sm-12"> 
+								    	<p> <b>Status: {{vobd.onBoardingStatus}} </b>  (target MANO provider: {{vobd.obMANOprovider.name}})
+								    	<br/> Deployment ID: {{vobd.deployId}} 
+								    	<br/> VxF ID at MANO Provider : {{vobd.vxfMANOProviderID}}
+								    	<br/> On-boarded at: {{vobd.lastOnboarding | date:'medium' }}  
+								    	<button  ng-disabled="vobd.onBoardingStatus != 'ONBOARDED'  && vobd.onBoardingStatus != 'ONBOARDING' " type="button" class="btn btn-warning pull-right" ng-click="removeVxFFromMANO( vobd, vxf)">Off-board VxF from MANO</button>
+								    	 </p>
+								    	</div>
+								    
+								    </div>								  
+								  </div>								
+								</div>							
+								
+
+							</div>
+						</div>
+					</div>
+					
+					
+					
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<input class="btn btn-default" type="submit" value="Save" />
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
