@@ -2310,11 +2310,11 @@ appControllers.controller('VFImageUploadController', function($scope, $location,
 	
 		    
 	    
-	$scope.addVFImage = function() {
-		$scope.vfimage.$save(function() {
-			$location.path("/vfimages");
-		});
-	}
+//	$scope.addVFImage = function() {
+//		$scope.vfimage.$save(function() {
+//			$location.path("/vfimages");
+//		});
+//	}
 	
 	
 	$scope.nameChanged = function() {
@@ -2366,3 +2366,5 @@ appControllers.controller('VFImageUploadController', function($scope, $location,
 	};
 
 });
+
+

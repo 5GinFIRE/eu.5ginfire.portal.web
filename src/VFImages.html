@@ -34,6 +34,11 @@
 			                        Local repository
 			                    </div>
 			                 </th>
+			                <th>
+			                    <div class="tr-ng-title">
+			                        Used by VxF:
+			                    </div>
+			                 </th>
 						</tr>
 					</thead>
 					<tbody>
@@ -43,14 +48,16 @@
 							</td>
 							<td nowrap="nowrap" >
 							 <a ng-show="gridItem.publicURL" href="{{gridItem.publicURL}}">Download</a>
-							</td>
-							
+							</td>							
 							
 							<td><a ng-show="gridItem.packageLocation" href="{{gridItem.packageLocation}}">Download</a></td>
+							
 							<td nowrap="nowrap" >
-								<a class="btn btn-danger" ng-click="deleteVFImage(gridItem, gridItem.id)"><i class="fa fa-trash-o "></i></a>
-								<a class="btn btn-primary" ng-href="#!/vfimage_edit/{{gridDisplayItem.id}}"><i class="fa fa-pencil-square-o "></i></a>									
-								<a class="btn btn-info" ng-href="#!/vfimage_view/{{gridDisplayItem.id}}"><i class="fa fa-info-circle "></i></a>
+							<div ng-repeat="rvxf in gridItem.refVxFs">{{rvxf.name}}  {{$last ? '' : ', '}}</div>
+							</td>
+							
+							<td nowrap="nowrap" >
+								<a class="btn btn-danger" ng-click="deleteVFImage(gridItem, gridItem.id)"><i class="fa fa-trash-o "></i></a>		
 							</td>
 						</tr>
 					</tbody>
