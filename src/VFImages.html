@@ -26,6 +26,11 @@
 			                </th>
 			                <th>
 			                    <div class="tr-ng-title">
+			                        Date updated
+			                    </div>
+			                </th>
+			                <th>
+			                    <div class="tr-ng-title">
 			                        Public URL
 			                    </div>
 			                 </th>
@@ -47,6 +52,9 @@
 							<p> {{gridItem.dateCreated| date:'medium'}} </p>
 							</td>
 							<td nowrap="nowrap" >
+							<p> {{gridItem.dateUpdated| date:'medium'}} </p>
+							</td>
+							<td nowrap="nowrap" >
 							 <a ng-show="gridItem.publicURL" href="{{gridItem.publicURL}}">Download</a>
 							</td>							
 							
@@ -57,7 +65,9 @@
 							</td>
 							
 							<td nowrap="nowrap" >
-								<a class="btn btn-danger" ng-click="deleteVFImage(gridItem, gridItem.id)"><i class="fa fa-trash-o "></i></a>		
+								<a class="btn btn-primary" ng-href="#!/vfimage_edit/{{gridDisplayItem.id}}"><i class="fa fa-pencil-square-o "></i></a>
+								<a class="btn btn-danger" ng-click="deleteVFImage(gridItem, gridItem.id)"><i class="fa fa-trash-o "></i></a>										
+								<a class="btn btn-info" ng-href="#!/vfimage_view/{{gridDisplayItem.id}}"><i class="fa fa-info-circle "></i></a>	
 							</td>
 						</tr>
 					</tbody>

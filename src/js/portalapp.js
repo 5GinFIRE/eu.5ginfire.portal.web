@@ -141,6 +141,12 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 	}).when('/vfimage_upload', {
 		templateUrl : 'VFImageUpload.html',
 		controller : 'VFImageUploadController'
+	}).when('/vfimage_edit/:id', {
+		templateUrl : 'VFImageEdit.html',
+		controller : 'VFImageEditController'
+	}).when('/vfimage_view/:id', {
+		templateUrl : 'VFImageView.html',
+		controller : 'VFImageViewController'
 	}).otherwise({
 		redirectTo : '/'
 	});

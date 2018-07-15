@@ -1415,7 +1415,9 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 			    	syncScreenData(  $scope.vxf, $scope.categories );
 			    	$scope.activevxfOnBoardedDescriptor = $scope.vxf.vxfOnBoardedDescriptors[ $scope.vxf.vxfOnBoardedDescriptors.length-1 ];
 				}
-			});
+			}, function errorCallback(response) {
+	            alert( response.statusText + " - Failed to update VxF! " + response.data["message"]  );
+	        });
 		};
 		
 		
@@ -2368,3 +2370,56 @@ appControllers.controller('VFImageUploadController', function($scope, $location,
 });
 
 
+appControllers.controller('VFImageEditController', function($scope, $location, $routeParams,
+		VFImage, PortalUser, $rootScope, $http,formDataObject, $filter,
+		APIEndPointService) {
+	
+
+	$scope.loadvfimage = function(){
+        $scope.vfimage=VFImage.get({id:$routeParams.id});
+    };
+    
+    
+    $scope.loadvfimage();
+    		   
+		
+	$scope.submitUpdateVFImage = function submit() {
+		 
+		return $http({
+			method : 'PUT',
+			url : APIEndPointService.APIURL+'services/api/repo/admin/vfimages/',
+			headers : {
+				'Content-Type' : 'multipart/form-data'
+			},
+			data : {
+				vfimage: angular.toJson( $scope.vfimage, false ),
+				prodFile: $scope.uploadedVFImageFile,
+				//file : $scope.file
+			},
+			transformRequest : formDataObject
+		}).then(function( response ) {
+			$location.path("/vfimages");
+		}, function errorCallback(response) {
+            alert( response.statusText + " - Failed to read uploaded archive! " + response.data["message"]  );
+        });
+	};
+
+});
+
+
+
+
+appControllers.controller('VFImageViewController', function($scope, $location, $routeParams,
+		VFImage, PortalUser, $rootScope, $http,formDataObject, $filter,
+		APIEndPointService) {
+	
+
+	$scope.loadvfimage = function(){
+        $scope.vfimage=VFImage.get({id:$routeParams.id});
+    };
+    
+    
+    $scope.loadvfimage();
+    		
+
+});

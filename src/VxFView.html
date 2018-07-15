@@ -21,6 +21,7 @@
 				<p>Date created: <strong>{{vxf.dateCreated| date:'medium'}}</strong>, Last update: <strong>{{vxf.dateUpdated | date:'medium' }}</strong></p>
 				<p>UUID: <strong>{{vxf.uuid}}</strong></p>
 				<p ng-show="vxf.certified">Certified by: <strong  >{{vxf.certifiedBy}}</strong></p>
+				<p>Images used: <strong><span ng-repeat="vfimage in vxf.vfimagesVDU"> <span class="label label-primary"> {{vfimage.name}} </span> &nbsp;  </span></p>
 				<p>Supported MANO Platforms: <strong><span ng-repeat="supmanoplatf in vxf.supportedMANOPlatforms">{{supmanoplatf.name}} </span></strong></p>
 				<p>Onboarded to MANO providers: <span ng-repeat="vobd in vxf.vxfOnBoardedDescriptors"> <span class="label label-primary"> {{vobd.obMANOprovider.name}} </span> &nbsp;  </span></p>
 				

@@ -9,14 +9,14 @@
 					<div class="form-group">
 						<label for="vxf.name" class="col-sm-2 control-label">Name</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control"  ng-model="vxf.name" value="" placeholder="name..." />
+							<input type="text" class="form-control"  ng-model="vxf.name" value="" placeholder="name..." ng-disabled="true" />
 							<p class="help-block">The name must be exactly the same as in the VNF descriptor ID (vnfd:id) or name (vnfd:name) values. For TOSCA use the metadata:ID</p>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="vxf.version" class="col-sm-2 control-label">Version</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control"  ng-model="vxf.version" value="" placeholder="" />
+							<input type="text" class="form-control"  ng-model="vxf.version" value="" placeholder="" " ng-disabled="true"/>
 						</div>
 					</div>
 					<div class="form-group">
@@ -28,7 +28,7 @@
 					<div class="form-group">
 						<label for="vxf.longDescription" class="col-sm-2 control-label">Description</label>
 						<div class="col-sm-10">
-							<textarea class="form-control"   rows="5"  ng-model="vxf.longDescription" value="" placeholder="" /></textarea>
+							<textarea class="form-control"   rows="5"  ng-model="vxf.longDescription" value="" placeholder="" " ng-disabled="true" /></textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -49,7 +49,7 @@
 						<label for="vxf.uploadedVxFFile" class="col-sm-2 control-label">Package File (.tar.gz)</label>
 						<div class="col-sm-10">
 							<input type="file" class="form-control" name="uploadedVxFFile"  file-model="uploadedVxFFile" placeholder="" />
-							<p class="help-block">Select file (.tar.gz)</p>
+							<p class="help-block">Select file (.tar.gz). The package will be updated only if Name and Version are equal of this descriptor. A new validation cycle will be triggered.</p>
 							
 						</div>
 					</div>
@@ -64,6 +64,16 @@
 						</div>
 					</div>
 					
+					<div class="form-group">
+						<label for="role" class="col-sm-2 control-label">Images used</label>
+						<div class="col-sm-10">
+							<span ng-repeat="vfimage in vxf.vfimagesVDU">
+								<a class="btn btn-default" href="#!/vfimage_view/{{vfimage.id}}" role="button">{{vfimage.name}}</a>	
+							</span>
+						</div>
+					</div>
+					
+
 					<div class="form-group">
 						<label for="vxf.categories" class="col-sm-2 control-label">Category ( <span ng-repeat="vxfcat in vxf.categories">{{vxfcat.name}} </span> )</label>
 						<div class="col-sm-10">
@@ -83,7 +93,7 @@
 					<div class="form-group">
 						<label for="vxf.descriptor" class="col-sm-2 control-label">Descriptor</label>
 						<div class="col-sm-10">
-							<textarea  rows="5" class="form-control"  ng-model="vxf.descriptor" value="" placeholder="" ></textarea>
+							<textarea  rows="5" class="form-control"  ng-model="vxf.descriptor" value="" placeholder="" " ng-disabled="true"></textarea>
 						</div>
 					</div>
 					

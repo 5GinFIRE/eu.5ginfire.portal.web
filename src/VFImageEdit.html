@@ -2,21 +2,20 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<h1 id="headerTitle">Register an Image archive</h1>
+				<h1 id="headerTitle">Edit an Image archive</h1>
 				<h3>owner: {{vfimage.owner.username}}</h3>
 				<p>This image will be used by VNFs. The location of this image will be used by VIMs to download it and install it. 
 				If you don't have a public URL, you may also upload your image to the 5GinFIRE Image repository</p>
+				<p>NOTICE: VxF using this image will be affected by your update</p>
 
-				<form class="form-horizontal" name="form" role="form" ng-submit="submitNewVFImage()" id="addVFImageForm">
+				<form class="form-horizontal" name="form" role="form" ng-submit="submitUpdateVFImage()" id="updateVFImageForm">
 					
 
 					
 					<div class="form-group">
-						<label for="vfimage.name" class="col-sm-2 control-label"  >Name*</label>
+						<label for="vfimage.name" class="col-sm-2 control-label"  >Name</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control"  ng-model="vfimage.name" value="" placeholder="Image Name (will be used inside VxFs VDU)" ng-blur="checkVFImageName()"/>
-							<p class="help-block">Mandatory. Use a unique name e.g. <i>vendor_imageName_version</i> </p>
-							<p class="alert alert-danger" ng-show="nameExists" > Error. Image name is already registered in the repository</p>
+							<b>{{vfimage.name}}</b>* not editable
 						</div>
 					</div>
 					
@@ -69,7 +68,7 @@
 
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-							<input class="btn btn-default" type="submit" value="Save" ng-disabled="!nameIsValid" />
+							<input class="btn btn-default" type="submit" value="Save" />
 						</div>
 					</div>
 				</form>

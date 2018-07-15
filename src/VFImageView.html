@@ -1,0 +1,29 @@
+<div class="page-header" >
+
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 appIconMainScreen" >
+				<h1></h1>
+			
+			</div>
+			<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+				<h1 id="headerTitle">{{vfimage.name}} </h1>
+				
+				<a class="btn btn-success btn-lg" data-toggle="modal" ng-href="{{vfimage.packageLocation}}"> 
+				<i class="fa fa-download fa-2x pull-left"></i><b>&nbsp;&nbsp;&nbsp;&nbsp;Archive&nbsp;&nbsp;&nbsp;&nbsp;</b></a>
+
+				<h3>{{vfimage.shortDescription}}</h3>
+				<p>Used by VxFs: <span ng-repeat="refVxF in vfimage.refVxFs"> <a class="btn btn-default" href="#!/vxf_view/{{refVxF.id}}" role="button"> {{refVxF.name}}  </a> &nbsp;  </span></p>
+				
+				<p>Owner: <strong>{{vfimage.owner.username}}</strong>, Organization: <strong>{{vfimage.owner.organization}}</strong></p>
+				<p>Public URL: <strong>{{vfimage.publicURL}}</strong> </p>
+
+				<p>Date created: <strong>{{vfimage.dateCreated| date:'medium'}}</strong>, Last update: <strong>{{vfimage.dateUpdated | date:'medium' }}</strong></p>
+				<p>UUID: <strong>{{vfimage.uuid}}</strong></p>
+
+	
+
+			</div>
+		</div>
+	</div>
+</div>

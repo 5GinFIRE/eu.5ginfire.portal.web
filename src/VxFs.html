@@ -8,9 +8,10 @@
 				
 				<a class="btn btn-success btn-lg" data-toggle="modal" ng-href="#!/vxf_upload"> 
 				<i class="fa fa-upload fa-2x pull-left"></i>&nbsp;&nbsp;Upload VxF<br>archive</a>
-				
+				<!--  
 				<a class="btn btn-success btn-lg" data-toggle="modal" ng-href="#!/vxf_add"> 
 				<i class="fa fa-cogs fa-2x pull-left"></i>&nbsp;&nbsp;Create New<br>VxF</a>
+				 -->
 				<br>
 				<br>
 				<table id="grid1" tr-ng-grid="" class="usersGrid" items="vxfs" page-items="50"
@@ -27,6 +28,11 @@
 							<th field-name="longDescription" display-name="Description"></th>
 							<th>
 			                    <div class="tr-ng-title">
+			                        Images
+			                    </div>
+			                </th>
+							<th>
+			                    <div class="tr-ng-title">
 			                        Categories
 			                    </div>
 			                </th>
@@ -39,6 +45,9 @@
 					</thead>
 					<tbody>
 						<tr>
+							<td nowrap="nowrap" >
+							<div ng-repeat="vfimage in  gridItem.vfimagesVDU">{{vfimage.name}}  {{$last ? '' : ', '}}</div>
+							</td>
 							<td nowrap="nowrap" >
 							<div ng-repeat="vxfcat in gridItem.categories">{{vxfcat.name}}  {{$last ? '' : ', '}}</div>
 							</td>
