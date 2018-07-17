@@ -292,7 +292,9 @@ appControllers.controller('ExperimentListController', ['$scope','$window','$log'
  				 	
  		        	app.$delete(function(){
  		    			$scope.apps.splice($scope.apps.indexOf(gridItem),1)
- 		            });
+ 		            }, function errorCallback(response) {
+  		               alert( response.statusText + " - Failed to delete! " + response.data["message"]  );
+  		           });
  		        
  		        }
  		 	});
@@ -1042,7 +1044,9 @@ appControllers.controller('VxFListController', ['$scope','$window','$log', 'Admi
  				 	
  		        	vxf.$delete(function(){
  		    			$scope.vxfs.splice($scope.vxfs.indexOf(gridItem),1)
- 		            });
+ 		            }, function errorCallback(response) {
+ 		               alert( response.statusText + " - Failed to delete! " + response.data["message"]  );
+ 		           });
  		        
  		        }
  		 	});
