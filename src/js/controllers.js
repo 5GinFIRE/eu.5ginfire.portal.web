@@ -757,7 +757,9 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 			    	syncScreenData(  $scope.exprm, $scope.categories );
 			    	$scope.activeExperimentOnBoardDescriptor = $scope.exprm.experimentOnBoardDescriptors[ $scope.exprm.experimentOnBoardDescriptors.length-1 ];
 				}
-			});
+			}, function errorCallback(response) {
+	            alert( response.statusText + " - Failed to update NSD! " + response.data["message"]  );
+	        });
 		};
 		
 		
