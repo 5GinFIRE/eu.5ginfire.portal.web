@@ -44,6 +44,11 @@
 			                        Used by VxF:
 			                    </div>
 			                 </th>
+			                <th>
+			                    <div class="tr-ng-title">
+			                        Deployed to VIMs:
+			                    </div>
+			                 </th>
 						</tr>
 					</thead>
 					<tbody>
@@ -62,6 +67,9 @@
 							
 							<td nowrap="nowrap" >
 							<div ng-repeat="rvxf in gridItem.refVxFs">{{rvxf.name}}  {{$last ? '' : ', '}}</div>
+							</td>
+							<td nowrap="nowrap" >
+							<div ng-repeat="vim in gridItem.deployedInfrastructures">{{vim.name}}  {{$last ? '' : ', '}}</div>
 							</td>
 							
 							<td nowrap="nowrap" >

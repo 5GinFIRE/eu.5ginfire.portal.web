@@ -2,8 +2,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<h1 id="headerTitle">Edit Infrastructure</h1>
-
+				<h1 id="headerTitle">Edit Infrastructure</h1>				
+				
+				<a class="btn btn-success btn-lg" data-toggle="modal" ng-href="#!/vim_vfimage_add/{{portalinfrastructure.id}}"> 
+				<i class="fa fa-database fa-2x pull-left"></i>&nbsp;&nbsp;Add Supported<br>Image</a>
+				<h2/>
 				<form name="form" class="form-horizontal" role="form" ng-submit="updateInfrastructure()" id="editUserForm">
 					<input type="hidden" name="userid" value="" />
 					<div class="form-group">
@@ -20,9 +23,6 @@
 						</div>
 					</div>
 					
-						
-					
-					
 
 					<div class="form-group">
 						<label for="email" class="col-sm-2 control-label">e-mail</label>
@@ -36,10 +36,14 @@
 							<input type="text" class="form-control" ng-model="portalinfrastructure.organization" value="" />
 						</div>
 					</div>
+					<div class="form-group">
+						<label for="organization" class="col-sm-2 control-label">Supported images</label>
+						<div class="col-sm-10">
+							<span ng-repeat="refSupportedImage in portalinfrastructure.refSupportedImages"> <a class="btn btn-default" href="#!/vfimage_view/{{refSupportedImage.id}}" role="button"> {{refSupportedImage.name}}  </a> &nbsp;  </span>
+						</div>
+					</div>
 					
 					
-		
-				
 
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">

@@ -135,6 +135,9 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 	}).when('/edit_infrastructure/:id', {
 		templateUrl : 'InfrastructureEdit.html',
 		controller : 'InfrastructureEditController'
+	}).when('/vim_vfimage_add/:id', {
+		templateUrl : 'InfrastructureAddImage.html',
+		controller : 'InfrastructureAddImageController'
 	}).when('/vfimages', {
 		templateUrl : 'VFImages.html',
 		controller : 'VFImageListController'

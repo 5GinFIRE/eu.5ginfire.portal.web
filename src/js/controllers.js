@@ -2274,6 +2274,34 @@ appControllers.controller('InfrastructureEditController', ['$scope', '$route', '
 
 
 
+appControllers.controller('InfrastructureAddImageController',['$scope', '$route', '$routeParams', '$location', 'Infrastructure', '$anchorScroll', 'VFImage', '$http', 'APIEndPointService', 
+    function( $scope, $route, $routeParams, $location, Infrastructure, $anchorScroll, VFImage, $http, APIEndPointService){
+
+	$scope.vfimages= VFImage.query(function() {
+ 			angular.forEach( $scope.vfimages , function( img, appkey) {	    		
+ 			});
+		}); 
+	$scope.loadInfrastructure=function(){
+        $scope.portalinfrastructure=Infrastructure.get({id:$routeParams.id});
+    };
+
+    $scope.loadInfrastructure();
+    
+	$scope.updateInfrastructure = function submit() {
+		 
+		return $http({
+			method : 'POST',
+			url : APIEndPointService.APIURL+'services/api/repo/admin/infrastructures/' + $scope.portalinfrastructure.id + '/images/' + $scope.vfselectedimage.id
+		}).then(function( response ) {
+			$location.path("/edit_infrastructure/" + $scope.portalinfrastructure.id );
+		}, function errorCallback(response) {
+            alert( response.statusText + " - Failed to read uploaded archive! " + response.data["message"]  );
+        });
+	};
+
+}]);
+
+
 
 
 appControllers.controller('VFImageListController', ['$scope','$window','$log', 'VFImage', 'popupService','ngDialog',
