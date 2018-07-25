@@ -48,10 +48,19 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li ng-show="!loggedIn"><a href="#!/login" >Sign In</a></li>
-					<li ng-show="loggedIn" class="dropdown"><a href="" class="dropdown-toggle"
-						data-toggle="dropdown">{{loggedinportaluser.name}} ( <span ng-repeat="r in loggedinportaluser.roles">{{r}} {{$last ? '' : ', '}} </span> - id: {{loggedinportaluser.id}}) <span class="caret"></span></a>
+					<li ng-show="loggedIn" class="dropdown"><a href="" class="dropdown-toggle" 
+						data-toggle="dropdown">{{loggedinportaluser.name}}<span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="#portal_client">Portal Client</a></li>
+							<li><span style="color: black;font-size: 1.0em;white-space: pre;">User: <b>{{loggedinportaluser.name}}</b></span>
+							<br>
+							<li><span style="color: black;font-size: 1.0em;white-space: pre;">email: <b>{{loggedinportaluser.email}}</b></span>
+							<br>
+							<span style="color: black;font-size: 1.0em;white-space: pre;">Organization: <b>{{loggedinportaluser.organization}}</b></span>
+							<br>
+							<span style="color: black;font-size: 1.0em;white-space: pre;">APIKEY: <b>{{loggedinportaluser.apikey}}</b></span>
+							<br>
+							<span style="color: black;font-size: 1.0em;white-space: pre;">Roles: <b><span ng-repeat="r in loggedinportaluser.roles">{{r}} {{$last ? '' : ', '}}</b> </span></span>
+							</li>
 							<li class="divider"></li>
 							<li><a href="#!/logout">Logout</a></li>
 						</ul>
