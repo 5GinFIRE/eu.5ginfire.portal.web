@@ -533,11 +533,43 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
     
 	$scope.onboardToMANOprovider = function() {
     	console.log('onboardToMANOprovider');
-    	var contnr = new ExperimentOnBoardDescriptor();
-    	$scope.exprm.experimentOnBoardDescriptors.push(contnr);
-    	$scope.activeExperimentOnBoardDescriptor = contnr;   
-    	$scope.submitUpdateExperiment( false );  //save Experiment with the new descriptor added 
+//    	var contnr = new ExperimentOnBoardDescriptor();
+//    	$scope.exprm.experimentOnBoardDescriptors.push(contnr);
+//    	$scope.activeExperimentOnBoardDescriptor = contnr;   
+//    	$scope.submitUpdateExperiment( false );  //save Experiment with the new descriptor added 
+
+    	addOnBoardDescriptorExperiment( $scope.exprm );
 	};
+	
+	
+	addOnBoardDescriptorExperiment = function( aExp ) {
+
+    	console.log("addOnBoardDescriptorExperiment for aExp id = " + aExp.id );
+
+        return $http({
+			method : 'POST',
+			url : APIEndPointService.APIURL+'services/api/repo/admin/experimentobds/',
+			headers : {
+				'Content-Type' : 'application/json'
+			},
+
+            data: aExp
+			
+            
+		}).then(function successCallback( response ) {			
+			//we need to reload the Experiment
+	        $scope.exprm = JSON.parse(  JSON.stringify(response.data)  );
+	    	syncScreenData(  $scope.exprm, $scope.categories );
+	    	$scope.activeExperimentOnBoardDescriptor = $scope.exprm.experimentOnBoardDescriptors[ $scope.exprm.experimentOnBoardDescriptors.length-1 ];
+	        
+		}),
+        function error (response) {
+            alert("failed! "+response.status);
+        }; 	  	   
+        
+        //sareturn avobd;
+        
+    };
 	
 	$scope.deleteExperimentOnBoardDescriptor = function( eOnBoardDescriptor ) {
 
@@ -1189,11 +1221,16 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 
 	
 	$scope.onboardToMANOprovider = function() {
-    	console.log('onboardToMANOprovider');
-    	var contnr = new VxFOnBoardedDescriptor();
-    	$scope.vxf.vxfOnBoardedDescriptors.push(contnr);
-    	$scope.activevxfOnBoardedDescriptor = contnr;   
-    	$scope.submitUpdateVxF( false );  //save vxf with the new descriptor added 
+    	console.log('onboardToMANOprovider');    	
+//    	var contnr = new VxFOnBoardedDescriptor();
+//    	contnr.vxf = $scope.vxf;
+    	addOnBoardDescriptorVxF( $scope.vxf );
+    	
+//    	$scope.vxf.vxfOnBoardedDescriptors.push(contnr);
+//    	$scope.activevxfOnBoardedDescriptor = contnr;   
+//    	$scope.submitUpdateVxF( false );  //save vxf with the new descriptor added 
+    	
+    	
 	};
 	
 	$scope.deleteVxFOnBoardedDescriptor = function( avxfOnBoardedDescriptor ) {
@@ -1220,6 +1257,36 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
     	//$scope.submitUpdateVxF( false );  //save vxf with the new descriptor added 
 	};
 	
+	
+	addOnBoardDescriptorVxF = function( avxf) {
+
+	    	console.log("onBoardVxF for vxf id = " + avxf.id );
+
+	        return $http({
+				method : 'POST',
+				url : APIEndPointService.APIURL+'services/api/repo/admin/vxfobds/',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+
+	            data: avxf
+				
+	            
+			}).then(function successCallback( response ) {			
+				//we need to reload the VxF
+				 //$scope.vxf=VxFMetadata.get( $scope.vxf.id );
+		        $scope.vxf = JSON.parse(  JSON.stringify(response.data)  );
+		        syncScreenData(  $scope.vxf, $scope.categories );
+		    	$scope.activevxfOnBoardedDescriptor = $scope.vxf.vxfOnBoardedDescriptors[ $scope.vxf.vxfOnBoardedDescriptors.length-1 ];
+		        
+			}),
+	        function error (response) {
+	            alert("failed! "+response.status);
+	        }; 	  	   
+	        
+	        //sareturn avobd;
+	        
+	    };
 
 	$scope.isActive=function(c) {
         return $scope.activevxfOnBoardedDescriptor === c;
