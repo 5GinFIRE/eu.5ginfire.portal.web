@@ -674,7 +674,7 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 	  	      		}
 	  	    	  
 	  	    	  retry = retry+1;
-	  	    	  if ( retry> 3){ 
+	  	    	  if ( retry> 4){ 
 		  	    	  console.log("Will cancel max retries CheckStatusOfOBVD vxfobdToSync for " + vobd.id);
 	  	      			$interval.cancel(i);	  
 	  	    	  }
