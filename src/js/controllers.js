@@ -1197,8 +1197,8 @@ appControllers.controller('VxFUploadController', function($scope, $location,
 			},
 			data : {
 				vxf: angular.toJson( $scope.vxf, false ),
-				prodIcon: $scope.uploadedVxFIcon,
 				prodFile: $scope.uploadedVxFFile,
+				prodIcon: $scope.uploadedVxFIcon,
 				//file : $scope.file
 			},
 			transformRequest : formDataObject
