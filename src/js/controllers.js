@@ -744,15 +744,12 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 			        expobdToSync.vxfMANOProviderID = d.vxfMANOProviderID;
 			    	//$scope.activeExperimentOnBoardDescriptor = $scope.vxf.vxfOnBoardedDescriptors.indexOf( d ) ;
 			        
-			        $scope.checkOBVDStatus( expobdToSync );
-			        
-
-			        		
-			        
-				}),
-		        function error (response) {
-		            alert("failed! "+response.status);
-		        }; 	   
+			        //$scope.checkOBVDStatus( expobdToSync );			        			        					        
+				},
+		        function errorCallback(response) {
+			        avxfOnBoardedDescriptor.onBoardingStatus = 'ONBOARDED';			        
+					alert(response.data);
+		        }); 	   
 		        
 	        }
 	        
@@ -1420,7 +1417,6 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 		        //avxfOnBoardedDescriptor.onBoardingStatus = 'ONBOARDED';
 		        //avxfOnBoardedDescriptor.lastOnboarding = new Date();
 		        
-		        avxfOnBoardedDescriptor.onBoardingStatus = 'OFFBOARDING';
 
 		        return $http({
 					method : 'PUT',
@@ -1443,15 +1439,12 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 			        vxfobdToSync.vxfMANOProviderID = d.vxfMANOProviderID;
 			    	//$scope.activevxfOnBoardedDescriptor = $scope.vxf.vxfOnBoardedDescriptors.indexOf( d ) ;
 			        
-			        $scope.checkOBVDStatus( vxfobdToSync );
-			        
-
-			        		
-			        
-				}),
-		        function error (response) {
-		            alert("failed! "+response.status);
-		        }; 	   
+			        //$scope.checkOBVDStatus( vxfobdToSync );			       			        				        
+				},
+		        function errorCallback(response) {
+			        avxfOnBoardedDescriptor.onBoardingStatus = 'ONBOARDED';			        
+					alert(response.data);
+		        }); 	   
 		        
 	        }
 	        
