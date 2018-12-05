@@ -1753,10 +1753,10 @@ appControllers.filter("dateComputedField", function () {
 
 appControllers.controller('DeploymentAddController', ['$scope', '$route', '$rootScope', '$routeParams','$window','$log', 
                                                             'DeploymentDescriptor', 'ExperimentMetadata', 'DeployContainer','DeployArtifact',
-                                                            'SubscribedResource', '$filter', '$http', 'APIEndPointService', '$location', 'Infrastructure', 'DeployableExperimentMetadata',
+                                                            'SubscribedResource', '$filter', '$http', 'APIEndPointService', '$location', 'Infrastructure', 'DeployableExperimentMetadata', 'PortalUser',
                                              	function($scope, $route, $rootScope, $routeParams, $window, $log, DeploymentDescriptor, 
                                              			ExperimentMetadata, DeployContainer, DeployArtifact,  SubscribedResource , 
-                                             			$filter, $http, APIEndPointService, $location, Infrastructure, DeployableExperimentMetadata) {
+                                             			$filter, $http, APIEndPointService, $location, Infrastructure, DeployableExperimentMetadata, PortalUser) {
                  	
 
 	var orderBy = $filter('orderBy');
@@ -1769,7 +1769,7 @@ appControllers.controller('DeploymentAddController', ['$scope', '$route', '$root
 		    //$scope.experiments = orderBy($scope.experiments, 'name', false);
  	}); 
  	
- 	
+	$scope.portalusers = PortalUser.query();		  	
  	
  	
  	$scope.infrastructures = Infrastructure.query(function() {
@@ -1779,10 +1779,11 @@ appControllers.controller('DeploymentAddController', ['$scope', '$route', '$root
 	
 	$scope.newdeployment = new DeploymentDescriptor(); 	
 	$scope.newdeployment.owner = $rootScope.loggedinportaluser;//PortalUser.get({id:$rootScope.loggedinportaluser.id});
+	$scope.newdeployment.mentor = new PortalUser(); 	
 
 	$scope.newdeployment.startReqDate = new Date();
 	$scope.newdeployment.endReqDate = new Date();
- 	
+	 
 	//DeploymentDescriptorVxFPlacement
 	
 	$scope.updatePlacements = function() {
@@ -1799,14 +1800,14 @@ appControllers.controller('DeploymentAddController', ['$scope', '$route', '$root
 			placement.constituentVxF = aconstituentVxF;
 			placement.infrastructure = $scope.infrastructureForAll;
 		    	
-			$scope.newdeployment.vxfPlacements.push( placement );
-			 
-			 
-			 
-		 });
-  		
+			$scope.newdeployment.vxfPlacements.push( placement );			 			 			 
+		 });  		
 	}
 	    
+	// $scope.updateMentor = function() {
+  		
+  	// 	$scope.newdeployment.mentor = $scope.mentor;  		
+	// }
     
     $scope.submitNewAppDeployment = function submit() {
 		 

@@ -5,22 +5,32 @@
 				<h1 id="headerTitle">Deployment management</h1>
 				
 
-				<form class="form-horizontal" name="form" role="form" ng-submit="updateDeployment()" id="addApplicationForm">
-				
-					
-				
+				<form class="form-horizontal" name="form" role="form" ng-submit="updateDeployment()" id="addApplicationForm">													
 					<div class="form-group">
 						<label for="app.name" class="col-sm-2 control-label">User</label>
 						<div class="col-sm-10">
 							{{adeployment.owner.username}} ( {{adeployment.owner.name}}, {{adeployment.owner.email}}, {{adeployment.owner.organization}} )
 						</div>
-					</div>
-					
+					</div>					
 				
 					<div class="form-group">
 						<label for="app.name" class="col-sm-2 control-label">Experiment</label>
 						<div class="col-sm-10">
 							{{adeployment.experiment.name}}
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="app.name" class="col-sm-2 control-label">Infrastructure</label>
+						<div class="col-sm-10">
+							{{adeployment.infrastructureForAll.name}}
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="app.name" class="col-sm-2 control-label">Mentor</label>
+						<div class="col-sm-10">
+							{{adeployment.mentor.name}}, email: {{adeployment.mentor.email}}
 						</div>
 					</div>
 					
@@ -36,15 +46,11 @@
 							      </tr>
 							      <tr class="" ng-repeat="ext in adeployment.vxfPlacements">
 							         <td>{{ext.constituentVxF.vnfdidRef}} [ membervnfIndex:{{ext.constituentVxF.membervnfIndex}} ]</td>
-							         <td>{{ext.infrastructure.name}}</td>
-							       
-							       
-							      </tr>
-							      
+							         <td>{{ext.infrastructure.name}}</td>							       							       
+							      </tr>							      
 							    </table>
 							  </div>
 						</div>
-
 					</div>
 					
 					<div class="form-group">
@@ -83,6 +89,7 @@
 							 <md-datepicker ng-model="adeployment.endDate" md-placeholder="Enter date"></md-datepicker>
 						</div>
 					</div>
+
 					<div class="form-group">
 						<label for="role" class="col-sm-2 control-label">Status</label>
 						<div class="col-sm-10">
@@ -102,11 +109,6 @@
 							<textarea class="form-control"   rows="5"  ng-model="adeployment.feedback" value="" placeholder="" /></textarea>
 						</div>
 					</div>
-					
-					
-				
-					
-
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
 							<input class="btn btn-default" type="submit" value="Save" />
