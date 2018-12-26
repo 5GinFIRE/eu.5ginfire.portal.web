@@ -1775,15 +1775,23 @@ appControllers.controller('DeploymentAddController', ['$scope', '$route', '$root
  	$scope.infrastructures = Infrastructure.query(function() {
 	    $scope.infrastructures = orderBy($scope.infrastructures, 'name', false);
 	  }); //query() returns all the portalUsers
-	 
-	
+	  		
 	$scope.newdeployment = new DeploymentDescriptor(); 	
 	$scope.newdeployment.owner = $rootScope.loggedinportaluser;//PortalUser.get({id:$rootScope.loggedinportaluser.id});
-	$scope.newdeployment.mentor = new PortalUser(); 	
-
+ 	
+	$scope.newdeployment.mentor = new PortalUser();
+	$scope.newdeployment.mentor.required = true;
+	
 	$scope.newdeployment.startReqDate = new Date();
+	$scope.newdeployment.startReqDate.required = true;
 	$scope.newdeployment.endReqDate = new Date();
-	 
+	$scope.newdeployment.endReqDate.required = true;
+
+	$scope.newdeployment.endReqDate.setDate($scope.newdeployment.endReqDate.getDate()+1);
+	
+	//$scope.newdeployment.infrastructureForAll.required = true;	
+	//$scope.newdeployment.name.required = true;
+	
 	//DeploymentDescriptorVxFPlacement
 	
 	$scope.updatePlacements = function() {
@@ -1798,19 +1806,20 @@ appControllers.controller('DeploymentAddController', ['$scope', '$route', '$root
 //			aconstituentVxF.vnfdidRef = aconstituentVxF.vnfdidRef
 //			var aninfra = {};
 			placement.constituentVxF = aconstituentVxF;
-			placement.infrastructure = $scope.infrastructureForAll;
+			placement.infrastructure = $scope.newdeployment.infrastructureForAll;
 		    	
 			$scope.newdeployment.vxfPlacements.push( placement );			 			 			 
 		 });  		
 	}
-	    
-	// $scope.updateMentor = function() {
-  		
-  	// 	$scope.newdeployment.mentor = $scope.mentor;  		
-	// }
-    
+	       
     $scope.submitNewAppDeployment = function submit() {
 		 
+    	if($scope.newdeployment.mentor.username==undefined || $scope.newdeployment.mentor.username=="")
+    	{
+    		alert("Please select a Mentor");
+    		return;
+    	}
+    		
 		return $http({
 			method : 'POST',
 			url : APIEndPointService.APIURL+'services/api/repo/admin/deployments/',
@@ -1826,7 +1835,7 @@ appControllers.controller('DeploymentAddController', ['$scope', '$route', '$root
 
 		}),
         function error (response) {
-            alert("failed! "+response.status);
+            alert("Submittion failed! "+response.status);
         }; 	 
 		
 		

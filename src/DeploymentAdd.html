@@ -10,22 +10,22 @@
 					<div class="form-group">
 						<label for="app.name" class="col-sm-2 control-label">Experiment (NSD)</label>
 						<div class="col-sm-10">
-							<select class="form-control" ng-model="newdeployment.experiment" ng-options="e.name + ' (By: '+ e.owner.name + ' - Public: '+ e.published+' )' for e in experiments" ng-change="updatePlacements()"></select>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label for="app.name" class="col-sm-2 control-label">Infrastructure</label>
-						<div class="col-sm-10">
-							<select class="form-control" ng-model="newdeployment.infrastructureForAll" ng-options="e.name for e in infrastructures"  ng-change="updatePlacements()"></select>
-							<p class="help-block">Select Infrastructure to place all constituent VxFs</p>
+							<select class="form-control" ng-model="newdeployment.experiment" ng-options="e.name + ' (By: '+ e.owner.name + ' - Public: '+ e.published+' )' for e in experiments" ng-change="updatePlacements()" required><option></option></select>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="app.name" class="col-sm-2 control-label">Mentor</label>
 						<div class="col-sm-10">
-							<select class="form-control" ng-model="newdeployment.mentor" ng-options="e.username +' role:' + e.roles +' email:'+ e.email for e in portalusers  | filter:{roles:'MENTOR'}" ></select>
+							<select class="form-control" ng-model="newdeployment.mentor" ng-options="e.username +' role:' + e.roles +' email:'+ e.email for e in filtered = ( portalusers  | filter: {roles:'MENTOR'} )" required></select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="app.name" class="col-sm-2 control-label">Infrastructure</label>
+						<div class="col-sm-10">
+							<select class="form-control" ng-model="newdeployment.infrastructureForAll" ng-options="e.name for e in infrastructures"  ng-change="updatePlacements()" required><option></option></select>
+							<p class="help-block">Select Infrastructure to place all constituent VxFs</p>
 						</div>
 					</div>
 
@@ -41,7 +41,8 @@
 							      </tr>
 							      <tr class="" ng-repeat="ext in newdeployment.vxfPlacements">
 							        <td>{{ext.constituentVxF.vnfdidRef}} [ membervnfIndex:{{ext.constituentVxF.membervnfIndex}} ]</td>
-							        <td> <select class="form-control" ng-model="ext.infrastructure" ng-options="e.name for e in infrastructures" "></select> </td>
+							        <td> <select class="form-control" ng-model="ext.infrastructure" ng-options="e.name for e in infrastructures" ng-required="true" required><option></option></select>
+							         </td>
 							       
 							      </tr>
 							      
@@ -51,13 +52,11 @@
 						</div>
 
 					</div>
-					
-					
-					
+														
 					<div class="form-group">
 						<label for="app.name" class="col-sm-2 control-label">Name</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control"  ng-model="newdeployment.name" value="" placeholder="enter an alias for your requested deployment" />
+							<input type="text" class="form-control"  ng-model="newdeployment.name" value="" placeholder="enter an alias for your requested deployment" required/>
 						</div>
 					</div>
 					<div class="form-group">
