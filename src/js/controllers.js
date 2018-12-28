@@ -747,7 +747,8 @@ appControllers.controller('ExperimentEditController', ['$scope', '$route', '$rou
 			        //$scope.checkOBVDStatus( expobdToSync );			        			        					        
 				},
 		        function errorCallback(response) {
-			        avxfOnBoardedDescriptor.onBoardingStatus = 'ONBOARDED';			        
+					// Mark as OFFBOARDED even in case of failure. The user will decide whether to delete the onboarding record.
+			        avxfOnBoardedDescriptor.onBoardingStatus = 'OFFBOARDED';			        
 					alert(response.data);
 		        }); 	   
 		        
@@ -1442,7 +1443,8 @@ appControllers.controller('VxFEditController', ['$scope', '$route', '$routeParam
 			        //$scope.checkOBVDStatus( vxfobdToSync );			       			        				        
 				},
 		        function errorCallback(response) {
-			        avxfOnBoardedDescriptor.onBoardingStatus = 'ONBOARDED';			        
+					// Mark as OffBoarded even in case of failure. The user will decide to delete the OnBoarding record.
+			        avxfOnBoardedDescriptor.onBoardingStatus = 'OFFBOARDED';			        
 					alert(response.data);
 		        }); 	   
 		        
