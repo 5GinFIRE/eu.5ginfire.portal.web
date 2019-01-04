@@ -17,7 +17,7 @@
 					<div class="form-group">
 						<label for="app.name" class="col-sm-2 control-label">Mentor</label>
 						<div class="col-sm-10">
-							<select class="form-control" ng-model="newdeployment.mentor" ng-options="e.username +' role:' + e.roles +' email:'+ e.email for e in filtered = ( portalusers  | filter: {roles:'MENTOR'} )" required></select>
+							<select class="form-control" ng-model="newdeployment.mentor" ng-options="e.name +' ( email:'+ e.email +' )' for e in mentorusers"  required ></select>
 						</div>
 					</div>
 

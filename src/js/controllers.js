@@ -1755,10 +1755,10 @@ appControllers.filter("dateComputedField", function () {
 
 appControllers.controller('DeploymentAddController', ['$scope', '$route', '$rootScope', '$routeParams','$window','$log', 
                                                             'DeploymentDescriptor', 'ExperimentMetadata', 'DeployContainer','DeployArtifact',
-                                                            'SubscribedResource', '$filter', '$http', 'APIEndPointService', '$location', 'Infrastructure', 'DeployableExperimentMetadata', 'PortalUser',
+                                                            'SubscribedResource', '$filter', '$http', 'APIEndPointService', '$location', 'Infrastructure', 'DeployableExperimentMetadata', 'PortalUser', 'MentorUser',
                                              	function($scope, $route, $rootScope, $routeParams, $window, $log, DeploymentDescriptor, 
                                              			ExperimentMetadata, DeployContainer, DeployArtifact,  SubscribedResource , 
-                                             			$filter, $http, APIEndPointService, $location, Infrastructure, DeployableExperimentMetadata, PortalUser) {
+                                             			$filter, $http, APIEndPointService, $location, Infrastructure, DeployableExperimentMetadata, PortalUser, MentorUser) {
                  	
 
 	var orderBy = $filter('orderBy');
@@ -1771,7 +1771,9 @@ appControllers.controller('DeploymentAddController', ['$scope', '$route', '$root
 		    //$scope.experiments = orderBy($scope.experiments, 'name', false);
  	}); 
  	
-	$scope.portalusers = PortalUser.query();		  	
+	$scope.mentorusers = MentorUser.query(function() { 
+	    
+	}); 		  	
  	
  	
  	$scope.infrastructures = Infrastructure.query(function() {
@@ -1782,7 +1784,7 @@ appControllers.controller('DeploymentAddController', ['$scope', '$route', '$root
 	$scope.newdeployment.owner = $rootScope.loggedinportaluser;//PortalUser.get({id:$rootScope.loggedinportaluser.id});
  	
 	$scope.newdeployment.mentor = new PortalUser();
-	$scope.newdeployment.mentor.required = true;
+	//$scope.newdeployment.mentor.required = true;
 	
 	$scope.newdeployment.startReqDate = new Date();
 	$scope.newdeployment.startReqDate.required = true;

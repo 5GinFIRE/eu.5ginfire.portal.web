@@ -11,6 +11,16 @@ appServices.factory('PortalUser', function($resource, APIEndPointService) {
 	});
 });
 
+//MentorUser Resource
+appServices.factory('MentorUser', function($resource, APIEndPointService) {
+	return $resource(APIEndPointService.APIURL+"services/api/repo/admin/users/mentors/:id", 
+			{ id: '@id' }, {
+	    update: {
+	        method: 'PUT' // this method issues a PUT request
+      	
+	      }
+	});
+})
 
 appServices.factory('SessionService', function($resource, APIEndPointService) {
 	return $resource(APIEndPointService.APIURL+"services/api/repo/sessions/");
