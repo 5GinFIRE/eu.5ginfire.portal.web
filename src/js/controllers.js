@@ -1760,11 +1760,19 @@ appControllers.controller('DeploymentAddController', ['$scope', '$route', '$root
                                              			ExperimentMetadata, DeployContainer, DeployArtifact,  SubscribedResource , 
                                              			$filter, $http, APIEndPointService, $location, Infrastructure, DeployableExperimentMetadata, PortalUser, MentorUser) {
                  	
+	function addZero(i) {
+		  if (i < 10) {
+		    i = "0" + i;
+		  }
+		  return "" + i;
+		}	
 
 	var orderBy = $filter('orderBy');
 
 	//experiments sould be all public + my Valid personal
 	
+	$scope.minutes=[];
+	for (var i=0;i<60;i++) $scope.minutes.push(addZero(i));
 	
  	$scope.experiments = DeployableExperimentMetadata.query(function() { 
 		    
@@ -1792,7 +1800,6 @@ appControllers.controller('DeploymentAddController', ['$scope', '$route', '$root
 	$scope.newdeployment.endReqDate.required = true;
 
 	$scope.newdeployment.endReqDate.setDate($scope.newdeployment.endReqDate.getDate()+1);
-	
 	//$scope.newdeployment.infrastructureForAll.required = true;	
 	//$scope.newdeployment.name.required = true;
 	
@@ -1823,8 +1830,17 @@ appControllers.controller('DeploymentAddController', ['$scope', '$route', '$root
     		alert("Please select a Mentor");
     		return;
     	}
-    		
-		return $http({
+    	
+    	$scope.newdeployment.startReqDate.setUTCHours($scope.newdeployment.startReqHour,$scope.newdeployment.startReqMinute,0);
+    	$scope.newdeployment.endReqDate.setUTCHours($scope.newdeployment.endReqHour,$scope.newdeployment.endReqMinute,0);
+    	
+    	if($scope.newdeployment.startReqDate >= $scope.newdeployment.endReqDate)
+    	{
+    		alert("End Date should be a later date than Start Date");
+    		return;
+    	}
+		
+    	return $http({
 			method : 'POST',
 			url : APIEndPointService.APIURL+'services/api/repo/admin/deployments/',
 			headers : {
@@ -1944,24 +1960,48 @@ appControllers.controller('DeploymentEditController', ['$scope', '$route', '$roo
                                              			$filter, $http, APIEndPointService, $location) {
                  	
 
-	
+		function addZero(i) {
+		  if (i < 10) {
+		    i = "0" + i;
+		  }
+		  return "" + i;
+		}	
             
+		$scope.minutes=[];
+		for (var i=0;i<60;i++) $scope.minutes.push(addZero(i));
+		
 		$scope.adeployment = DeploymentDescriptor.get({id:$routeParams.id}, function() {  
 
 			$scope.adeployment.startReqDate = new Date( $scope.adeployment.startReqDate );
 			$scope.adeployment.endReqDate = new Date( $scope.adeployment.endReqDate );
+
 			if ($scope.adeployment.startDate ){
 				$scope.adeployment.startDate = new Date( $scope.adeployment.startDate );
+				$scope.adeployment.startReqHour = addZero($scope.adeployment.startDate.getUTCHours());
+				$scope.adeployment.startReqMinute = addZero($scope.adeployment.startDate.getUTCMinutes());
+				$scope.adeployment.startHour = addZero($scope.adeployment.startDate.getUTCHours());
+				$scope.adeployment.startMinute = addZero($scope.adeployment.startDate.getUTCMinutes());
 			}else {
 				$scope.adeployment.startDate = new Date( $scope.adeployment.startReqDate );				
+				$scope.adeployment.startReqHour = addZero($scope.adeployment.startReqDate.getUTCHours());
+				$scope.adeployment.startReqMinute = addZero($scope.adeployment.startReqDate.getUTCMinutes());
+				$scope.adeployment.startHour = addZero($scope.adeployment.startReqDate.getUTCHours());
+				$scope.adeployment.startMinute = addZero($scope.adeployment.startReqDate.getUTCMinutes());
 			}
 			if ($scope.adeployment.endDate ){
 				$scope.adeployment.endDate = new Date( $scope.adeployment.endDate );
+				$scope.adeployment.endReqHour = addZero($scope.adeployment.endReqDate.getUTCHours());
+				$scope.adeployment.endReqMinute = addZero($scope.adeployment.endReqDate.getUTCMinutes());
+				$scope.adeployment.endHour = addZero($scope.adeployment.endDate.getUTCHours());
+				$scope.adeployment.endMinute = addZero($scope.adeployment.endDate.getUTCMinutes());
 			}else{
 				$scope.adeployment.endDate = new Date( $scope.adeployment.endReqDate );
-				
+				$scope.adeployment.endReqHour = addZero($scope.adeployment.endReqDate.getUTCHours());
+				$scope.adeployment.endReqMinute = addZero($scope.adeployment.endReqDate.getUTCMinutes());				
+				$scope.adeployment.endHour = addZero($scope.adeployment.endDate.getUTCHours());
+				$scope.adeployment.endMinute = addZero($scope.adeployment.endDate.getUTCMinutes());
 			}
-		 	
+			
 		 	$scope.experiments = ExperimentMetadata.query(function() {		 		
 				    //sync data
 				    angular.forEach( $scope.experiments, function(pr, key) {
@@ -1974,13 +2014,20 @@ appControllers.controller('DeploymentEditController', ['$scope', '$route', '$roo
 		 	}); 
 
     	});     
+			
 		
-		
-		   $scope.updateDeployment=function(){
-		        $scope.adeployment.$update(function(){
-					$location.path("/deployments_admin");
-		        });
-		    };
+	   $scope.updateDeployment=function(){
+	    	$scope.adeployment.startDate.setUTCHours($scope.adeployment.startHour,$scope.adeployment.startMinute,0);
+	    	$scope.adeployment.endDate.setUTCHours($scope.adeployment.endHour,$scope.adeployment.endMinute,0);
+	    	if($scope.adeployment.startDate >= $scope.adeployment.endDate)
+	    	{
+	    		alert("End Date must be a date after Start Date");
+	    		return;
+	    	}
+	    	
+	        $scope.adeployment.$update(function(){	        	
+	        });
+	    };
                  	 
 }]);
 
