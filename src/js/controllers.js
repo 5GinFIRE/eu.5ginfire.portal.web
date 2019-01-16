@@ -1774,13 +1774,12 @@ appControllers.controller('DeploymentAddController', ['$scope', '$route', '$root
 	$scope.minutes=[];
 	for (var i=0;i<60;i++) $scope.minutes.push(addZero(i));
 	
- 	$scope.experiments = DeployableExperimentMetadata.query(function() { 
-		    
-		    //$scope.experiments = orderBy($scope.experiments, 'name', false);
+ 	$scope.experiments = DeployableExperimentMetadata.query(function() { 		    
+		    $scope.experiments = orderBy($scope.experiments, 'name', false);
  	}); 
  	
 	$scope.mentorusers = MentorUser.query(function() { 
-	    
+		$scope.mentorusers = orderBy($scope.mentorusers, 'name', false);
 	}); 		  	
  	
  	
@@ -1855,7 +1854,7 @@ appControllers.controller('DeploymentAddController', ['$scope', '$route', '$root
 
 		}),
         function error (response) {
-            alert("Submittion failed! "+response.status);
+            alert("Submition failed! "+response.status);
         }; 	 
 		
 		
@@ -2025,8 +2024,26 @@ appControllers.controller('DeploymentEditController', ['$scope', '$route', '$roo
 	    		return;
 	    	}
 	    	
-	        $scope.adeployment.$update(function(){	        	
-	        });
+	        
+	        
+	        return $http({
+				method : 'PUT',
+				url : APIEndPointService.APIURL+'services/api/repo/admin/deployments/'+$scope.adeployment.id,
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+
+	            data: $scope.adeployment
+				
+	            
+			}).then(function successCallback( response ) {		
+				$location.path("/deployments_admin");	
+
+			}),
+	        function error (response) {
+	            alert("Submition failed! "+response.status);
+	        }; 	
+	        
 	    };
                  	 
 }]);
