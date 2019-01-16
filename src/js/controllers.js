@@ -1734,12 +1734,27 @@ appControllers.controller('DeploymentsListController', ['$scope','$window','$log
                                              	function($scope, $window, $log, DeploymentDescriptor, popupService, ngDialog, $http, APIEndPointService ) {
                  	
                  	
- 	$scope.mydeployments= DeploymentDescriptor.query(function() {
- 		    
- 		  }); 
+// 	$scope.mydeployments= DeploymentDescriptor.query(function() {
+// 		    
+// 		  }); 
  	
+ 	 function mydeployments() {
+		return $http({
+			method : 'GET',
+			url : APIEndPointService.APIURL+'services/api/repo/admin/deployments/user' ,
+			headers : {
+				'Content-Type' : 'application/json'
+			}
+		}).then(function( response ) {
+			var d = JSON.parse(  JSON.stringify( response.data )  );
+			$scope.mydeployments = d;
+		}, function errorCallback(response) {
+            
+        });
+	};
 
 
+	mydeployments();
  	          	
                  	 
 }]);
