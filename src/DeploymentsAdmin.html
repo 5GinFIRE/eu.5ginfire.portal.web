@@ -4,7 +4,7 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<h1>Admin all Deployed Experiments</h1>
-				<h3>View and manage all deployed Experiments</h3>
+				<h3>View and manage all deployed Experiments (assigned as Mentor: {{vxf.mentor.name}}) </h3>
 				<table id="grid1" tr-ng-grid="" class="usersGrid" items="mydeployments" page-items="50"
 					fields="['id', 'name',  'experiment.name','dateCreated', 'startReqDate', 'endReqDate', 'startDate', 'endDate', 'owner.username', 'mentor.name' ]">
 					
