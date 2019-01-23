@@ -7,6 +7,12 @@
 				<h3>View and manage requested deployed experiments</h3>
 				<a class="btn btn-success btn-lg" data-toggle="modal" ng-href="#!/create_deployment"> 
 				<i class="fa fa-cogs fa-2x pull-left"></i>&nbsp;&nbsp;Request New<br>&nbsp;Deployment</a>
+				<a class="btn btn-info btn-lg" data-toggle="modal" ng-click="showActiveDeployments()"> 
+				<i class="fa fa-circle-o fa-1x pull-left"></i>&nbsp;View all<br>Active</a>
+				<a class="btn btn-primary btn-lg" data-toggle="modal" ng-click="showCompletedDeployments()"> 
+				<i class="fa fa-check fa-1x pull-left"></i>&nbsp;View all<br>Completed</a>
+				<a class="btn btn-danger btn-lg" data-toggle="modal" ng-click="showRejectedDeployments()"> 
+				<i class="fa fa-remove fa-1x pull-left"></i>&nbsp;View all<br>Rejected</a>
 				<br>
 				<br>
 				

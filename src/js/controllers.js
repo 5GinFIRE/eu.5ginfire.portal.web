@@ -1756,6 +1756,40 @@ appControllers.controller('DeploymentsListController', ['$scope','$window','$log
 
 	mydeployments();
  	          	
+	
+	$scope.showActiveDeployments = function () {
+		mydeployments();
+	}; 
+	
+	$scope.showCompletedDeployments = function () {
+		return $http({
+			method : 'GET',
+			url : APIEndPointService.APIURL+'services/api/repo/admin/deployments/user?status=COMPLETED' ,
+			headers : {
+				'Content-Type' : 'application/json'
+			}
+		}).then(function( response ) {
+			var d = JSON.parse(  JSON.stringify( response.data )  );
+			$scope.mydeployments = d;
+		}, function errorCallback(response) {
+            
+        });;  
+	}; 
+	
+ 	$scope.showRejectedDeployments = function () {
+ 		return $http({
+			method : 'GET',
+			url : APIEndPointService.APIURL+'services/api/repo/admin/deployments/user?status=REJECTED' ,
+			headers : {
+				'Content-Type' : 'application/json'
+			}
+		}).then(function( response ) {
+			var d = JSON.parse(  JSON.stringify( response.data )  );
+			$scope.mydeployments = d;
+		}, function errorCallback(response) {
+            
+        });
+ 	}; 
                  	 
 }]);
 
@@ -1888,6 +1922,25 @@ appControllers.controller('DeploymentsAdminListController', ['$scope','$window',
  	$scope.mydeployments= DeploymentDescriptor.query(function() {
  		    
  		  }); 
+ 	
+ 	$scope.showActiveDeployments = function () {
+			$scope.mydeployments= DeploymentDescriptor.query(function() {
+		    
+	  });  
+ 	}; 
+ 	
+ 	$scope.showCompletedDeployments = function () {
+ 			$scope.mydeployments= DeploymentDescriptor.query({status:"COMPLETED"},function() {
+ 		    
+		  });  
+	 }; 
+ 	
+	 	$scope.showRejectedDeployments = function () {
+ 			$scope.mydeployments= DeploymentDescriptor.query({status:"REJECTED"},function() {
+ 		    
+		  });  
+	 }; 
+ 	
  		 
  	
  	 $scope.deleteDeployment = function(gridItem, depidx){
