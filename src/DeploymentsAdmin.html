@@ -6,7 +6,7 @@
 				<h1>Admin all Deployed Experiments</h1>
 				<h3>View and manage all deployed Experiments (assigned as Mentor) </h3>
 				<table id="grid1" tr-ng-grid="" class="usersGrid" items="mydeployments" page-items="50"
-					fields="['id', 'name',  'experiment.name','dateCreated', 'startReqDate', 'endReqDate', 'startDate', 'endDate', 'owner.username', 'mentor.name' ]">
+					fields="['id', 'name',  'experiment.name','dateCreated', 'startReqDate', 'endReqDate', 'startDate', 'endDate', 'owner.username', 'mentor.name', 'operational_status', 'config_status', 'detailed_status', 'constituent_vnfr_ref' ]">
 					
 					<thead>
 						<tr>
@@ -17,6 +17,10 @@
 			                <th field-name="endReqDate" display-name="Requested Local Time End" display-format="date:'dd-MM-yyyy HH:mm:ss'">
 			                <th field-name="startDate" display-name="Start Local Time" display-format="date:'dd-MM-yyyy HH:mm:ss'">
 			                <th field-name="endDate" display-name="End Local Time" display-format="date:'dd-MM-yyyy HH:mm:ss'">
+			                <th field-name="operational_status" display-name="Operational Status">
+			                <th field-name="config_status" display-name="Config Status">
+			                <th field-name="detailed_status" display-name="Detailed Status">
+			                <th field-name="constituent_vnfr_ref" display-name="VNF IPs">
 			                <th field-name="owner">
 							<th>
 			                    <div class="tr-ng-title">
@@ -25,9 +29,7 @@
 			                </th>
 							<th>
 			                    <div class="tr-ng-title">manage</div>
-			                </th>
-							
-							
+			                </th>													
 						</tr>
 					</thead>
 					<tbody>
