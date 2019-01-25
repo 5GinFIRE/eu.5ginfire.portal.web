@@ -18,7 +18,7 @@
 				
 				
 				<table id="grid1" tr-ng-grid="" class="usersGrid" items="mydeployments" page-items="50"
-					fields="['id', 'name',  'experiment.name','dateCreated', 'startReqDate', 'endReqDate', 'startDate', 'endDate', 'description', 'feedback', 'mentor.name' , 'operational_status', 'config_status', 'detailed_status', 'constituent_vnfr_ref' ]">
+					fields="['id', 'name',  'experiment.name','dateCreated', 'startReqDate', 'endReqDate', 'startDate', 'endDate', 'description', 'feedback', 'mentor.name' , 'operationalStatus', 'config_status', 'detailed_status', 'constituent_vnfr_ips' ]">
 					
 					<thead>
 						<tr>
@@ -29,10 +29,10 @@
 			                <th field-name="endReqDate" display-name="Requested Local End Time" display-format="date:'dd-MM-yyyy HH:mm:ss'">
 			                <th field-name="startDate" display-name="Start Local Time" display-format="date:'dd-MM-yyyy HH:mm:ss'">
 			                <th field-name="endDate" display-name="End Local Time" display-format="date:'dd-MM-yyyy HH:mm:ss'">
-			                <th field-name="operational_status" display-name="Operational Status">
-			                <th field-name="config_status" display-name="Config Status">
-			                <th field-name="detailed_status" display-name="Detailed Status">
-			                <th field-name="constituent_vnfr_ref" display-name="VNF IPs">
+			                <th field-name="operationalStatus" display-name="Operational Status">
+			                <th field-name="configStatus" display-name="Config Status">
+			                <th field-name="detailedStatus" display-name="Detailed Status">
+			                <th field-name="constituentVnfrIps" display-name="VNF IPs">
 			                
 							<th>
 			                    <div class="tr-ng-title">
