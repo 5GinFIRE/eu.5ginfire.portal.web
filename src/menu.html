@@ -27,7 +27,7 @@
 							</ul>
 						</li>
 							
-						<li ng-show="loggedIn && ( ( loggedinportaluser.roles.indexOf('EXPERIMENTER')>-1) )|| (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1) || (loggedinportaluser.roles.indexOf('VXF_DEVELOPER')>-1)" class="dropdown"><a class="dropdown-toggle"
+						<li ng-show="loggedIn && ( ( loggedinportaluser.roles.indexOf('EXPERIMENTER')>-1) )|| (loggedinportaluser.roles.indexOf('PORTALADMIN')>-1) || (loggedinportaluser.roles.indexOf('VXF_DEVELOPER')>-1) || (loggedinportaluser.roles.indexOf('MENTOR')>-1) || (loggedinportaluser.roles.indexOf('TESTBED_PROVIDER')>-1) " class="dropdown"><a class="dropdown-toggle"
 							href="" data-toggle="dropdown">Admin <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li ng-show="loggedinportaluser.roles.indexOf('PORTALADMIN')>-1" ><a href="#!/users">System Users</a></li>
