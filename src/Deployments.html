@@ -48,8 +48,7 @@
 							
 							<td nowrap="nowrap" >
 								<h4>									
-									<span  ng-class="{label:true, 'label-primary': gridItem.status === 'UNDER_REVIEW', 'label-success': gridItem.status === 'SCHEDULED', 'label-danger': gridItem.status === 'REJECTED', 'label-info': gridItem.status === 'RUNNING', 'label-default': gridItem.status === 'COMPLETED'}" >{{gridItem.status}}</span>
-									
+									<span  ng-class="{label:true, 'label-primary': gridItem.status === 'UNDER_REVIEW', 'label-success': gridItem.status === 'SCHEDULED', 'label-danger': gridItem.status === 'REJECTED', 'label-info': gridItem.status === 'RUNNING', 'label-default': gridItem.status === 'COMPLETED', 'label-instantiating': gridItem.status === 'INSTANTIATING', 'label-terminating': gridItem.status === 'TERMINATING', 'label-warning': gridItem.status === 'FAILED'}" >{{gridItem.status}}</span>																		
 								</h4>
 							</td>
 						</tr>	
