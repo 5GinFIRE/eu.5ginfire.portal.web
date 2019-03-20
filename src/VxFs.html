@@ -14,6 +14,8 @@
 				 -->
 				<br>
 				<br>
+				e.getExperimentOnBoardDescriptors().get(0).getOnBoardingStatus()==OnBoardingStatus.ONBOARDED
+								
 				<table id="grid1" tr-ng-grid="" class="usersGrid" items="vxfs" page-items="50"
 					fields="['id', 'name', 'published', 'certified', 'certifiedBy', 'shortDescription','longDescription',  'owner.username', 'packagingFormat']">
 					
@@ -26,6 +28,11 @@
 							<th field-name="certifiedBy" display-name="Certified by"></th>
 							<th field-name="shortDescription" display-name="Teaser"></th>
 							<th field-name="longDescription" display-name="Description"></th>
+							<th>
+			                    <div class="tr-ng-title">
+									OnBoarding Status
+			                    </div>
+							</th>
 							<th>
 			                    <div class="tr-ng-title">
 			                        Images
@@ -45,6 +52,12 @@
 					</thead>
 					<tbody>
 						<tr>
+							<td>
+							    <ul ng-repeat="vobd in gridItem.vxfOnBoardedDescriptors" role="presentation" >
+						    		{{vobd.onBoardingStatus}} 
+						    		<!-- with OnBoard ID:{{vobd.id}} -->
+					    		</ul>
+				    		</td>							
 							<td nowrap="nowrap" >
 							<div ng-repeat="vfimage in  gridItem.vfimagesVDU">{{vfimage.name}}  {{$last ? '' : ', '}}</div>
 							</td>

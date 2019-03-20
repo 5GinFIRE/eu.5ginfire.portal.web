@@ -26,6 +26,11 @@
 							<th field-name="longDescription" display-name="Description"></th>
 							<th>
 			                    <div class="tr-ng-title">
+									OnBoarding Status
+			                    </div>
+							</th>
+							<th>
+			                    <div class="tr-ng-title">
 			                        Categories
 			                    </div>
 			                </th>
@@ -38,6 +43,12 @@
 					</thead>
 					<tbody>
 						<tr>
+							<td>
+							    <ul ng-repeat="eobd in gridItem.experimentOnBoardDescriptors" role="presentation" >
+						    		{{eobd.onBoardingStatus}} 
+						    		<!-- with OnBoard ID:{{vobd.id}} -->
+					    		</ul>
+				    		</td>													
 							<td nowrap="nowrap" >
 							<div ng-repeat="appcat in gridItem.categories">{{appcat.name}} </div>
 							</td>
