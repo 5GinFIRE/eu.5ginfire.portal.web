@@ -1790,7 +1790,22 @@ appControllers.controller('DeploymentsListController', ['$scope','$window','$log
             
         });
  	}; 
-                 	 
+
+ 	$scope.showFailedDeployments = function () {
+ 		return $http({
+			method : 'GET',
+			url : APIEndPointService.APIURL+'services/api/repo/admin/deployments/user?status=REMOVED' ,
+			headers : {
+				'Content-Type' : 'application/json'
+			}
+		}).then(function( response ) {
+			var d = JSON.parse(  JSON.stringify( response.data )  );
+			$scope.mydeployments = d;
+		}, function errorCallback(response) {
+            
+        });
+ 	}; 
+ 	
 }]);
 
 
@@ -1935,12 +1950,17 @@ appControllers.controller('DeploymentsAdminListController', ['$scope','$window',
 		  });  
 	 }; 
  	
-	 	$scope.showRejectedDeployments = function () {
+ 	$scope.showRejectedDeployments = function () {
  			$scope.mydeployments= DeploymentDescriptor.query({status:"REJECTED"},function() {
  		    
 		  });  
 	 }; 
  	
+ 	$scope.showFailedDeployments = function () {
+ 			$scope.mydeployments= DeploymentDescriptor.query({status:"REMOVED"},function() {
+ 		    
+		  });  
+	 }; 
  		 
  	
  	 $scope.deleteDeployment = function(gridItem, depidx){

@@ -10,6 +10,9 @@
 				<i class="fa fa-check fa-1x pull-left"></i>&nbsp;View all<br>Completed</a>
 				<a class="btn btn-danger btn-lg" data-toggle="modal" ng-click="showRejectedDeployments()"> 
 				<i class="fa fa-remove fa-1x pull-left"></i>&nbsp;View all<br>Rejected</a>
+				<a class="btn btn-default btn-lg" data-toggle="modal" ng-click="showFailedDeployments()"> 
+				<i class="fa fa-remove fa-1x pull-left"></i>&nbsp;View all<br>Failed</a>
+				
 				<br>
 				<br>
 				
@@ -55,6 +58,7 @@
 									'label-instantiating': gridItem.status === 'INSTANTIATING', 
 									'label-terminating': gridItem.status === 'TERMINATING', 
 									'label-terminated': gridItem.status === 'TERMINATED', 
+									'label-deletion-failed': gridItem.status === 'DELETION_FAILED',
 									'label-warning': gridItem.status === 'FAILED',
 									'label-removed': gridItem.status === 'REMOVED'									
 									}" >{{gridItem.status}}</span>									
