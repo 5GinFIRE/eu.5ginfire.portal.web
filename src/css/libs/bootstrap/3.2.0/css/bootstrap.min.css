@@ -9,9 +9,9 @@
  .label-instantiating{background-color:#9b59b6}
  .label-instantiating[href]:hover,
  .label-instantiating[href]:focus{background-color:#8e44ad}
- .label-removed{background-color:#7b59b6}
- .label-removed[href]:hover,
- .label-removed[href]:focus{background-color:#6e44ad}
+ .label-failed-osm-removed{background-color:#7b59b6}
+ .label-failed-osm-removed[href]:hover,
+ .label-failed-osm-removed[href]:focus{background-color:#6e44ad}
  .label-terminating{background-color:#6b59b6}
  .label-terminating[href]:hover,
  .label-terminating[href]:focus{background-color:#5b59b6}

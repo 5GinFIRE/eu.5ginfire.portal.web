@@ -1794,7 +1794,7 @@ appControllers.controller('DeploymentsListController', ['$scope','$window','$log
  	$scope.showFailedDeployments = function () {
  		return $http({
 			method : 'GET',
-			url : APIEndPointService.APIURL+'services/api/repo/admin/deployments/user?status=REMOVED' ,
+			url : APIEndPointService.APIURL+'services/api/repo/admin/deployments/user?status=FAILED_OSM_REMOVED' ,
 			headers : {
 				'Content-Type' : 'application/json'
 			}
@@ -1957,7 +1957,7 @@ appControllers.controller('DeploymentsAdminListController', ['$scope','$window',
 	 }; 
  	
  	$scope.showFailedDeployments = function () {
- 			$scope.mydeployments= DeploymentDescriptor.query({status:"REMOVED"},function() {
+ 			$scope.mydeployments= DeploymentDescriptor.query({status:"FAILED_OSM_REMOVED"},function() {
  		    
 		  });  
 	 }; 
