@@ -366,7 +366,7 @@ appControllers.controller('ExperimentAddController', function($scope, $location,
 		}).then(function(response) {
 			$location.path("/experiments");
 		}, function errorCallback(response) {
-            alert( response.statusText + " - Failed to read uploaded archive! " + response.data["message"]  );
+            alert( response.statusText + "Experiment Addition - Failed to read uploaded archive! " + response.data["message"]  );
         }); 	
 
 	};
@@ -422,7 +422,7 @@ appControllers.controller('ExperimentUploadController', function($scope, $locati
 		}).then(function(response) {
 			$location.path("/experiments");
 		}, function errorCallback(response) {
-            alert( response.statusText + " - Failed to read uploaded archive! " + response.data["message"]  );
+            alert( response.statusText + "Experiment Upload - Failed to read uploaded archive! " + response.data["message"]  );
         }); 	
 
 	};
@@ -1150,7 +1150,7 @@ appControllers.controller('VxFAddController', function($scope, $location,
 		}).then(function( response ) {
 			$location.path("/vxfs");
 		}, function errorCallback(response) {
-            alert( response.statusText + " - Failed to read uploaded archive! " + response.data["message"]  );
+            alert( response.statusText + "VxF Add - Failed to read uploaded archive! " + response.data["message"]  );
         });
 	};
 });
@@ -1203,7 +1203,7 @@ appControllers.controller('VxFUploadController', function($scope, $location,
 		}).then(function( response ) {
 			$location.path("/vxfs");
 		}, function errorCallback(response) {
-            alert( response.statusText + " - Failed to read uploaded archive! " + response.data["message"]  );
+            alert( response.statusText + "VxF Upload - Failed to read uploaded archive! " + response.data["message"]  );
         });
 	};
 
@@ -2521,7 +2521,7 @@ appControllers.controller('InfrastructureAddImageController',['$scope', '$route'
 		}).then(function( response ) {
 			$location.path("/edit_infrastructure/" + $scope.portalinfrastructure.id );
 		}, function errorCallback(response) {
-            alert( response.statusText + " - Failed to read uploaded archive! " + response.data["message"]  );
+            alert( response.statusText + "Infrastructure Add Image - Failed to read uploaded archive! " + response.data["message"]  );
         });
 	};
 
@@ -2623,7 +2623,7 @@ appControllers.controller('VFImageUploadController', function($scope, $location,
 		}).then(function( response ) {
 			$location.path("/vfimages");
 		}, function errorCallback(response) {
-            alert( response.statusText + " - Failed to read uploaded archive! " + response.data["message"]  );
+            alert( response.statusText + "VxF Image Upload - Failed to read uploaded archive! " + response.data["message"]  );
         });
 	};
 
@@ -2660,7 +2660,7 @@ appControllers.controller('VFImageEditController', function($scope, $location, $
 		}).then(function( response ) {
 			$location.path("/vfimages");
 		}, function errorCallback(response) {
-            alert( response.statusText + " - Failed to read uploaded archive! " + response.data["message"]  );
+            alert( response.statusText + "VxF Image Edit - Failed to read uploaded archive! " + response.data["message"]  );
         });
 	};
 
