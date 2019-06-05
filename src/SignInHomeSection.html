@@ -4,20 +4,20 @@
 			<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 ">
 				<h1>&nbsp;</h1>
 				<h2>
-					Welcome to 5GinFIRE portal!
+					Welcome to the {{portalName}} portal!
 				</h2>
 				<h4>Use the fields on the right to login
-					to the 5GinFIRE portal and easily deploy an experiment over 
-					the 5GinFIRE infrastructure!</h4>
-				<h4>Check our <strong><a style="color:#FFFFFF;" href="http://wiki.5ginfire.eu">wiki</a></strong> for further documenation</h4>
-				<h4>Report platform issues at our <strong><a style="color:#FFFFFF;" href="https://portal.5ginfire.eu/bugzilla/">Bugzilla</a></strong></h4>
-				<h4>Check the <strong><a style="color:#FFFFFF;" href="http://status.5ginfire.eu/">Health Status</a></strong> of our infrastructure</h4>
+					to the {{portalName}} portal and easily deploy an experiment over 
+					the {{portalName}} infrastructure!</h4>
+				<h4>Check our <strong><a style="color:#FFFFFF;" href="{{portalwiki}}">wiki</a></strong> for further documenation</h4>
+				<h4>Report platform issues at our <strong><a style="color:#FFFFFF;" href="{bugzilla}">Bugzilla</a></strong></h4>
+				<h4>Check the <strong><a style="color:#FFFFFF;" href="{{healthstatus}}">Health Status</a></strong> of our infrastructure</h4>
 				
 				
 			</div>
 			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 				<h1>Sign In</h1>
-				<p >Use the following fields to sign in 5GinFIRE portal</p>
+				<p >Use the following fields to sign in {{portalName}}  portal</p>
 				<div class="alert alert-danger" ng-show="loginError">Username and/or Password Incorrect</div>
   
 				<form ng-submit="login()">
@@ -28,7 +28,7 @@
 						<input type="password" class="form-control"  name="password"  ng-model='user.password'
 									placeholder="Your password"/>
 					</div>
-					 <button type="submit" class="btn btn-default">Sign In</button> or <a style="color: white;" href="#!/signup" ><b>Sign up</b> for the 5GinFIRE portal!</a>
+					 <button type="submit" class="btn btn-default">Sign In</button> or <a style="color: white;" href="#!/signup" ><b>Sign up</b> for the {{portalName}} portal!</a>
 					
 				</form>
 				
@@ -54,9 +54,9 @@
 				<!--  ------------------------  START CONTENT      ------------------------      -->
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<h1>&nbsp;</h1>
-					<h1 class="shadowed">Deploy 5GinFIRE experiments!</h1>
+					<h1 class="shadowed">Deploy {{portalName}} experiments!</h1>
 					<p>Access, create
-						and share experiments over the 5GinFIRE infrastructure!</p>
+						and share experiments over the {{portalName}} infrastructure!</p>
 					<h1>&nbsp;</h1>
 				</div>
 				

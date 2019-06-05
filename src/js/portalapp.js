@@ -4,7 +4,7 @@ var app = angular.module('portalapp', [   'ngCookies', 'ngResource', 'ngRoute',
                                          'angular-loading-bar', 'ngAnimate' ]);
 
 
-var portalversion = '20180630';
+var portalversion = '20190606';
 
 app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cfpLoadingBarProvider) {
 	
@@ -158,10 +158,12 @@ app.config(function($routeProvider, $locationProvider, $anchorScrollProvider, cf
 	cfpLoadingBarProvider.includeSpinner = true;
 	cfpLoadingBarProvider.includeBar = true;
 	
+
+	
 });
 
 
-app.controller('mpMainCtrl', function($scope, PortalUser, $log, $location) {
+app.controller('mpMainCtrl', function($scope, PortalUser, $log, $location ) {
 	$scope.mpversion = portalversion;
 	$scope.location = $location;
 });
@@ -223,8 +225,12 @@ app.controller("LoginCtrl", ["$scope", "$location", "$window", "authenticationSv
     
     $scope.returnurl = $location.absUrl();
     
-    
-    
+
+    $rootScope.portalName = APIEndPointService.TITLE;
+    $rootScope.portalwiki = APIEndPointService.WIKI;
+    $rootScope.bugzilla = APIEndPointService.BUGZILLA;
+    $rootScope.healthstatus = APIEndPointService.STATUS;
+    $rootScope.weburl = APIEndPointService.WEBURL;
     	
     $scope.login = function () {
         authenticationSvc.login($scope.user.username, $scope.user.password)

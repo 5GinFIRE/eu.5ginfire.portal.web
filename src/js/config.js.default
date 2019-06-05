@@ -3,6 +3,10 @@ var appConfig = angular.module('portalwebapp.config',[]);
 
 appConfig.factory('APIEndPointService', function() {
 	  return {	      
+		  TITLE: "THE PORTAL",
+		  WIKI: "http://wiki.5ginfire.eu",
+		  BUGZILLA: "https://portal.5ginfire.eu/bugzilla/",
+		  STATUS: "http://status.5ginfire.eu/",
 		  //APIURL: "/portal/"
 		  APIURL: "https://portal.5ginfire.eu/5ginfireportal/", //good to test CROSS ORIGIN scenarios. use with http://127.0.0.1/mp
 		  WEBURL: "https://portal.5ginfire.eu/"
