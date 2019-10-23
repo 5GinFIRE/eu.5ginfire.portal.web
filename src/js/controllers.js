@@ -66,6 +66,46 @@ appControllers.controller('UserListController', ['$scope','$window','$log', 'Por
 	    		
 	        	});
 	    };
+
+	 $scope.deletePortalUser = function(gridItem, useridx, username, name){
+
+		 	$log.debug("Selected to resendmail User with userID = "+ useridx);
+		 	
+
+		 	var portaluser=PortalUser.get({id:useridx}, function() {
+			    $log.debug("WILL resendmail User with ID "+ portaluser.id);
+			    
+		        if(popupService.showPopup('Really resendmail user '+name+' with username "'+username+'" ?')){
+		        	$log.debug("WILL resendmail User with $scope.portaluser.id = "+ portaluser.id);
+				 	
+		        	link = APIEndPointService.WEBURL+'/#!/registerconfirm?rid='+randomid+'&uname='+$scope.portaluser.username;
+           	 	msg='Dear '+$scope.portaluser.name+' <br>thank you for registering an account!<br><br>\r\n'+
+            		'Please follow this link:<br> '+link+
+            ' <br> or copy it to your web browser\r\n'+
+            	'<br><br>Thank you\r\nThe portal team';
+            
+        	
+        	return $http({
+    			method : 'POST',
+    			url : APIEndPointService.APIURL+'services/api/repo/admin/sendconfirmmail/'+portaluser.id,
+    			headers : {
+    				'Content-Type' : 'multipart/form-data'
+    			},
+    			data : {
+    				emailmessage: msg,
+    			},
+    			transformRequest : formDataObject
+    		}).then(function( response ) {
+    			alert("A confirmation email has been sent in order to activate user account.");
+    			$location.path("/");
+    		},
+	        function errorCallback(error) {
+	            alert( "Failed to resendmail to user!  " + error.data ); //+ error.data
+	        }); 
+		        
+		        }
+		 	});
+	    }
 	    
 }]);
 
