@@ -67,14 +67,15 @@ appControllers.controller('UserListController', ['$scope','$window','$log', 'Por
 	        	});
 	    };
 
-	 $scope.resendmail = function(gridItem, useridx, username, name){
+	 $scope.resendmail = function(gridItem, useridx, username, name, organization){
 
 		 	$log.debug("Selected to resendmail User with userID = "+ useridx);
 		 	
 
 		 	var portaluser=PortalUser.get({id:useridx}, function() {
 			    $log.debug("WILL resendmail User with ID "+ portaluser.id);
-			    
+				var randomid = 	organization.split("^^")[1];			    
+
 		        if(popupService.showPopup('Really resendmail user '+name+' with username "'+username+'" ?')){
 		        	$log.debug("WILL resendmail User with $scope.portaluser.id = "+ portaluser.id);
 				 	
