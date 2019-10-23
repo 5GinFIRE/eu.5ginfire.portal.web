@@ -76,7 +76,7 @@ appControllers.controller('UserListController', ['$scope','$window','$log', 'Por
 			    $log.debug("WILL resendmail User with ID "+ portaluser.id);
 				var randomid = 	organization.split("^^")[1];			    
 
-		        if(popupService.showPopup('Really resendmail user '+name+' with username "'+username+'" ?')){
+		        if(popupService.showPopup('Really resendmail user '+name+' with username "'+username+'" randomid=' + randomid + '?')){
 		        	$log.debug("WILL resendmail User with $scope.portaluser.id = "+ portaluser.id);
 				 	
 		        	link = APIEndPointService.WEBURL+'/#!/registerconfirm?rid='+randomid+'&uname='+$scope.portaluser.username;
