@@ -79,8 +79,8 @@ appControllers.controller('UserListController', ['$scope','$window','$log', 'Por
 		        if(popupService.showPopup('Really resendmail user '+name+' with username "'+username+'" randomid=' + randomid + '?')){
 		        	$log.debug("WILL resendmail User with $scope.portaluser.id = "+ portaluser.id);
 				 	
-		        	link = APIEndPointService.WEBURL+'/#!/registerconfirm?rid='+randomid+'&uname='+$scope.portaluser.username;
-           	 	msg='Dear '+$scope.portaluser.name+' <br>thank you for registering an account!<br><br>\r\n'+
+		        	link = APIEndPointService.WEBURL+'/#!/registerconfirm?rid='+randomid+'&uname='+portaluser.username;
+           	 	msg='Dear '+portaluser.name+' <br>thank you for registering an account!<br><br>\r\n'+
             		'Please follow this link:<br> '+link+
             ' <br> or copy it to your web browser\r\n'+
             	'<br><br>Thank you\r\nThe portal team';
