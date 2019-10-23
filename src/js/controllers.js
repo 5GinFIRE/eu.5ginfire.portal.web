@@ -67,7 +67,7 @@ appControllers.controller('UserListController', ['$scope','$window','$log', 'Por
 	        	});
 	    };
 
-	 $scope.deletePortalUser = function(gridItem, useridx, username, name){
+	 $scope.resendmail = function(gridItem, useridx, username, name){
 
 		 	$log.debug("Selected to resendmail User with userID = "+ useridx);
 		 	
