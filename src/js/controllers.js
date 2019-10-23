@@ -25,8 +25,8 @@ appControllers.controller('FeaturedApps', ['$scope','$window','$log', 'Experimen
 }]);
          	
          	
-appControllers.controller('UserListController', ['$scope','$window','$log', 'PortalUser', 'popupService', 'ngDialog',
-                            	function($scope, $window, $log, PortalUser, popupService, ngDialog) {
+appControllers.controller('UserListController', ['$scope','$window','$log', 'PortalUser', 'popupService', 'ngDialog', 'APIEndPointService',
+                            	function($scope, $window, $log, PortalUser, popupService, ngDialog, APIEndPointService) {
 	
 	
 
